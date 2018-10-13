@@ -35,6 +35,6 @@ if (CMAKE_VERSION VERSION_LESS 2.8.11)
     include_directories("${gtest_SOURCE_DIR}/include")
 endif()
 
-add_executable(mldsa_cpp main.cpp tests/queue.cpp)
+add_executable(mldsa_cpp main.cpp tests/queue.cpp tests/stack.cpp src/stack.h)
 target_link_libraries(mldsa_cpp gtest_main)
 add_test(NAME mldsa_cpp_test COMMAND mldsa_cpp)
