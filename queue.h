@@ -11,12 +11,12 @@ template<class T>
 class queue {
     std::list<T> m_list;
 public:
-    queue() {}
+    queue() = default;
 
     bool dequeue(T& data);
     void enqueue(const T& data);
     bool empty() const;
-    int size() const;
+    size_t size() const;
 };
 
 
