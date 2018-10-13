@@ -17,6 +17,31 @@ public:
     explicit listnode(const T& data) : prev(nullptr), next(nullptr), data(data) {}
 };
 
+template<class T>
+class linkedlist_iterator {
+public:
+    std::shared_ptr<listnode<T>> curr_node;
+    explicit linkedlist_iterator(const std::shared_ptr<listnode<T>>& node) : curr_node(node) {}
+
+    T next() {
+        if(curr_node == nullptr)
+            throw std::exception();
+        const auto ret_val=curr_node->data;
+        curr_node=curr_node->next;
+        return ret_val;
+    }
+
+    bool valid() const { return curr_node != nullptr; }
+
+    T prev() {
+        if(curr_node == nullptr)
+            throw std::exception();
+        const auto ret_val=curr_node->data;
+        curr_node=curr_node->prev;
+        return ret_val;
+    }
+};
+
 template <class T>
 class linkedlist{
     std::shared_ptr<listnode<T>> head, tail;
@@ -104,5 +129,45 @@ public:
     }
 
     size_t size() const { return list_size; }
+
+    linkedlist_iterator<T> begin() {
+        if(empty()) { throw std::exception(); }
+        return linkedlist_iterator<T>(head);
+    }
+
+    linkedlist_iterator<T> end() {
+        if(empty()) { throw std::exception(); }
+        return linkedlist_iterator<T>(tail);
+    }
+
+    void insert_after(linkedlist_iterator<T>& location, const T& data) {
+        auto node=location.curr_node;
+        auto new_node=std::make_shared<listnode<T>>(data);
+
+        new_node->prev = node;
+        new_node->next = node->next;
+        if( node == tail)
+        {
+            tail=new_node;
+        } else {
+            node->next->prev = new_node;
+        }
+        node->next = new_node;
+        list_size++;
+    }
+
+    void insert_before(linkedlist_iterator<T>& location, const T& data) {
+        auto node=location.curr_node;
+        auto new_node=std::make_shared<listnode<T>>(data);
+        new_node->prev = node->prev;
+        new_node->next = node;
+        if(head == node) {
+            head = new_node;
+        } else {
+            node->prev->next = new_node;
+        }
+        node->prev = new_node;
+        list_size++;
+    }
 };
 #endif //MLDSA_CPP_LINKEDLIST_H
