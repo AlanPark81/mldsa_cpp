@@ -19,7 +19,7 @@ inline void pop_test(const auto count) {
         ASSERT_NO_THROW(nRet=stackTest.pop());
         ASSERT_EQ(nRet, count-1-i);
     }
-    ASSERT_THROW(stackTest.pop(), std::exception);
+    ASSERT_ANY_THROW(stackTest.pop());
 }
 
 TEST(stack, pop_from_empty_stack) {
