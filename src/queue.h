@@ -5,11 +5,12 @@
 #ifndef MLDSA_CPP_QUEUE_H
 #define MLDSA_CPP_QUEUE_H
 
-#include <list>
+
+#include "linkedlist.h"
 
 template<class T>
 class queue {
-    std::list<T> m_list;
+    linkedlist<T> m_list;
 public:
     queue() = default;
 

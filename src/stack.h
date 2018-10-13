@@ -5,11 +5,11 @@
 #ifndef MLDSA_CPP_STACK_H
 #define MLDSA_CPP_STACK_H
 
-#include <list>
+#include "linkedlist.h"
 
 template <class T>
 class stack {
-    std::list<T> m_list;
+    linkedlist<T> m_list;
 public:
     stack() = default;
     void push(const T& data) {m_list.push_back(data);}
