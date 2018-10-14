@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <iostream>
+#include <memory>
 
 template<class T>
 class heap {
@@ -15,6 +16,24 @@ class heap {
 public:
     explicit heap(const bool& min_heap=true )
     : min_heap(min_heap) {}
+
+    static std::shared_ptr<heap<T>> heapify(const std::vector<T>& data_array, bool min_heap=true) {
+        auto heap1=std::make_shared<heap<int>>(min_heap);
+        for(const T& item : data_array){
+            heap1->insert(item);
+        }
+        return heap1;
+    }
+
+    static std::shared_ptr<heap<T>> merge(const heap<T>& heap1, const heap<T>& heap2){
+        if(heap1.min_heap != heap2.min_heap) {
+            throw std::exception();
+        }
+        std::vector<T> array_all;
+        array_all.insert(array_all.end(), heap1.array.begin(), heap1.array.end());
+        array_all.insert(array_all.end(), heap2.array.begin(), heap2.array.end());
+        return heapify(array_all, heap1.min_heap);
+    }
 
 #define PARENT_INDEX(n) (((n)-1)/2)
     void insert(const T& data) {
@@ -27,6 +46,7 @@ public:
         while( min_heap ?  (array[index] > array[current_index]) : (array[index] < array[current_index]) ) {
             std::swap(array[index], array[current_index]);
             current_index = index;
+            if(current_index<=0) { break; }
             index = PARENT_INDEX(current_index);
         }
     }

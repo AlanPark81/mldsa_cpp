@@ -72,3 +72,88 @@ TEST(heap, max_heap_insert_extract_once) {
     ASSERT_TRUE(heapTest.empty());
     ASSERT_ANY_THROW(heapTest.find_top());
 }
+
+TEST(heap, heap_insert_extract_twice) {
+    heap<int> heapTest;
+    heapTest.insert(1);
+    ASSERT_EQ(heapTest.size(), 1);
+    heapTest.insert(2);
+    ASSERT_EQ(heapTest.size(), 2);
+
+    ASSERT_EQ(heapTest.extract_top(), 1);
+    ASSERT_EQ(heapTest.size(), 1);
+    ASSERT_EQ(heapTest.extract_top(), 2);
+    ASSERT_EQ(heapTest.size(), 0);
+    ASSERT_TRUE(heapTest.empty());
+    ASSERT_ANY_THROW(heapTest.find_top());
+}
+
+TEST(heap, max_heap_insert_extract_twice) {
+    heap<int> heapTest(false);
+    heapTest.insert(1);
+    ASSERT_EQ(heapTest.size(), 1);
+    heapTest.insert(2);
+    ASSERT_EQ(heapTest.size(), 2);
+
+    ASSERT_EQ(heapTest.extract_top(), 2);
+    ASSERT_EQ(heapTest.size(), 1);
+    ASSERT_EQ(heapTest.extract_top(), 1);
+    ASSERT_EQ(heapTest.size(), 0);
+    ASSERT_TRUE(heapTest.empty());
+    ASSERT_ANY_THROW(heapTest.find_top());
+}
+
+TEST(heap, heapify_test) {
+    std::vector<int> array={3,1,4,2};
+    auto heap1 = heap<int>::heapify(array);
+    ASSERT_EQ(heap1->extract_top(), 1);
+    ASSERT_EQ(heap1->extract_top(), 2);
+    ASSERT_EQ(heap1->extract_top(), 3);
+    ASSERT_EQ(heap1->extract_top(), 4);
+    ASSERT_ANY_THROW(heap1->find_top());
+}
+
+TEST(heap, max_heapify_test) {
+    std::vector<int> array={3,1,4,2};
+    auto heap1 = heap<int>::heapify(array, false);
+    ASSERT_EQ(heap1->extract_top(), 4);
+    ASSERT_EQ(heap1->extract_top(), 3);
+    ASSERT_EQ(heap1->extract_top(), 2);
+    ASSERT_EQ(heap1->extract_top(), 1);
+    ASSERT_ANY_THROW(heap1->find_top());
+}
+
+TEST(heap, min_union_test) {
+    std::vector<int> array={6,2,0,4};
+    auto heap1 = heap<int>::heapify(array, true);
+    std::vector<int> array1={7,3,1,5};
+    auto heap2 = heap<int>::heapify(array1, true);
+    auto heap_merged=heap<int>::merge(*heap1, *heap2);
+
+    ASSERT_EQ(heap_merged->extract_top(), 0);
+    ASSERT_EQ(heap_merged->extract_top(), 1);
+    ASSERT_EQ(heap_merged->extract_top(), 2);
+    ASSERT_EQ(heap_merged->extract_top(), 3);
+    ASSERT_EQ(heap_merged->extract_top(), 4);
+    ASSERT_EQ(heap_merged->extract_top(), 5);
+    ASSERT_EQ(heap_merged->extract_top(), 6);
+    ASSERT_EQ(heap_merged->extract_top(), 7);
+
+    ASSERT_ANY_THROW(heap_merged->find_top());
+}
+TEST(heap, max_union_test) {
+    std::vector<int> array={6,2,0,4};
+    auto heap1 = heap<int>::heapify(array, false);
+    std::vector<int> array1={7,3,1,5};
+    auto heap2 = heap<int>::heapify(array1, false);
+    auto heap_merged=heap<int>::merge(*heap1, *heap2);
+    ASSERT_EQ(heap_merged->extract_top(), 7);
+    ASSERT_EQ(heap_merged->extract_top(), 6);
+    ASSERT_EQ(heap_merged->extract_top(), 5);
+    ASSERT_EQ(heap_merged->extract_top(), 4);
+    ASSERT_EQ(heap_merged->extract_top(), 3);
+    ASSERT_EQ(heap_merged->extract_top(), 2);
+    ASSERT_EQ(heap_merged->extract_top(), 1);
+    ASSERT_EQ(heap_merged->extract_top(), 0);
+    ASSERT_ANY_THROW(heap_merged->find_top());
+}
