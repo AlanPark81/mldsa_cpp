@@ -9,10 +9,67 @@
 #include <iostream>
 #include <memory>
 
+#define LEFT_CHILD(n) ((2*(n)+1))
+#define RIGHT_CHILD(n) ((2*(n)+2))
+
 template<class T>
 class heap {
+
+private:
     std::vector<T> array;
     bool min_heap;
+
+protected:
+    static void min_heapify_loop(std::vector<T>& array, const size_t begin_index, const size_t end_index) {
+        auto index = begin_index;
+        auto index_left_child = LEFT_CHILD(index);
+        auto index_right_child = RIGHT_CHILD(index);
+        while (index_left_child < end_index and
+               ( array[index_left_child] < array[index]
+                 or array[index_right_child] < array[index] ) ) {
+            if (index_right_child >= end_index) {
+                if (array[index_left_child] < array[index]  ) {
+                    std::swap(array[index], array[index_left_child]);
+                }
+                break;
+            }
+
+            if (array[index_left_child] < array[index_right_child] ) {
+                std::swap(array[index_left_child], array[index]);
+                index = index_left_child;
+            } else {
+                std::swap(array[index_right_child], array[index]);
+                index = index_right_child;
+            }
+            index_left_child = LEFT_CHILD(index);
+            index_right_child = RIGHT_CHILD(index);
+        }
+    }
+
+    static void max_heapify_loop(std::vector<T>& array, const size_t begin_index, const size_t end_index) {
+        auto index = begin_index;
+        auto index_left_child = LEFT_CHILD(index);
+        auto index_right_child = RIGHT_CHILD(index);
+        while (index_left_child < end_index and
+               ( array[index_left_child] > array[index]
+                 or array[index_right_child] > array[index] ) ) {
+            if (index_right_child >= end_index) {
+                if (array[index_left_child] > array[index]  ) {
+                    std::swap(array[index], array[index_left_child]);
+                }
+                break;
+            }
+            if (array[index_left_child] > array[index_right_child] ) {
+                std::swap(array[index_left_child], array[index]);
+                index = index_left_child;
+            } else {
+                std::swap(array[index_right_child], array[index]);
+                index = index_right_child;
+            }
+            index_left_child = LEFT_CHILD(index);
+            index_right_child = RIGHT_CHILD(index);
+        }
+    }
 public:
     explicit heap(const bool& min_heap=true )
     : min_heap(min_heap) {}
@@ -70,14 +127,12 @@ public:
         if( array.size() == 0 ) {
             throw std::exception();
         }
+
         auto ret_val=array[0];
         delete_top();
         return ret_val;
     }
 
-
-#define LEFT_CHILD(n) ((2*(n)+1))
-#define RIGHT_CHILD(n) ((2*(n)+2))
     void delete_top() {
         if( array.size() == 0 ) {
             throw std::exception();
@@ -89,38 +144,28 @@ public:
         }
     }
 
-#define HEAP_REMOVE_LOOP(ARRAY, INDEX, INDEX_LEFT_CHILD, INDEX_RIGHT_CHILD, OP) {\
-while( (INDEX_LEFT_CHILD) < (ARRAY).size() and ( (ARRAY)[(INDEX_LEFT_CHILD)] OP (ARRAY)[(INDEX)] or (ARRAY)[(INDEX_RIGHT_CHILD)] OP (ARRAY)[(INDEX)] ) ) {\
-    if ( (INDEX_RIGHT_CHILD) >= (ARRAY).size() ) { \
-        if( (ARRAY)[(INDEX_LEFT_CHILD)] OP (ARRAY)[(INDEX)]  ) { \
-            std::swap( (ARRAY)[(INDEX)], (ARRAY)[(INDEX_LEFT_CHILD)] ); \
-        } \
-        break; \
-    } \
-    if( (ARRAY)[(INDEX_LEFT_CHILD)] OP (ARRAY)[(INDEX_RIGHT_CHILD)] ) { \
-        std::swap((ARRAY)[(INDEX_LEFT_CHILD)], (ARRAY)[(INDEX)]); \
-        (INDEX)=(INDEX_LEFT_CHILD); \
-    } else { \
-        std::swap((ARRAY)[(INDEX_RIGHT_CHILD)], (ARRAY)[(INDEX)]); \
-        (INDEX)=(INDEX_RIGHT_CHILD); \
-    } \
-    (INDEX_LEFT_CHILD) = LEFT_CHILD((INDEX)); \
-    (INDEX_RIGHT_CHILD) = RIGHT_CHILD((INDEX)); \
-} \
-}
+
     void replace(const T& data) {
         if( array.size() == 0 ) {
             throw std::exception();
         }
         array[0]=data;
-        auto current_index = 0;
-        auto left_child_index = LEFT_CHILD(current_index);
-        auto right_child_index = RIGHT_CHILD(current_index);
-        if(min_heap)
-        {
-            HEAP_REMOVE_LOOP(array, current_index, left_child_index, right_child_index, <);
+        if(min_heap) {
+            min_heapify_loop(array, 0, array.size());
         } else {
-            HEAP_REMOVE_LOOP(array, current_index, left_child_index, right_child_index, >);
+            max_heapify_loop(array, 0, array.size());
+        }
+    }
+
+    static void sort(std::vector<T>& array_to_sort){
+        const auto array_size=(int)array_to_sort.size();
+        for (auto i = array_size/2;i>=0;i--){
+            max_heapify_loop(array_to_sort, i, array_size);
+        }
+
+        for ( auto max_index = array_size-1; max_index > 0; max_index -- ){
+            std::swap(array_to_sort[max_index], array_to_sort[0]);
+            max_heapify_loop(array_to_sort, 0, max_index);
         }
     }
 };
