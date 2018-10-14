@@ -12,7 +12,7 @@ TEST(heap, heap_insert_once) {
 }
 
 TEST(heap, max_heap_insert_once) {
-    heap<int> heapTest(false);
+    heap<int, std::greater<>> heapTest;
     heapTest.insert(3);
     ASSERT_EQ(heapTest.find_top(), 3);
 }
@@ -26,7 +26,7 @@ TEST(heap, heap_insert_replace_once) {
 }
 
 TEST(heap, max_heap_insert_replace_once) {
-    heap<int> heapTest(false);
+    heap<int, std::greater<>> heapTest;
     heapTest.insert(3);
     ASSERT_EQ(heapTest.size(), 1);
     heapTest.replace(5);
@@ -75,7 +75,7 @@ TEST(heap, heap_insert_delete_three_times) {
 }
 
 TEST(heap, max_heap_insert_delete_once) {
-    heap<int> heapTest(false);
+    heap<int, std::greater<>> heapTest;
     heapTest.insert(3);
     ASSERT_EQ(heapTest.size(), 1);
     heapTest.delete_top();
@@ -95,7 +95,7 @@ TEST(heap, heap_insert_extract_once) {
 }
 
 TEST(heap, max_heap_insert_extract_once) {
-    heap<int> heapTest(false);
+    heap<int, std::greater<>> heapTest;
     heapTest.insert(3);
     ASSERT_EQ(heapTest.size(), 1);
     ASSERT_EQ(heapTest.extract_top(), 3);
@@ -120,7 +120,7 @@ TEST(heap, heap_insert_extract_twice) {
 }
 
 TEST(heap, max_heap_insert_extract_twice) {
-    heap<int> heapTest(false);
+    heap<int, std::greater<>> heapTest;
     heapTest.insert(1);
     ASSERT_EQ(heapTest.size(), 1);
     heapTest.insert(2);
@@ -154,7 +154,7 @@ TEST(heap, heap_insert_extract_three_times) {
 }
 
 TEST(heap, max_heap_insert_extract_three_times) {
-    heap<int> heapTest(false);
+    heap<int, std::greater<>> heapTest;
     heapTest.insert(1);
     ASSERT_EQ(heapTest.size(), 1);
     heapTest.insert(2);
@@ -184,7 +184,7 @@ TEST(heap, heapify_test) {
 
 TEST(heap, max_heapify_test) {
     std::vector<int> array={3,1,4,2};
-    auto heap1 = heap<int>::heapify(array, false);
+    auto heap1 = heap<int, std::greater<>>::heapify(array);
     ASSERT_EQ(heap1->extract_top(), 4);
     ASSERT_EQ(heap1->extract_top(), 3);
     ASSERT_EQ(heap1->extract_top(), 2);
@@ -194,9 +194,9 @@ TEST(heap, max_heapify_test) {
 
 TEST(heap, min_union_test) {
     std::vector<int> array={6,2,0,4};
-    auto heap1 = heap<int>::heapify(array, true);
+    auto heap1 = heap<int>::heapify(array);
     std::vector<int> array1={7,3,1,5};
-    auto heap2 = heap<int>::heapify(array1, true);
+    auto heap2 = heap<int>::heapify(array1);
     auto heap_merged=heap<int>::merge(*heap1, *heap2);
 
     ASSERT_EQ(heap_merged->extract_top(), 0);
@@ -213,10 +213,10 @@ TEST(heap, min_union_test) {
 
 TEST(heap, max_union_test) {
     std::vector<int> array={6,2,0,4};
-    auto heap1 = heap<int>::heapify(array, false);
+    auto heap1 = heap<int, std::greater<>>::heapify(array);
     std::vector<int> array1={7,3,1,5};
-    auto heap2 = heap<int>::heapify(array1, false);
-    auto heap_merged=heap<int>::merge(*heap1, *heap2);
+    auto heap2 = heap<int, std::greater<>>::heapify(array1);
+    auto heap_merged=heap<int, std::greater<>>::merge(*heap1, *heap2);
     ASSERT_EQ(heap_merged->extract_top(), 7);
     ASSERT_EQ(heap_merged->extract_top(), 6);
     ASSERT_EQ(heap_merged->extract_top(), 5);
@@ -230,14 +230,14 @@ TEST(heap, max_union_test) {
 
 TEST(heap, heap_sort_test_one) {
     std::vector<int> array={1};
-    heap<int>::sort(array);
+    heap<int, std::greater<>>::sort(array);
     ASSERT_EQ(array[0], 1);
     ASSERT_EQ(array.size(),1);
 }
 
 TEST(heap, heap_sort_test_two) {
     std::vector<int> array={1,7};
-    heap<int>::sort(array);
+    heap<int, std::greater<>>::sort(array);
     ASSERT_EQ(array[0], 1);
     ASSERT_EQ(array[1], 7);
     ASSERT_EQ(array.size(),2);
@@ -245,7 +245,7 @@ TEST(heap, heap_sort_test_two) {
 
 TEST(heap, heap_sort_test_three) {
     std::vector<int> array={1,7,4};
-    heap<int>::sort(array);
+    heap<int, std::greater<>>::sort(array);
     ASSERT_EQ(array[0], 1);
     ASSERT_EQ(array[1], 4);
     ASSERT_EQ(array[2], 7);
@@ -254,7 +254,7 @@ TEST(heap, heap_sort_test_three) {
 
 TEST(heap, heap_sort_test_four) {
     std::vector<int> array={1,7,4,6};
-    heap<int>::sort(array);
+    heap<int, std::greater<>>::sort(array);
     ASSERT_EQ(array[0], 1);
     ASSERT_EQ(array[1], 4);
     ASSERT_EQ(array[2], 6);
@@ -264,7 +264,7 @@ TEST(heap, heap_sort_test_four) {
 
 TEST(heap, heap_sort_test_five) {
     std::vector<int> array={1,7,4,6,5};
-    heap<int>::sort(array);
+    heap<int, std::greater<>>::sort(array);
     ASSERT_EQ(array[0], 1);
     ASSERT_EQ(array[1], 4);
     ASSERT_EQ(array[2], 5);
@@ -275,7 +275,7 @@ TEST(heap, heap_sort_test_five) {
 
 TEST(heap, heap_sort_test) {
     std::vector<int> array={1,7,4,6,5,3};
-    heap<int>::sort(array);
+    heap<int, std::greater<>>::sort(array);
     ASSERT_EQ(array[0], 1);
     ASSERT_EQ(array[1], 3);
     ASSERT_EQ(array[2], 4);
