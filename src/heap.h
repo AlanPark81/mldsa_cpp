@@ -16,7 +16,7 @@ public:
     explicit heap(const bool& min_heap=true )
     : min_heap(min_heap) {}
 
-#define PARENT_INDEX(n) ((n-1)/2)
+#define PARENT_INDEX(n) (((n)-1)/2)
     void insert(const T& data) {
         array.push_back(data);
         auto current_index = array.size()-1;
@@ -56,8 +56,8 @@ public:
     }
 
 
-#define LEFT_CHILD(n) ((2*n+1))
-#define RIGHT_CHILD(n) ((2*n+1))
+#define LEFT_CHILD(n) ((2*(n)+1))
+#define RIGHT_CHILD(n) ((2*(n)+2))
     void delete_top() {
         if( array.size() == 0 ) {
             throw std::exception();
@@ -70,22 +70,22 @@ public:
     }
 
 #define HEAP_REMOVE_LOOP(ARRAY, INDEX, INDEX_LEFT_CHILD, INDEX_RIGHT_CHILD, OP) {\
-while( INDEX_LEFT_CHILD < ARRAY.size() and ( ARRAY[INDEX_LEFT_CHILD] OP ARRAY[INDEX] or ARRAY[INDEX_RIGHT_CHILD] OP ARRAY[INDEX] ) ) {\
-    if ( INDEX_RIGHT_CHILD >= ARRAY.size() ) { \
-        if( ARRAY[INDEX_LEFT_CHILD] OP ARRAY[INDEX]  ) { \
-            std::swap( ARRAY[INDEX], ARRAY[INDEX_LEFT_CHILD] ); \
+while( (INDEX_LEFT_CHILD) < (ARRAY).size() and ( (ARRAY)[(INDEX_LEFT_CHILD)] OP (ARRAY)[(INDEX)] or (ARRAY)[(INDEX_RIGHT_CHILD)] OP (ARRAY)[(INDEX)] ) ) {\
+    if ( (INDEX_RIGHT_CHILD) >= (ARRAY).size() ) { \
+        if( (ARRAY)[(INDEX_LEFT_CHILD)] OP (ARRAY)[(INDEX)]  ) { \
+            std::swap( (ARRAY)[(INDEX)], (ARRAY)[(INDEX_LEFT_CHILD)] ); \
         } \
         break; \
     } \
-    if( ARRAY[INDEX_LEFT_CHILD] OP ARRAY[INDEX_RIGHT_CHILD] ) { \
-        std::swap(ARRAY[INDEX_LEFT_CHILD], ARRAY[INDEX]); \
-        INDEX=INDEX_LEFT_CHILD; \
+    if( (ARRAY)[(INDEX_LEFT_CHILD)] OP (ARRAY)[(INDEX_RIGHT_CHILD)] ) { \
+        std::swap((ARRAY)[(INDEX_LEFT_CHILD)], (ARRAY)[(INDEX)]); \
+        (INDEX)=(INDEX_LEFT_CHILD); \
     } else { \
-        std::swap(ARRAY[INDEX_RIGHT_CHILD], ARRAY[INDEX]); \
-        INDEX=INDEX_RIGHT_CHILD; \
+        std::swap((ARRAY)[(INDEX_RIGHT_CHILD)], (ARRAY)[(INDEX)]); \
+        (INDEX)=(INDEX_RIGHT_CHILD); \
     } \
-    INDEX_LEFT_CHILD = LEFT_CHILD(current_index); \
-    INDEX_RIGHT_CHILD = RIGHT_CHILD(current_index); \
+    (INDEX_LEFT_CHILD) = LEFT_CHILD((INDEX)); \
+    (INDEX_RIGHT_CHILD) = RIGHT_CHILD((INDEX)); \
 } \
 }
     void replace(const T& data) {
