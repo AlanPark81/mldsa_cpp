@@ -26,7 +26,7 @@ class Heap {
 private:
     std::vector<T> array;
 protected:
-    static void HeapifyLoop(std::vector<T> &array, const size_t begin_index, const size_t end_index) {
+    static void HeapifyForRoot(std::vector<T> &array, const size_t begin_index, const size_t end_index) {
         Compare compare;
         auto index = begin_index;
         auto index_left_child = LeftChild(index);
@@ -57,9 +57,8 @@ public:
 
     static std::shared_ptr<Heap<T, Compare>> Heapify(const std::vector<T> &data_array) {
         auto heap1=std::make_shared<Heap<T, Compare>>();
-        for(const T& item : data_array){
-            heap1->Insert(item);
-        }
+        heap1->array.insert(heap1->array.end(), data_array.begin(), data_array.end());
+        HeapifyArray(heap1->array);
         return heap1;
     }
 
@@ -128,18 +127,21 @@ public:
             throw std::exception();
         }
         array[0]=data;
-        HeapifyLoop(array, 0, array.size());
+        HeapifyForRoot(array, 0, array.size());
+    }
+
+    static void HeapifyArray(std::vector<T> &array) {
+        const auto array_size=(int)array.size();
+        for (auto i = array_size/2;i>=0;i--){
+            HeapifyForRoot(array, (size_t) i, (size_t) array_size);
+        }
     }
 
     static void Sort(std::vector<T> &array_to_sort){
-        const auto array_size=(int)array_to_sort.size();
-        for (auto i = array_size/2;i>=0;i--){
-            HeapifyLoop(array_to_sort, (size_t) i, (size_t) array_size);
-        }
-
-        for ( auto max_index = array_size-1; max_index > 0; max_index -- ){
+        HeapifyArray(array_to_sort);
+        for ( auto max_index = (int)array_to_sort.size()-1; max_index > 0; max_index -- ){
             std::swap(array_to_sort[max_index], array_to_sort[0]);
-            HeapifyLoop(array_to_sort, 0, (size_t) max_index);
+            HeapifyForRoot(array_to_sort, 0, (size_t) max_index);
         }
     }
 };
