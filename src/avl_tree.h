@@ -27,23 +27,23 @@ protected:
     }
 public:
     bool Balance() {
-        if(root_ == nullptr) return false;
-        const int level_diff=root_->GetLevelDiff();
+        if(this->root_ == nullptr) return false;
+        const int level_diff=this->root_->GetLevelDiff();
         if( level_diff < -1 ) {
-            if(root_->left_ == nullptr ) {
+            if(this->root_->left_ == nullptr ) {
                 return false;
             }
 
-            if(root_->left_->GetLevelDiff() > 0 ) {
+            if(this->root_->left_->GetLevelDiff() > 0 ) {
                 RotateLeft();
             } else {
                 RotateRightAndLeft();
             }
         } else if( level_diff > 1){
-            if(root_->right_ == nullptr ){
+            if(this->root_->right_ == nullptr ){
                 return false;
             }
-            if(root_->right_->GetLevelDiff() < 0 ) {
+            if(this->root_->right_->GetLevelDiff() < 0 ) {
                 RotateRight();
             } else {
                 RotateLeftAndRight();
@@ -54,13 +54,13 @@ public:
         return true;
     }
 
-    void Insert(const T& data) {
+    void Insert(const T& data) override {
         BinarySearchTree<T>::Insert(data);
         Balance();
     }
 
-    bool Remove(const T&) {
-        if(!BinarySearchTree::Remove(data))
+    bool Remove(const T& data) override {
+        if(!BinarySearchTree<T>::Remove(data))
             return false;
         Balance();
         return true;

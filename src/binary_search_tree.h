@@ -20,16 +20,16 @@ public:
         return std::make_shared<BinaryTreeNode<T>>(data);
     }
 
-    size_t get_level() const {
+    size_t GetLevel() const {
         size_t ret_val=0;
-        if(left_ != nullptr) ret_val+=left_->get_level();
-        if(right_ != nullptr) ret_val+=right_->get_level();
+        if(left_ != nullptr) ret_val+=left_->GetLevel();
+        if(right_ != nullptr) ret_val+=right_->GetLevel();
         ret_val++;
         return ret_val;
     }
 
     int GetLevelDiff() const {
-        return (int)left_->get_level() - (int)right_->get_level();
+        return (int)left_->GetLevel() - (int)right_->GetLevel();
     }
 
     bool TakeMiddleNumber() {
@@ -80,10 +80,8 @@ public:
 
 template<class T>
 class BinarySearchTree : public VisitorAcceptor<T> {
-    typedef std::shared_ptr<BinaryTreeNode<T>> Node_;
-
-
 protected:
+    typedef std::shared_ptr<BinaryTreeNode<T>> Node_;
     Node_ root_;
 
     Node_ FindParent(const T& data) const {
@@ -106,7 +104,7 @@ protected:
 public:
     BinarySearchTree() : root_(nullptr) {}
 
-    void Insert(const T& data) {
+    virtual void Insert(const T& data) {
         if( root_ == nullptr ) {
             root_ = BinaryTreeNode<T>::Create(data);
             return;
@@ -163,7 +161,7 @@ public:
         }
     }
 
-    bool Remove(const T &data) {
+    virtual bool Remove(const T &data) {
         if( root_ == nullptr ) {
             return false;
         }
