@@ -10,21 +10,21 @@
 #include "visitor.h"
 
 template <class T>
-class listnode {
+class ListNode {
 public:
-    std::shared_ptr<listnode> prev, next;
+    std::shared_ptr<ListNode> prev, next;
     T data;
 
-    explicit listnode(const T& data) : prev(nullptr), next(nullptr), data(data) {}
+    explicit ListNode(const T& data) : prev(nullptr), next(nullptr), data(data) {}
 };
 
 template<class T>
-class linkedlist_iterator {
+class LinkedListIterator {
 public:
-    std::shared_ptr<listnode<T>> curr_node;
-    explicit linkedlist_iterator(const std::shared_ptr<listnode<T>>& node) : curr_node(node) {}
+    std::shared_ptr<ListNode<T>> curr_node;
+    explicit LinkedListIterator(const std::shared_ptr<ListNode<T>>& node) : curr_node(node) {}
 
-    T next() {
+    T Next() {
         if(curr_node == nullptr)
             throw std::exception();
         const auto ret_val=curr_node->data;
@@ -34,7 +34,7 @@ public:
 
     bool valid() const { return curr_node != nullptr; }
 
-    T prev() {
+    T Prev() {
         if(curr_node == nullptr)
             throw std::exception();
         const auto ret_val=curr_node->data;
@@ -44,18 +44,18 @@ public:
 };
 
 template <class T>
-class linkedlist : public visitor_acceptor<T>{
-    std::shared_ptr<listnode<T>> head, tail;
+class LinkedList : public VisitorAcceptor<T>{
+    std::shared_ptr<ListNode<T>> head, tail;
     size_t list_size;
 public:
-    linkedlist() : head(nullptr), tail(nullptr), list_size(0) {}
+    LinkedList() : head(nullptr), tail(nullptr), list_size(0) {}
 
-    void push_back(const T& data) {
+    void PushBack(const T& data) {
         if( head == nullptr ) {
-            head = std::shared_ptr<listnode<T>>(new listnode(data));
+            head = std::shared_ptr<ListNode<T>>(new ListNode(data));
             tail = head;
         } else {
-            std::shared_ptr<listnode<T>> new_node = std::make_shared<listnode<T>>(data);
+            std::shared_ptr<ListNode<T>> new_node = std::make_shared<ListNode<T>>(data);
             new_node->prev = tail;
             tail->next=new_node;
             tail=new_node;
@@ -63,12 +63,12 @@ public:
         list_size++;
     }
 
-    void push_front(const T& data) {
+    void PushFront(const T& data) {
         if( head == nullptr ) {
-            head = std::make_shared<listnode<T>>(data);
+            head = std::make_shared<ListNode<T>>(data);
             tail = head;
         } else {
-            std::shared_ptr<listnode<T>> new_node = std::make_shared<listnode<T>>(data);
+            std::shared_ptr<ListNode<T>> new_node = std::make_shared<ListNode<T>>(data);
             new_node->next = head;
             head->prev = new_node;
             head = new_node;
@@ -76,18 +76,18 @@ public:
         list_size++;
     }
 
-    T pop_front() {
+    T PopFront() {
         if( head == nullptr) {
             throw std::exception();
         } else if ( head == tail ) {
-            std::shared_ptr<listnode<T>> node = head;
+            std::shared_ptr<ListNode<T>> node = head;
             head = nullptr;
             tail = nullptr;
             list_size--;
 //            ASSERT_EQ(list_size, 0);
             return node->data;
         } else {
-            std::shared_ptr<listnode<T>> node = head;
+            std::shared_ptr<ListNode<T>> node = head;
             head = head->next;
             head->prev = nullptr;
             list_size--;
@@ -95,18 +95,18 @@ public:
         }
     }
 
-    T pop_back() {
+    T PopBack() {
         if( head == nullptr) {
             throw std::exception();
         } else if ( head == tail ) {
-            std::shared_ptr<listnode<T>> node = head;
+            std::shared_ptr<ListNode<T>> node = head;
             head = nullptr;
             tail = nullptr;
             list_size--;
 //            ASSERT_EQ(list_size, 0);
             return node->data;
         } else {
-            std::shared_ptr<listnode<T>> node = tail;
+            std::shared_ptr<ListNode<T>> node = tail;
             tail = tail->prev;
             tail->next = nullptr;
             list_size--;
@@ -116,13 +116,13 @@ public:
 
     bool empty() const { return head == nullptr; }
 
-    T& front() const {
+    T& Front() const {
         if(empty()) {
             throw std::exception();
         }
         return head->data;
     }
-    T& back() const {
+    T& Back() const {
         if(empty()) {
             throw std::exception();
         }
@@ -131,19 +131,19 @@ public:
 
     size_t size() const { return list_size; }
 
-    linkedlist_iterator<T> begin() {
+    LinkedListIterator<T> begin() {
         if(empty()) { throw std::exception(); }
-        return linkedlist_iterator<T>(head);
+        return LinkedListIterator<T>(head);
     }
 
-    linkedlist_iterator<T> end() {
+    LinkedListIterator<T> end() {
         if(empty()) { throw std::exception(); }
-        return linkedlist_iterator<T>(tail);
+        return LinkedListIterator<T>(tail);
     }
 
-    void insert_after(linkedlist_iterator<T>& location, const T& data) {
+    void insertAfter(LinkedListIterator<T>& location, const T& data) {
         auto node=location.curr_node;
-        auto new_node=std::make_shared<listnode<T>>(data);
+        auto new_node=std::make_shared<ListNode<T>>(data);
 
         new_node->prev = node;
         new_node->next = node->next;
@@ -157,9 +157,9 @@ public:
         list_size++;
     }
 
-    void insert_before(linkedlist_iterator<T>& location, const T& data) {
+    void insertBefore(LinkedListIterator<T>& location, const T& data) {
         auto node=location.curr_node;
-        auto new_node=std::make_shared<listnode<T>>(data);
+        auto new_node=std::make_shared<ListNode<T>>(data);
         new_node->prev = node->prev;
         new_node->next = node;
         if(head == node) {
@@ -171,10 +171,10 @@ public:
         list_size++;
     }
 
-    bool accept(visitor<T>& visitor1) {
-        std::shared_ptr<listnode<T>> ptr=this->head;
+    bool Accept(Visitor<T>& visitor1) {
+        std::shared_ptr<ListNode<T>> ptr=this->head;
         while( ptr != nullptr ){
-            if(!visitor1.visit(ptr->data))
+            if(!visitor1.Visit(ptr->data))
                 return false;
             ptr=ptr->next;
         }

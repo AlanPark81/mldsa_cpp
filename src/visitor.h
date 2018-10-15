@@ -6,14 +6,14 @@
 #define MLDSA_CPP_VISITOR_H
 
 template<class T>
-class visitor {
+class Visitor {
 public:
-    virtual bool visit(T&) = 0;
+    virtual bool Visit(T &) = 0;
 };
 
 template<class T>
-class visitor_acceptor {
+class VisitorAcceptor {
 public:
-    virtual bool accept(visitor<T>&) = 0 ;
+    virtual bool Accept(Visitor<T> &) = 0 ;
 };
 #endif //MLDSA_CPP_VISITOR_H

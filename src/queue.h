@@ -9,17 +9,17 @@
 #include "linkedlist.h"
 
 template<class T>
-class queue {
-    linkedlist<T> m_list;
+class Queue {
+    LinkedList<T> m_list;
 public:
-    queue() = default;
+    Queue() = default;
 
-    T dequeue() {
+    T Dequeue() {
         if(m_list.empty()) { throw std::exception(); }
-        T ret_val=m_list.front(); m_list.pop_front(); return ret_val;
+        T ret_val=m_list.Front(); m_list.PopFront(); return ret_val;
     }
 
-    void enqueue(const T& data) { m_list.push_back(data);}
+    void Enqueue(const T &data) { m_list.PushBack(data);}
     bool empty() const { return m_list.empty(); }
     size_t size() const { return m_list.size(); }
 };

@@ -13,11 +13,11 @@
 #define RIGHT_CHILD(n) ((2*(n)+2))
 
 template<class T, class Compare = std::less<>>
-class heap {
+class Heap {
 private:
     std::vector<T> array;
 protected:
-    static void heapify_loop(std::vector<T>& array, const size_t begin_index, const size_t end_index) {
+    static void HeapifyLoop(std::vector<T> &array, const size_t begin_index, const size_t end_index) {
         Compare compare;
         auto index = begin_index;
         auto index_left_child = LEFT_CHILD(index);
@@ -44,25 +44,25 @@ protected:
         }
     }
 public:
-    heap() = default;
+    Heap() = default;
 
-    static std::shared_ptr<heap<T, Compare>> heapify(const std::vector<T>& data_array) {
-        auto heap1=std::make_shared<heap<T, Compare>>();
+    static std::shared_ptr<Heap<T, Compare>> Heapify(const std::vector<T> &data_array) {
+        auto heap1=std::make_shared<Heap<T, Compare>>();
         for(const T& item : data_array){
-            heap1->insert(item);
+            heap1->Insert(item);
         }
         return heap1;
     }
 
-    static std::shared_ptr<heap<T, Compare>> merge(const heap<T, Compare>& heap1, const heap<T, Compare>& heap2){
+    static std::shared_ptr<Heap<T, Compare>> Merge(const Heap<T, Compare>& heap1, const Heap<T, Compare>& heap2){
         std::vector<T> array_all;
         array_all.insert(array_all.end(), heap1.array.begin(), heap1.array.end());
         array_all.insert(array_all.end(), heap2.array.begin(), heap2.array.end());
-        return heapify(array_all);
+        return Heapify(array_all);
     }
 
 #define PARENT_INDEX(n) (((n)-1)/2)
-    void insert(const T& data) {
+    void Insert(const T &data) {
         Compare compare;
         array.push_back(data);
         auto current_index = array.size()-1;
@@ -86,52 +86,52 @@ public:
         return array.empty();
     }
 
-    T find_top() const {
+    T FindTop() const {
         if( array.size() == 0 ) {
             throw std::exception();
         }
         return array[0];
     }
 
-    T extract_top() {
+    T ExtractTop() {
         if( array.size() == 0 ) {
             throw std::exception();
         }
 
         auto ret_val=array[0];
-        delete_top();
+        DeleteTop();
         return ret_val;
     }
 
-    void delete_top() {
+    void DeleteTop() {
         if( array.size() == 0 ) {
             throw std::exception();
         }
         auto data=array[array.size()-1];
         array.resize(array.size()-1);
         if(!empty()) {
-            replace(data);
+            Replace(data);
         }
     }
 
 
-    void replace(const T& data) {
+    void Replace(const T &data) {
         if( array.size() == 0 ) {
             throw std::exception();
         }
         array[0]=data;
-        heapify_loop(array, 0, array.size());
+        HeapifyLoop(array, 0, array.size());
     }
 
-    static void sort(std::vector<T>& array_to_sort){
+    static void Sort(std::vector<T> &array_to_sort){
         const auto array_size=(int)array_to_sort.size();
         for (auto i = array_size/2;i>=0;i--){
-            heapify_loop(array_to_sort, (size_t)i, (size_t)array_size);
+            HeapifyLoop(array_to_sort, (size_t) i, (size_t) array_size);
         }
 
         for ( auto max_index = array_size-1; max_index > 0; max_index -- ){
             std::swap(array_to_sort[max_index], array_to_sort[0]);
-            heapify_loop(array_to_sort, 0, (size_t)max_index);
+            HeapifyLoop(array_to_sort, 0, (size_t) max_index);
         }
     }
 };

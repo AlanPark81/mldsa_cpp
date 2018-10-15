@@ -5,256 +5,256 @@
 #include "../src/heap.h"
 #include "gtest/gtest.h"
 
-TEST(heap, heap_insert_once) {
-    heap<int> heapTest;
-    heapTest.insert(3);
-    ASSERT_EQ(heapTest.find_top(), 3);
+TEST(Heap, heap_insert_once) {
+    Heap<int> heapTest;
+    heapTest.Insert(3);
+    ASSERT_EQ(heapTest.FindTop(), 3);
 }
 
-TEST(heap, max_heap_insert_once) {
-    heap<int, std::greater<>> heapTest;
-    heapTest.insert(3);
-    ASSERT_EQ(heapTest.find_top(), 3);
+TEST(Heap, max_heap_insert_once) {
+    Heap<int, std::greater<>> heapTest;
+    heapTest.Insert(3);
+    ASSERT_EQ(heapTest.FindTop(), 3);
 }
 
-TEST(heap, heap_insert_replace_once) {
-    heap<int> heapTest;
-    heapTest.insert(3);
+TEST(Heap, heap_insert_replace_once) {
+    Heap<int> heapTest;
+    heapTest.Insert(3);
     ASSERT_EQ(heapTest.size(), 1);
-    heapTest.replace(1);
-    ASSERT_EQ(heapTest.find_top(), 1);
+    heapTest.Replace(1);
+    ASSERT_EQ(heapTest.FindTop(), 1);
 }
 
-TEST(heap, max_heap_insert_replace_once) {
-    heap<int, std::greater<>> heapTest;
-    heapTest.insert(3);
+TEST(Heap, max_heap_insert_replace_once) {
+    Heap<int, std::greater<>> heapTest;
+    heapTest.Insert(3);
     ASSERT_EQ(heapTest.size(), 1);
-    heapTest.replace(5);
-    ASSERT_EQ(heapTest.find_top(), 5);
+    heapTest.Replace(5);
+    ASSERT_EQ(heapTest.FindTop(), 5);
 }
 
-TEST(heap, heap_insert_delete_once) {
-    heap<int> heapTest;
-    heapTest.insert(3);
+TEST(Heap, heap_insert_delete_once) {
+    Heap<int> heapTest;
+    heapTest.Insert(3);
     ASSERT_EQ(heapTest.size(), 1);
-    heapTest.delete_top();
+    heapTest.DeleteTop();
     ASSERT_EQ(heapTest.size(), 0);
     ASSERT_TRUE(heapTest.empty());
-    ASSERT_ANY_THROW(heapTest.find_top());
+    ASSERT_ANY_THROW(heapTest.FindTop());
 }
 
-TEST(heap, heap_insert_delete_twice) {
-    heap<int> heapTest;
-    heapTest.insert(3);
+TEST(Heap, heap_insert_delete_twice) {
+    Heap<int> heapTest;
+    heapTest.Insert(3);
     ASSERT_EQ(heapTest.size(), 1);
-    heapTest.insert(4);
+    heapTest.Insert(4);
     ASSERT_EQ(heapTest.size(), 2);
-    heapTest.delete_top();
-    ASSERT_NO_THROW(heapTest.delete_top());
+    heapTest.DeleteTop();
+    ASSERT_NO_THROW(heapTest.DeleteTop());
     ASSERT_EQ(heapTest.size(), 0);
     ASSERT_TRUE(heapTest.empty());
-    ASSERT_ANY_THROW(heapTest.find_top());
+    ASSERT_ANY_THROW(heapTest.FindTop());
 }
 
-TEST(heap, heap_insert_delete_three_times) {
-    heap<int> heapTest;
-    heapTest.insert(3);
+TEST(Heap, heap_insert_delete_three_times) {
+    Heap<int> heapTest;
+    heapTest.Insert(3);
     ASSERT_EQ(heapTest.size(), 1);
-    heapTest.insert(4);
+    heapTest.Insert(4);
     ASSERT_EQ(heapTest.size(), 2);
-    heapTest.insert(5);
+    heapTest.Insert(5);
     ASSERT_EQ(heapTest.size(), 3);
-    ASSERT_NO_THROW(heapTest.delete_top());
+    ASSERT_NO_THROW(heapTest.DeleteTop());
     ASSERT_EQ(heapTest.size(), 2);
-    ASSERT_NO_THROW(heapTest.delete_top());
+    ASSERT_NO_THROW(heapTest.DeleteTop());
     ASSERT_EQ(heapTest.size(), 1);
-    ASSERT_NO_THROW(heapTest.delete_top());
+    ASSERT_NO_THROW(heapTest.DeleteTop());
     ASSERT_EQ(heapTest.size(), 0);
     ASSERT_TRUE(heapTest.empty());
-    ASSERT_ANY_THROW(heapTest.find_top());
+    ASSERT_ANY_THROW(heapTest.FindTop());
 }
 
-TEST(heap, max_heap_insert_delete_once) {
-    heap<int, std::greater<>> heapTest;
-    heapTest.insert(3);
+TEST(Heap, max_heap_insert_delete_once) {
+    Heap<int, std::greater<>> heapTest;
+    heapTest.Insert(3);
     ASSERT_EQ(heapTest.size(), 1);
-    heapTest.delete_top();
+    heapTest.DeleteTop();
     ASSERT_EQ(heapTest.size(), 0);
     ASSERT_TRUE(heapTest.empty());
-    ASSERT_ANY_THROW(heapTest.find_top());
+    ASSERT_ANY_THROW(heapTest.FindTop());
 }
 
-TEST(heap, heap_insert_extract_once) {
-    heap<int> heapTest;
-    heapTest.insert(3);
+TEST(Heap, heap_insert_extract_once) {
+    Heap<int> heapTest;
+    heapTest.Insert(3);
     ASSERT_EQ(heapTest.size(), 1);
-    ASSERT_EQ(heapTest.extract_top(), 3);
+    ASSERT_EQ(heapTest.ExtractTop(), 3);
     ASSERT_EQ(heapTest.size(), 0);
     ASSERT_TRUE(heapTest.empty());
-    ASSERT_ANY_THROW(heapTest.find_top());
+    ASSERT_ANY_THROW(heapTest.FindTop());
 }
 
-TEST(heap, max_heap_insert_extract_once) {
-    heap<int, std::greater<>> heapTest;
-    heapTest.insert(3);
+TEST(Heap, max_heap_insert_extract_once) {
+    Heap<int, std::greater<>> heapTest;
+    heapTest.Insert(3);
     ASSERT_EQ(heapTest.size(), 1);
-    ASSERT_EQ(heapTest.extract_top(), 3);
+    ASSERT_EQ(heapTest.ExtractTop(), 3);
     ASSERT_EQ(heapTest.size(), 0);
     ASSERT_TRUE(heapTest.empty());
-    ASSERT_ANY_THROW(heapTest.find_top());
+    ASSERT_ANY_THROW(heapTest.FindTop());
 }
 
-TEST(heap, heap_insert_extract_twice) {
-    heap<int> heapTest;
-    heapTest.insert(1);
+TEST(Heap, heap_insert_extract_twice) {
+    Heap<int> heapTest;
+    heapTest.Insert(1);
     ASSERT_EQ(heapTest.size(), 1);
-    heapTest.insert(2);
-    ASSERT_EQ(heapTest.size(), 2);
-
-    ASSERT_EQ(heapTest.extract_top(), 1);
-    ASSERT_EQ(heapTest.size(), 1);
-    ASSERT_EQ(heapTest.extract_top(), 2);
-    ASSERT_EQ(heapTest.size(), 0);
-    ASSERT_TRUE(heapTest.empty());
-    ASSERT_ANY_THROW(heapTest.find_top());
-}
-
-TEST(heap, max_heap_insert_extract_twice) {
-    heap<int, std::greater<>> heapTest;
-    heapTest.insert(1);
-    ASSERT_EQ(heapTest.size(), 1);
-    heapTest.insert(2);
+    heapTest.Insert(2);
     ASSERT_EQ(heapTest.size(), 2);
 
-    ASSERT_EQ(heapTest.extract_top(), 2);
+    ASSERT_EQ(heapTest.ExtractTop(), 1);
     ASSERT_EQ(heapTest.size(), 1);
-    ASSERT_EQ(heapTest.extract_top(), 1);
+    ASSERT_EQ(heapTest.ExtractTop(), 2);
     ASSERT_EQ(heapTest.size(), 0);
     ASSERT_TRUE(heapTest.empty());
-    ASSERT_ANY_THROW(heapTest.find_top());
+    ASSERT_ANY_THROW(heapTest.FindTop());
 }
 
-TEST(heap, heap_insert_extract_three_times) {
-    heap<int> heapTest;
-    heapTest.insert(1);
+TEST(Heap, max_heap_insert_extract_twice) {
+    Heap<int, std::greater<>> heapTest;
+    heapTest.Insert(1);
     ASSERT_EQ(heapTest.size(), 1);
-    heapTest.insert(2);
+    heapTest.Insert(2);
     ASSERT_EQ(heapTest.size(), 2);
-    heapTest.insert(3);
-    ASSERT_EQ(heapTest.size(), 3);
 
-    ASSERT_EQ(heapTest.extract_top(), 1);
-    ASSERT_EQ(heapTest.size(), 2);
-    ASSERT_EQ(heapTest.extract_top(), 2);
+    ASSERT_EQ(heapTest.ExtractTop(), 2);
     ASSERT_EQ(heapTest.size(), 1);
-    ASSERT_EQ(heapTest.extract_top(), 3);
+    ASSERT_EQ(heapTest.ExtractTop(), 1);
     ASSERT_EQ(heapTest.size(), 0);
     ASSERT_TRUE(heapTest.empty());
-    ASSERT_ANY_THROW(heapTest.find_top());
+    ASSERT_ANY_THROW(heapTest.FindTop());
 }
 
-TEST(heap, max_heap_insert_extract_three_times) {
-    heap<int, std::greater<>> heapTest;
-    heapTest.insert(1);
+TEST(Heap, heap_insert_extract_three_times) {
+    Heap<int> heapTest;
+    heapTest.Insert(1);
     ASSERT_EQ(heapTest.size(), 1);
-    heapTest.insert(2);
+    heapTest.Insert(2);
     ASSERT_EQ(heapTest.size(), 2);
-    heapTest.insert(3);
+    heapTest.Insert(3);
     ASSERT_EQ(heapTest.size(), 3);
 
-    ASSERT_EQ(heapTest.extract_top(), 3);
+    ASSERT_EQ(heapTest.ExtractTop(), 1);
     ASSERT_EQ(heapTest.size(), 2);
-    ASSERT_EQ(heapTest.extract_top(), 2);
+    ASSERT_EQ(heapTest.ExtractTop(), 2);
     ASSERT_EQ(heapTest.size(), 1);
-    ASSERT_EQ(heapTest.extract_top(), 1);
+    ASSERT_EQ(heapTest.ExtractTop(), 3);
     ASSERT_EQ(heapTest.size(), 0);
     ASSERT_TRUE(heapTest.empty());
-    ASSERT_ANY_THROW(heapTest.find_top());
+    ASSERT_ANY_THROW(heapTest.FindTop());
 }
 
-TEST(heap, heapify_test) {
+TEST(Heap, max_heap_insert_extract_three_times) {
+    Heap<int, std::greater<>> heapTest;
+    heapTest.Insert(1);
+    ASSERT_EQ(heapTest.size(), 1);
+    heapTest.Insert(2);
+    ASSERT_EQ(heapTest.size(), 2);
+    heapTest.Insert(3);
+    ASSERT_EQ(heapTest.size(), 3);
+
+    ASSERT_EQ(heapTest.ExtractTop(), 3);
+    ASSERT_EQ(heapTest.size(), 2);
+    ASSERT_EQ(heapTest.ExtractTop(), 2);
+    ASSERT_EQ(heapTest.size(), 1);
+    ASSERT_EQ(heapTest.ExtractTop(), 1);
+    ASSERT_EQ(heapTest.size(), 0);
+    ASSERT_TRUE(heapTest.empty());
+    ASSERT_ANY_THROW(heapTest.FindTop());
+}
+
+TEST(Heap, heapify_test) {
     std::vector<int> array={3,1,4,2};
-    auto heap1 = heap<int>::heapify(array);
-    ASSERT_EQ(heap1->extract_top(), 1);
-    ASSERT_EQ(heap1->extract_top(), 2);
-    ASSERT_EQ(heap1->extract_top(), 3);
-    ASSERT_EQ(heap1->extract_top(), 4);
-    ASSERT_ANY_THROW(heap1->find_top());
+    auto heap1 = Heap<int>::Heapify(array);
+    ASSERT_EQ(heap1->ExtractTop(), 1);
+    ASSERT_EQ(heap1->ExtractTop(), 2);
+    ASSERT_EQ(heap1->ExtractTop(), 3);
+    ASSERT_EQ(heap1->ExtractTop(), 4);
+    ASSERT_ANY_THROW(heap1->FindTop());
 }
 
-TEST(heap, max_heapify_test) {
+TEST(Heap, max_heapify_test) {
     std::vector<int> array={3,1,4,2};
-    auto heap1 = heap<int, std::greater<>>::heapify(array);
-    ASSERT_EQ(heap1->extract_top(), 4);
-    ASSERT_EQ(heap1->extract_top(), 3);
-    ASSERT_EQ(heap1->extract_top(), 2);
-    ASSERT_EQ(heap1->extract_top(), 1);
-    ASSERT_ANY_THROW(heap1->find_top());
+    auto heap1 = Heap<int, std::greater<>>::Heapify(array);
+    ASSERT_EQ(heap1->ExtractTop(), 4);
+    ASSERT_EQ(heap1->ExtractTop(), 3);
+    ASSERT_EQ(heap1->ExtractTop(), 2);
+    ASSERT_EQ(heap1->ExtractTop(), 1);
+    ASSERT_ANY_THROW(heap1->FindTop());
 }
 
-TEST(heap, min_union_test) {
+TEST(Heap, min_union_test) {
     std::vector<int> array={6,2,0,4};
-    auto heap1 = heap<int>::heapify(array);
+    auto heap1 = Heap<int>::Heapify(array);
     std::vector<int> array1={7,3,1,5};
-    auto heap2 = heap<int>::heapify(array1);
-    auto heap_merged=heap<int>::merge(*heap1, *heap2);
+    auto heap2 = Heap<int>::Heapify(array1);
+    auto heap_merged=Heap<int>::Merge(*heap1, *heap2);
 
-    ASSERT_EQ(heap_merged->extract_top(), 0);
-    ASSERT_EQ(heap_merged->extract_top(), 1);
-    ASSERT_EQ(heap_merged->extract_top(), 2);
-    ASSERT_EQ(heap_merged->extract_top(), 3);
-    ASSERT_EQ(heap_merged->extract_top(), 4);
-    ASSERT_EQ(heap_merged->extract_top(), 5);
-    ASSERT_EQ(heap_merged->extract_top(), 6);
-    ASSERT_EQ(heap_merged->extract_top(), 7);
+    ASSERT_EQ(heap_merged->ExtractTop(), 0);
+    ASSERT_EQ(heap_merged->ExtractTop(), 1);
+    ASSERT_EQ(heap_merged->ExtractTop(), 2);
+    ASSERT_EQ(heap_merged->ExtractTop(), 3);
+    ASSERT_EQ(heap_merged->ExtractTop(), 4);
+    ASSERT_EQ(heap_merged->ExtractTop(), 5);
+    ASSERT_EQ(heap_merged->ExtractTop(), 6);
+    ASSERT_EQ(heap_merged->ExtractTop(), 7);
 
-    ASSERT_ANY_THROW(heap_merged->find_top());
+    ASSERT_ANY_THROW(heap_merged->FindTop());
 }
 
-TEST(heap, max_union_test) {
+TEST(Heap, max_union_test) {
     std::vector<int> array={6,2,0,4};
-    auto heap1 = heap<int, std::greater<>>::heapify(array);
+    auto heap1 = Heap<int, std::greater<>>::Heapify(array);
     std::vector<int> array1={7,3,1,5};
-    auto heap2 = heap<int, std::greater<>>::heapify(array1);
-    auto heap_merged=heap<int, std::greater<>>::merge(*heap1, *heap2);
-    ASSERT_EQ(heap_merged->extract_top(), 7);
-    ASSERT_EQ(heap_merged->extract_top(), 6);
-    ASSERT_EQ(heap_merged->extract_top(), 5);
-    ASSERT_EQ(heap_merged->extract_top(), 4);
-    ASSERT_EQ(heap_merged->extract_top(), 3);
-    ASSERT_EQ(heap_merged->extract_top(), 2);
-    ASSERT_EQ(heap_merged->extract_top(), 1);
-    ASSERT_EQ(heap_merged->extract_top(), 0);
-    ASSERT_ANY_THROW(heap_merged->find_top());
+    auto heap2 = Heap<int, std::greater<>>::Heapify(array1);
+    auto heap_merged=Heap<int, std::greater<>>::Merge(*heap1, *heap2);
+    ASSERT_EQ(heap_merged->ExtractTop(), 7);
+    ASSERT_EQ(heap_merged->ExtractTop(), 6);
+    ASSERT_EQ(heap_merged->ExtractTop(), 5);
+    ASSERT_EQ(heap_merged->ExtractTop(), 4);
+    ASSERT_EQ(heap_merged->ExtractTop(), 3);
+    ASSERT_EQ(heap_merged->ExtractTop(), 2);
+    ASSERT_EQ(heap_merged->ExtractTop(), 1);
+    ASSERT_EQ(heap_merged->ExtractTop(), 0);
+    ASSERT_ANY_THROW(heap_merged->FindTop());
 }
 
-TEST(heap, heap_sort_test_one) {
+TEST(Heap, heap_sort_test_one) {
     std::vector<int> array={1};
-    heap<int, std::greater<>>::sort(array);
+    Heap<int, std::greater<>>::Sort(array);
     ASSERT_EQ(array[0], 1);
     ASSERT_EQ(array.size(),1);
 }
 
-TEST(heap, heap_sort_test_two) {
+TEST(Heap, heap_sort_test_two) {
     std::vector<int> array={1,7};
-    heap<int, std::greater<>>::sort(array);
+    Heap<int, std::greater<>>::Sort(array);
     ASSERT_EQ(array[0], 1);
     ASSERT_EQ(array[1], 7);
     ASSERT_EQ(array.size(),2);
 }
 
-TEST(heap, heap_sort_test_three) {
+TEST(Heap, heap_sort_test_three) {
     std::vector<int> array={1,7,4};
-    heap<int, std::greater<>>::sort(array);
+    Heap<int, std::greater<>>::Sort(array);
     ASSERT_EQ(array[0], 1);
     ASSERT_EQ(array[1], 4);
     ASSERT_EQ(array[2], 7);
     ASSERT_EQ(array.size(),3);
 }
 
-TEST(heap, heap_sort_test_four) {
+TEST(Heap, heap_sort_test_four) {
     std::vector<int> array={1,7,4,6};
-    heap<int, std::greater<>>::sort(array);
+    Heap<int, std::greater<>>::Sort(array);
     ASSERT_EQ(array[0], 1);
     ASSERT_EQ(array[1], 4);
     ASSERT_EQ(array[2], 6);
@@ -262,9 +262,9 @@ TEST(heap, heap_sort_test_four) {
     ASSERT_EQ(array.size(),4);
 }
 
-TEST(heap, heap_sort_test_five) {
+TEST(Heap, heap_sort_test_five) {
     std::vector<int> array={1,7,4,6,5};
-    heap<int, std::greater<>>::sort(array);
+    Heap<int, std::greater<>>::Sort(array);
     ASSERT_EQ(array[0], 1);
     ASSERT_EQ(array[1], 4);
     ASSERT_EQ(array[2], 5);
@@ -273,9 +273,9 @@ TEST(heap, heap_sort_test_five) {
     ASSERT_EQ(array.size(),5);
 }
 
-TEST(heap, heap_sort_test) {
+TEST(Heap, heap_sort_test) {
     std::vector<int> array={1,7,4,6,5,3};
-    heap<int, std::greater<>>::sort(array);
+    Heap<int, std::greater<>>::Sort(array);
     ASSERT_EQ(array[0], 1);
     ASSERT_EQ(array[1], 3);
     ASSERT_EQ(array[2], 4);

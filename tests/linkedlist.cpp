@@ -6,147 +6,147 @@
 
 #include "gtest/gtest.h"
 
-inline void push_back_pop_back_test(const int count) {
-    linkedlist<int> linkedlist1;
+inline void PushBack_popBack_test(const int count) {
+    LinkedList<int> linkedlist1;
     ASSERT_TRUE(linkedlist1.empty());
     ASSERT_EQ(linkedlist1.size(), 0);
     for (int i=0;i<count; i++) {
-        linkedlist1.push_back(i);
+        linkedlist1.PushBack(i);
         ASSERT_FALSE(linkedlist1.empty());
         ASSERT_EQ(linkedlist1.size(), i+1);
     }
     for (int i=0;i<count; i++) {
         int nRet=-1;
-        ASSERT_NO_THROW(nRet=linkedlist1.pop_back());
+        ASSERT_NO_THROW(nRet=linkedlist1.PopBack());
         ASSERT_EQ(nRet, count-1-i);
     }
-    ASSERT_ANY_THROW(linkedlist1.pop_back());
+    ASSERT_ANY_THROW(linkedlist1.PopBack());
 }
 
-inline void push_front_pop_front_test(const int count) {
-    linkedlist<int> linkedlist1;
+inline void PushFront_PopFront_test(const int count) {
+    LinkedList<int> linkedlist1;
     ASSERT_TRUE(linkedlist1.empty());
     ASSERT_EQ(linkedlist1.size(), 0);
     for (int i=0;i<count; i++) {
-        linkedlist1.push_front(i);
+        linkedlist1.PushFront(i);
         ASSERT_FALSE(linkedlist1.empty());
         ASSERT_EQ(linkedlist1.size(), i+1);
     }
     for (int i=0;i<count; i++) {
         int nRet=-1;
-        ASSERT_NO_THROW(nRet=linkedlist1.pop_front());
+        ASSERT_NO_THROW(nRet=linkedlist1.PopFront());
         ASSERT_EQ(nRet, count-1-i);
     }
-    ASSERT_ANY_THROW(linkedlist1.pop_front());
+    ASSERT_ANY_THROW(linkedlist1.PopFront());
 }
 
-inline void push_back_pop_front_test(const int count) {
-    linkedlist<int> linkedlist1;
+inline void PushBack_PopFront_test(const int count) {
+    LinkedList<int> linkedlist1;
     ASSERT_TRUE(linkedlist1.empty());
     ASSERT_EQ(linkedlist1.size(), 0);
     for (int i=0;i<count; i++) {
-        linkedlist1.push_back(i);
+        linkedlist1.PushBack(i);
         ASSERT_FALSE(linkedlist1.empty());
         ASSERT_EQ(linkedlist1.size(), i+1);
     }
     for (int i=0;i<count; i++) {
         int nRet=-1;
-        ASSERT_NO_THROW(nRet=linkedlist1.pop_front());
+        ASSERT_NO_THROW(nRet=linkedlist1.PopFront());
         ASSERT_EQ(nRet, i);
     }
-    ASSERT_ANY_THROW(linkedlist1.pop_front());
+    ASSERT_ANY_THROW(linkedlist1.PopFront());
 }
 
 
-inline void push_front_pop_back_test(const int count) {
-    linkedlist<int> linkedlist1;
+inline void PushFront_popBack_test(const int count) {
+    LinkedList<int> linkedlist1;
     ASSERT_TRUE(linkedlist1.empty());
     ASSERT_EQ(linkedlist1.size(), 0);
     for (int i=0;i<count; i++) {
-        linkedlist1.push_back(i);
+        linkedlist1.PushBack(i);
         ASSERT_FALSE(linkedlist1.empty());
         ASSERT_EQ(linkedlist1.size(), i+1);
     }
     for (int i=0;i<count; i++) {
         int nRet=-1;
-        ASSERT_NO_THROW(nRet=linkedlist1.pop_front());
+        ASSERT_NO_THROW(nRet=linkedlist1.PopFront());
         ASSERT_EQ(nRet, i);
     }
-    ASSERT_ANY_THROW(linkedlist1.pop_front());
+    ASSERT_ANY_THROW(linkedlist1.PopFront());
 }
 
-TEST(linkedlist, zero_item_push_back) {
-    push_back_pop_back_test(0);
+TEST(LinkedList, zero_item_PushBack) {
+    PushBack_popBack_test(0);
 }
 
-TEST(linkedlist, one_item_push_back) {
-    push_back_pop_back_test(1);
+TEST(LinkedList, one_item_PushBack) {
+    PushBack_popBack_test(1);
 }
 
-TEST(linkedlist, two_item_push_back) {
-    push_back_pop_back_test(2);
+TEST(LinkedList, two_item_PushBack) {
+    PushBack_popBack_test(2);
 }
 
-TEST(linkedlist, three_item_push_back) {
-    push_back_pop_back_test(3);
+TEST(LinkedList, three_item_PushBack) {
+    PushBack_popBack_test(3);
 }
 
-TEST(linkedlist, zero_item_push_front) {
-    push_front_pop_front_test(0);
+TEST(LinkedList, zero_item_PushFront) {
+    PushFront_PopFront_test(0);
 }
 
-TEST(linkedlist, one_item_push_front) {
-    push_front_pop_front_test(1);
+TEST(LinkedList, one_item_PushFront) {
+    PushFront_PopFront_test(1);
 }
 
-TEST(linkedlist, two_item_push_front) {
-    push_front_pop_front_test(2);
+TEST(LinkedList, two_item_PushFront) {
+    PushFront_PopFront_test(2);
 }
 
-TEST(linkedlist, three_item_push_front) {
-    push_front_pop_front_test(3);
+TEST(LinkedList, three_item_PushFront) {
+    PushFront_PopFront_test(3);
 }
 
-TEST(linkedlist, zero_item_push_back_pop_front) {
-    push_back_pop_front_test(0);
+TEST(LinkedList, zero_item_PushBack_PopFront) {
+    PushBack_PopFront_test(0);
 }
 
-TEST(linkedlist, one_item_push_back_pop_front) {
-    push_back_pop_front_test(1);
+TEST(LinkedList, one_item_PushBack_PopFront) {
+    PushBack_PopFront_test(1);
 }
 
-TEST(linkedlist, two_item_push_back_pop_front) {
-    push_back_pop_front_test(2);
+TEST(LinkedList, two_item_PushBack_PopFront) {
+    PushBack_PopFront_test(2);
 }
 
-TEST(linkedlist, three_item_push_back_pop_front) {
-    push_back_pop_front_test(3);
+TEST(LinkedList, three_item_PushBack_PopFront) {
+    PushBack_PopFront_test(3);
 }
 
-TEST(linkedlist, zero_item_push_front_pop_back) {
-    push_front_pop_back_test(0);
+TEST(LinkedList, zero_item_PushFront_popBack) {
+    PushFront_popBack_test(0);
 }
 
-TEST(linkedlist, one_item_push_front_pop_back) {
-    push_front_pop_back_test(1);
+TEST(LinkedList, one_item_PushFront_popBack) {
+    PushFront_popBack_test(1);
 }
 
-TEST(linkedlist, two_item_push_front_pop_back) {
-    push_front_pop_back_test(2);
+TEST(LinkedList, two_item_PushFront_popBack) {
+    PushFront_popBack_test(2);
 }
 
-TEST(linkedlist, three_item_push_front_pop_back) {
-    push_front_pop_back_test(3);
+TEST(LinkedList, three_item_PushFront_popBack) {
+    PushFront_popBack_test(3);
 }
 
 void forward_iteration_items(const size_t count) {
-    linkedlist<int> listTest;
+    LinkedList<int> listTest;
     ASSERT_EQ(listTest.size(), 0);
     ASSERT_TRUE(listTest.empty());
     for(int i=0;i<count;i++) {
-        listTest.push_back(i);
-        ASSERT_EQ(listTest.back(), i);
-        ASSERT_EQ(listTest.front(), 0);
+        listTest.PushBack(i);
+        ASSERT_EQ(listTest.Back(), i);
+        ASSERT_EQ(listTest.Front(), 0);
         ASSERT_EQ(listTest.size(), i+1);
         ASSERT_FALSE(listTest.empty());
     }
@@ -156,21 +156,21 @@ void forward_iteration_items(const size_t count) {
     for(int i=0;i<count;i++)
     {
         ASSERT_TRUE(iterator.valid());
-        ASSERT_EQ(iterator.next(), i);
+        ASSERT_EQ(iterator.Next(), i);
     }
 
     ASSERT_FALSE(iterator.valid());
-    ASSERT_ANY_THROW(iterator.next());
+    ASSERT_ANY_THROW(iterator.Next());
 }
 
-void backward_iteration_items(const size_t count) {
-    linkedlist<int> listTest;
+void Backward_iteration_items(const size_t count) {
+    LinkedList<int> listTest;
     ASSERT_EQ(listTest.size(), 0);
     ASSERT_TRUE(listTest.empty());
     for(int i=0;i<count;i++) {
-        listTest.push_back(i);
-        ASSERT_EQ(listTest.back(), i);
-        ASSERT_EQ(listTest.front(), 0);
+        listTest.PushBack(i);
+        ASSERT_EQ(listTest.Back(), i);
+        ASSERT_EQ(listTest.Front(), 0);
         ASSERT_EQ(listTest.size(), i+1);
         ASSERT_FALSE(listTest.empty());
     }
@@ -179,155 +179,155 @@ void backward_iteration_items(const size_t count) {
     for(int i=0;i<count;i++)
     {
         ASSERT_TRUE(iterator.valid());
-        ASSERT_EQ(iterator.prev(), count-1-i);
+        ASSERT_EQ(iterator.Prev(), count-1-i);
     }
 
     ASSERT_FALSE(iterator.valid());
-    ASSERT_ANY_THROW(iterator.prev());
+    ASSERT_ANY_THROW(iterator.Prev());
 }
 
-TEST(linkedlist, one_item_iteration) {
+TEST(LinkedList, one_item_iteration) {
     forward_iteration_items(1);
 }
 
-TEST(linkedlist, two_item_iteration) {
+TEST(LinkedList, two_item_iteration) {
     forward_iteration_items(2);
 }
 
-TEST(linkedlist, three_item_iteration) {
+TEST(LinkedList, three_item_iteration) {
     forward_iteration_items(3);
 }
 
-TEST(linkedlist, one_item_backward_iteration) {
-    backward_iteration_items(1);
+TEST(LinkedList, one_item_Backward_iteration) {
+    Backward_iteration_items(1);
 }
 
-TEST(linkedlist, two_item_backward_iteration) {
-    backward_iteration_items(2);
+TEST(LinkedList, two_item_Backward_iteration) {
+    Backward_iteration_items(2);
 }
 
-TEST(linkedlist, three_item_backward_iteration) {
-    backward_iteration_items(3);
+TEST(LinkedList, three_item_Backward_iteration) {
+    Backward_iteration_items(3);
 }
 
-TEST(linkedlist, iterator_insert_after_one_item) {
-    linkedlist<int> listTest;
-    listTest.push_back(1);
+TEST(LinkedList, iterator_insertAfter_one_item) {
+    LinkedList<int> listTest;
+    listTest.PushBack(1);
     auto iter=listTest.begin();
-    listTest.insert_after(iter, 2);
+    listTest.insertAfter(iter, 2);
     for(int i=0;i<listTest.size();i++){
-        ASSERT_EQ(iter.next(), i+1);
+        ASSERT_EQ(iter.Next(), i+1);
     }
-    ASSERT_ANY_THROW(iter.next());
+    ASSERT_ANY_THROW(iter.Next());
 }
 
-TEST(linkedlist, iterator_insert_after_middle_of_two_item) {
-    linkedlist<int> listTest;
-    listTest.push_back(1);
-    listTest.push_back(3);
+TEST(LinkedList, iterator_insertAfter_middle_of_two_item) {
+    LinkedList<int> listTest;
+    listTest.PushBack(1);
+    listTest.PushBack(3);
     auto iter=listTest.begin();
-    listTest.insert_after(iter, 2);
+    listTest.insertAfter(iter, 2);
     for(int i=0;i<listTest.size();i++){
-        ASSERT_EQ(iter.next(), i+1);
+        ASSERT_EQ(iter.Next(), i+1);
     }
-    ASSERT_ANY_THROW(iter.next());
+    ASSERT_ANY_THROW(iter.Next());
 }
 
-TEST(linkedlist, iterator_insert_after_end_of_two_item) {
-    linkedlist<int> listTest;
-    listTest.push_back(1);
-    listTest.push_back(2);
+TEST(LinkedList, iterator_insertAfter_end_of_two_item) {
+    LinkedList<int> listTest;
+    listTest.PushBack(1);
+    listTest.PushBack(2);
     auto iter=listTest.begin();
-    iter.next();
-    listTest.insert_after(iter, 3);
+    iter.Next();
+    listTest.insertAfter(iter, 3);
     iter = listTest.begin();
     for(int i=0;i<listTest.size();i++){
-        ASSERT_EQ(iter.next(), i+1);
+        ASSERT_EQ(iter.Next(), i+1);
     }
-    ASSERT_ANY_THROW(iter.next());
+    ASSERT_ANY_THROW(iter.Next());
 }
 
-TEST(linkedlist, iterator_insert_before_one_item) {
-    linkedlist<int> listTest;
-    listTest.push_back(2);
+TEST(LinkedList, iterator_insertBefore_one_item) {
+    LinkedList<int> listTest;
+    listTest.PushBack(2);
     auto iter=listTest.begin();
-    listTest.insert_before(iter, 1);
+    listTest.insertBefore(iter, 1);
     iter=listTest.begin();
     for(int i=0;i<listTest.size();i++){
-        ASSERT_EQ(iter.next(), i+1);
+        ASSERT_EQ(iter.Next(), i+1);
     }
-    ASSERT_ANY_THROW(iter.next());
+    ASSERT_ANY_THROW(iter.Next());
 }
 
-TEST(linkedlist, end_iterator_insert_after_one_item) {
-    linkedlist<int> listTest;
-    listTest.push_back(1);
+TEST(LinkedList, end_iterator_insertAfter_one_item) {
+    LinkedList<int> listTest;
+    listTest.PushBack(1);
     auto iter=listTest.end();
-    listTest.insert_after(iter, 2);
+    listTest.insertAfter(iter, 2);
     for(int i=0;i<listTest.size();i++){
-        ASSERT_EQ(iter.next(), i+1);
+        ASSERT_EQ(iter.Next(), i+1);
     }
-    ASSERT_ANY_THROW(iter.next());
+    ASSERT_ANY_THROW(iter.Next());
 }
 
-TEST(linkedlist, end_iterator_insert_after_middle_of_two_item) {
-    linkedlist<int> listTest;
-    listTest.push_back(1);
-    listTest.push_back(3);
+TEST(LinkedList, end_iterator_insertAfter_middle_of_two_item) {
+    LinkedList<int> listTest;
+    listTest.PushBack(1);
+    listTest.PushBack(3);
     auto iter=listTest.end();
-    listTest.insert_before(iter, 2);
+    listTest.insertBefore(iter, 2);
     for(int i=0;i<listTest.size();i++){
-        ASSERT_EQ(iter.prev(), listTest.size()-i);
+        ASSERT_EQ(iter.Prev(), listTest.size()-i);
     }
-    ASSERT_ANY_THROW(iter.next());
+    ASSERT_ANY_THROW(iter.Next());
 }
 
-TEST(linkedlist, end_iterator_insert_after_end_of_two_item) {
-    linkedlist<int> listTest;
-    listTest.push_back(1);
-    listTest.push_back(2);
+TEST(LinkedList, end_iterator_insertAfter_end_of_two_item) {
+    LinkedList<int> listTest;
+    listTest.PushBack(1);
+    listTest.PushBack(2);
     auto iter=listTest.end();
-    listTest.insert_after(iter, 3);
+    listTest.insertAfter(iter, 3);
     iter = listTest.begin();
     for(int i=0;i<listTest.size();i++){
-        ASSERT_EQ(iter.next(), i+1);
+        ASSERT_EQ(iter.Next(), i+1);
     }
-    ASSERT_ANY_THROW(iter.next());
+    ASSERT_ANY_THROW(iter.Next());
 }
 
-TEST(linkedlist, end_iterator_insert_before_one_item) {
-    linkedlist<int> listTest;
-    listTest.push_back(2);
+TEST(LinkedList, end_iterator_insertBefore_one_item) {
+    LinkedList<int> listTest;
+    listTest.PushBack(2);
     auto iter=listTest.end();
-    listTest.insert_before(iter, 1);
+    listTest.insertBefore(iter, 1);
     iter=listTest.begin();
     for(int i=0;i<listTest.size();i++){
-        ASSERT_EQ(iter.next(), i+1);
+        ASSERT_EQ(iter.Next(), i+1);
     }
-    ASSERT_ANY_THROW(iter.next());
+    ASSERT_ANY_THROW(iter.Next());
 }
 
-TEST(linkedlist, visitor_test ) {
-    class AccumulateVisitor : public visitor<int> {
+TEST(LinkedList, visitor_test ) {
+    class AccumulateVisitor : public Visitor<int> {
         std::vector<int> array;
     public:
-        bool visit(int& input) override {
+        bool Visit(int& input) override {
             array.push_back(input);
             return true;
         }
 
-        std::vector<int> get_array() const {
+        std::vector<int> GetArray() const {
             return array;
         }
 
-        void clear() {
+        void Clear() {
             array.clear();
         }
     };
 
-    class AddOneVisitor : public visitor<int> {
+    class AddOneVisitor : public Visitor<int> {
     public:
-        bool visit(int& input) override {
+        bool Visit(int& input) override {
             input++;
             return true;
         }
@@ -336,14 +336,14 @@ TEST(linkedlist, visitor_test ) {
     AccumulateVisitor visitor1;
     AddOneVisitor visitor2;
 
-    linkedlist<int> linkedlist1;
-    for(int i=0;i<10;i++) linkedlist1.push_back(i);
-    linkedlist1.accept(visitor1);
-    auto array=visitor1.get_array();
+    LinkedList<int> linkedlist1;
+    for(int i=0;i<10;i++) linkedlist1.PushBack(i);
+    linkedlist1.Accept(visitor1);
+    auto array=visitor1.GetArray();
     for(int i=0;i<10;i++) ASSERT_EQ(array[i],i);
-    linkedlist1.accept(visitor2);
-    visitor1.clear();
-    linkedlist1.accept(visitor1);
-    array=visitor1.get_array();
+    linkedlist1.Accept(visitor2);
+    visitor1.Clear();
+    linkedlist1.Accept(visitor1);
+    array=visitor1.GetArray();
     for(int i=0;i<10;i++) ASSERT_EQ(array[i],i+1);
 }

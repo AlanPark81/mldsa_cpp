@@ -8,12 +8,12 @@
 #include "linkedlist.h"
 
 template <class T>
-class stack {
-    linkedlist<T> m_list;
+class Stack {
+    LinkedList<T> m_list;
 public:
-    stack() = default;
-    void push(const T& data) {m_list.push_back(data);}
-    T pop() { if(empty()) throw std::exception(); const auto ret_val=m_list.back(); m_list.pop_back(); return ret_val;}
+    Stack() = default;
+    void Push(const T& data) {m_list.PushBack(data);}
+    T Pop() { if(empty()) throw std::exception(); const auto ret_val=m_list.Back(); m_list.PopBack(); return ret_val;}
     size_t size() const { return m_list.size(); }
     bool empty() const { return m_list.empty(); }
 };
