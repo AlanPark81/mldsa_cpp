@@ -306,3 +306,44 @@ TEST(linkedlist, end_iterator_insert_before_one_item) {
     }
     ASSERT_ANY_THROW(iter.next());
 }
+
+TEST(linkedlist, visitor_test ) {
+    class AccumulateVisitor : public visitor<int> {
+        std::vector<int> array;
+    public:
+        bool visit(int& input) override {
+            array.push_back(input);
+            return true;
+        }
+
+        std::vector<int> get_array() const {
+            return array;
+        }
+
+        void clear() {
+            array.clear();
+        }
+    };
+
+    class AddOneVisitor : public visitor<int> {
+    public:
+        bool visit(int& input) override {
+            input++;
+            return true;
+        }
+    };
+
+    AccumulateVisitor visitor1;
+    AddOneVisitor visitor2;
+
+    linkedlist<int> linkedlist1;
+    for(int i=0;i<10;i++) linkedlist1.push_back(i);
+    linkedlist1.accept(visitor1);
+    auto array=visitor1.get_array();
+    for(int i=0;i<10;i++) ASSERT_EQ(array[i],i);
+    linkedlist1.accept(visitor2);
+    visitor1.clear();
+    linkedlist1.accept(visitor1);
+    array=visitor1.get_array();
+    for(int i=0;i<10;i++) ASSERT_EQ(array[i],i+1);
+}

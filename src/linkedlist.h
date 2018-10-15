@@ -7,6 +7,7 @@
 
 #include <bits/exception.h>
 #include <memory>
+#include "visitor.h"
 
 template <class T>
 class listnode {
@@ -43,7 +44,7 @@ public:
 };
 
 template <class T>
-class linkedlist{
+class linkedlist : public visitor_acceptor<T>{
     std::shared_ptr<listnode<T>> head, tail;
     size_t list_size;
 public:
@@ -168,6 +169,16 @@ public:
         }
         node->prev = new_node;
         list_size++;
+    }
+
+    bool accept(visitor<T>& visitor1) {
+        std::shared_ptr<listnode<T>> ptr=this->head;
+        while( ptr != nullptr ){
+            if(!visitor1.visit(ptr->data))
+                return false;
+            ptr=ptr->next;
+        }
+        return true;
     }
 };
 #endif //MLDSA_CPP_LINKEDLIST_H
