@@ -6,10 +6,11 @@
 #define MLDSA_CPP_BINARY_SEARCH_TREE_H
 
 #include <memory>
-#include <iostream>
+#include "visitor.h"
+#include "queue.h"
 
 template<class T>
-class BinaryTreeNode {
+class BinaryTreeNode : public VisitorAcceptor<T> {
 public:
     typedef std::shared_ptr<BinaryTreeNode<T>> Node_;
     Node_ left_, right_;
@@ -59,10 +60,14 @@ public:
             throw std::exception();
         }
     }
+
+    bool Accept(Visitor<T>& visitor) {
+        return visitor.Visit(data_);
+    }
 };
 
 template<class T>
-class BinarySearchTree {
+class BinarySearchTree : public VisitorAcceptor<T> {
     typedef std::shared_ptr<BinaryTreeNode<T>> Node_;
 
 
@@ -172,6 +177,40 @@ public:
             }
         }
         return true;
+    }
+
+    bool Accept(Visitor<T>& visitor) {
+        Queue<Node_> queue_nodes;
+        queue_nodes.Enqueue(root_);
+        while(!queue_nodes.empty()) {
+            Node_ curr_node=queue_nodes.Dequeue();
+            curr_node->Accept(visitor);
+            if(curr_node->left_ != nullptr) {
+                queue_nodes.Enqueue(curr_node->left_);
+            }
+            if(curr_node->right_ != nullptr) {
+                queue_nodes.Enqueue(curr_node->right_);
+            }
+        }
+    }
+
+    size_t size() const {
+        size_t ret_val=0;
+        Queue<Node_> queue_nodes;
+        if(root_ == nullptr) return ret_val;
+        queue_nodes.Enqueue(root_);
+        while(!queue_nodes.empty()) {
+            Node_ curr_node=queue_nodes.Dequeue();
+            ret_val++;
+
+            if(curr_node->left_ != nullptr) {
+                queue_nodes.Enqueue(curr_node->left_);
+            }
+            if(curr_node->right_ != nullptr) {
+                queue_nodes.Enqueue(curr_node->right_);
+            }
+        }
+        return ret_val;
     }
 };
 

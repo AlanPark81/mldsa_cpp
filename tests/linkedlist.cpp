@@ -341,9 +341,11 @@ TEST(LinkedList, visitor_test ) {
     linkedlist1.Accept(visitor1);
     auto array=visitor1.GetArray();
     for(int i=0;i<10;i++) ASSERT_EQ(array[i],i);
+    ASSERT_EQ(linkedlist1.size(), array.size());
     linkedlist1.Accept(visitor2);
     visitor1.Clear();
     linkedlist1.Accept(visitor1);
     array=visitor1.GetArray();
     for(int i=0;i<10;i++) ASSERT_EQ(array[i],i+1);
+    ASSERT_EQ(linkedlist1.size(), array.size());
 }
