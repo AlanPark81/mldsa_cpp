@@ -9,8 +9,17 @@
 #include <iostream>
 #include <memory>
 
-#define LEFT_CHILD(n) ((2*(n)+1))
-#define RIGHT_CHILD(n) ((2*(n)+2))
+inline size_t LeftChild( size_t n ) {
+    return 2*n+1;
+}
+
+inline size_t RightChild( size_t n ) {
+    return 2*n+2;
+}
+
+inline int ParentIndex(const int n) {
+    return (((n)-1)/2);
+}
 
 template<class T, class Compare = std::less<>>
 class Heap {
@@ -20,8 +29,8 @@ protected:
     static void HeapifyLoop(std::vector<T> &array, const size_t begin_index, const size_t end_index) {
         Compare compare;
         auto index = begin_index;
-        auto index_left_child = LEFT_CHILD(index);
-        auto index_right_child = RIGHT_CHILD(index);
+        auto index_left_child = LeftChild(index);
+        auto index_right_child = RightChild(index);
         while (index_left_child < end_index and
                ( compare(array[index_left_child], array[index])
                  or compare(array[index_right_child], array[index] ) ) ) {
@@ -39,8 +48,8 @@ protected:
                 std::swap(array[index_right_child], array[index]);
                 index = index_right_child;
             }
-            index_left_child = LEFT_CHILD(index);
-            index_right_child = RIGHT_CHILD(index);
+            index_left_child = LeftChild(index);
+            index_right_child = RightChild(index);
         }
     }
 public:
@@ -60,8 +69,7 @@ public:
         array_all.insert(array_all.end(), heap2.array.begin(), heap2.array.end());
         return Heapify(array_all);
     }
-
-#define PARENT_INDEX(n) (((n)-1)/2)
+    
     void Insert(const T &data) {
         Compare compare;
         array.push_back(data);
@@ -69,12 +77,12 @@ public:
         if( current_index == 0 ) {
             return;
         }
-        auto index = PARENT_INDEX(current_index);
+        auto index = ParentIndex(current_index);
         while( compare( array[current_index], array[index] ) ) {
             std::swap(array[index], array[current_index]);
             current_index = index;
             if(current_index<=0) { break; }
-            index = PARENT_INDEX(current_index);
+            index = ParentIndex(current_index);
         }
     }
 
