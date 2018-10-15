@@ -162,6 +162,33 @@ TEST(AVLTree, insert_seven_times_and_delete) {
     ASSERT_FALSE(bst.Contains(0));
 }
 
+TEST(AVLTree, totally_unbalanced_input) {
+    AVLTree<int> bst1;
+    for(int i=0;i<8;i++) bst1.Insert(i);
+    class AccumulateVisitor : public Visitor<int> {
+        std::vector<int> array;
+    public:
+        bool Visit(int& input) override {
+            array.push_back(input);
+            return true;
+        }
+
+        std::vector<int> GetArray() const {
+            return array;
+        }
+
+        void Clear() {
+            array.clear();
+        }
+    };
+    AccumulateVisitor visitor1;
+    bst1.Accept(visitor1);
+    for(auto data : visitor1.GetArray()){
+        std::cout<<data<<"\t";
+    }
+    std::cout<<std::endl;
+}
+
 TEST(AVLTree, visitor_test ) {
     class AccumulateVisitor : public Visitor<int> {
         std::vector<int> array;
@@ -195,12 +222,16 @@ TEST(AVLTree, visitor_test ) {
     for(int i=0;i<10;i++) bst1.Insert(i);
     bst1.Accept(visitor1);
     auto array=visitor1.GetArray();
-    for(int i=0;i<10;i++) ASSERT_EQ(array[i],i);
+    for(auto data : array ) ASSERT_TRUE(bst1.Contains(data));
+    ASSERT_EQ(*std::min_element(array.begin(), array.end()), 0);
+    ASSERT_EQ(*std::max_element(array.begin(), array.end()), 9);
     ASSERT_EQ(array.size(), bst1.size());
     bst1.Accept(visitor2);
     visitor1.Clear();
     bst1.Accept(visitor1);
     array=visitor1.GetArray();
-    for(int i=0;i<10;i++) ASSERT_EQ(array[i],i+1);
+    for(auto data : array ) ASSERT_TRUE(bst1.Contains(data));
+    ASSERT_EQ(*std::min_element(array.begin(), array.end()), 1);
+    ASSERT_EQ(*std::max_element(array.begin(), array.end()), 10);
     ASSERT_EQ(array.size(), bst1.size());
 }

@@ -8,6 +8,7 @@
 #include <memory>
 #include "visitor.h"
 #include "queue.h"
+#include<iostream>
 
 template<class T>
 class BinaryTreeNode : public VisitorAcceptor<T> {
@@ -16,20 +17,24 @@ public:
     Node_ left_, right_;
     T data_;
     explicit BinaryTreeNode(const T& data) : data_(data), left_(nullptr), right_(nullptr) {}
+
     static Node_ Create(const T& data) {
         return std::make_shared<BinaryTreeNode<T>>(data);
     }
 
     size_t GetLevel() const {
         size_t ret_val=0;
-        if(left_ != nullptr) ret_val+=left_->GetLevel();
-        if(right_ != nullptr) ret_val+=right_->GetLevel();
+        const auto left_size = ((left_ != nullptr)? left_->GetLevel(): 0 );
+        const auto right_size = ( (right_ != nullptr)? right_->GetLevel() : 0 );
+        ret_val+=std::max( left_size, right_size );
         ret_val++;
         return ret_val;
     }
 
     int GetLevelDiff() const {
-        return ( left_ != nullptr )?(int)left_->GetLevel() : 0 - ( right_ != nullptr )? (int)right_->GetLevel() : 0;
+        const auto left_size = ( ( left_ != nullptr )? ( (int)left_->GetLevel() ) : 0 );
+        const auto right_size = ( ( right_ != nullptr )? ( (int)right_->GetLevel() ) : 0 );
+        return  left_size - right_size;
     }
 
     bool TakeMiddleNumber() {
@@ -194,7 +199,8 @@ public:
         queue_nodes.Enqueue(root_);
         while(!queue_nodes.empty()) {
             Node_ curr_node=queue_nodes.Dequeue();
-            curr_node->Accept(visitor);
+            if(!curr_node->Accept(visitor)) return false;
+
             if(curr_node->left_ != nullptr) {
                 queue_nodes.Enqueue(curr_node->left_);
             }
@@ -202,6 +208,7 @@ public:
                 queue_nodes.Enqueue(curr_node->right_);
             }
         }
+        return true;
     }
 
     size_t size() const {

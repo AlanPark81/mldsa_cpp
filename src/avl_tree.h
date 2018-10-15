@@ -27,21 +27,21 @@ protected:
     }
 
     void RotateRightAndLeft(){
-        if( this->root_->left_ != nullptr ){
+        if( this->root_->right_ != nullptr ){
             AVLTree<T> tree;
-            tree.root_=this->root_->left_;
+            tree.root_=this->root_->right_;
             tree.RotateRight();
-            this->root_->left_ = tree.root_;
+            this->root_->right_ = tree.root_;
         }
         RotateLeft();
     }
 
     void RotateLeftAndRight(){
-        if( this->root_->right_ != nullptr ){
+        if( this->root_->left_ != nullptr ){
             AVLTree<T> tree;
-            tree.root_=this->root_->right_;
+            tree.root_=this->root_->left_;
             tree.RotateLeft();
-            this->root_->right_ = tree.root_;
+            this->root_->left_ = tree.root_;
         }
         RotateRight();
     }
@@ -49,24 +49,19 @@ public:
     bool Balance() {
         if(this->root_ == nullptr or ( this->root_->left_ == nullptr and this->root_->right_ == nullptr ) ) return false;
         const int level_diff=this->root_->GetLevelDiff();
-        if( level_diff < -1 ) {
-            if(this->root_->left_ == nullptr ) {
-                return false;
-            }
-
-            if(this->root_->left_->GetLevelDiff() > 0 ) {
-                RotateLeft();
-            } else {
-                RotateRightAndLeft();
-            }
-        } else if( level_diff > 1){
-            if(this->root_->right_ == nullptr ){
-                return false;
-            }
-            if(this->root_->right_->GetLevelDiff() < 0 ) {
+        if( level_diff > 1 ) {
+            const auto left_level_diff=this->root_->left_->GetLevelDiff();
+            if( left_level_diff > 0 ) {
                 RotateRight();
             } else {
                 RotateLeftAndRight();
+            }
+        } else if( level_diff < -1){
+            const auto right_level_diff=this->root_->right_->GetLevelDiff();
+            if( right_level_diff < 0 ) {
+                RotateLeft();
+            } else {
+                RotateRightAndLeft();
             }
         } else {
             return false;
