@@ -126,12 +126,12 @@ public:
     static void sort(std::vector<T>& array_to_sort){
         const auto array_size=(int)array_to_sort.size();
         for (auto i = array_size/2;i>=0;i--){
-            heapify_loop(array_to_sort, i, array_size);
+            heapify_loop(array_to_sort, (size_t)i, (size_t)array_size);
         }
 
         for ( auto max_index = array_size-1; max_index > 0; max_index -- ){
             std::swap(array_to_sort[max_index], array_to_sort[0]);
-            heapify_loop(array_to_sort, 0, max_index);
+            heapify_loop(array_to_sort, 0, (size_t)max_index);
         }
     }
 };

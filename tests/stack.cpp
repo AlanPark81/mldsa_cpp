@@ -5,7 +5,7 @@
 #include "../src/stack.h"
 #include "gtest/gtest.h"
 
-inline void pop_test(const auto count) {
+inline void pop_test(const int count) {
     stack<int> stackTest;
     ASSERT_TRUE(stackTest.empty());
     ASSERT_EQ(stackTest.size(), 0);

@@ -6,7 +6,7 @@
 
 #include "gtest/gtest.h"
 
-inline void push_back_pop_back_test(const auto count) {
+inline void push_back_pop_back_test(const int count) {
     linkedlist<int> linkedlist1;
     ASSERT_TRUE(linkedlist1.empty());
     ASSERT_EQ(linkedlist1.size(), 0);
@@ -23,7 +23,7 @@ inline void push_back_pop_back_test(const auto count) {
     ASSERT_ANY_THROW(linkedlist1.pop_back());
 }
 
-inline void push_front_pop_front_test(const auto count) {
+inline void push_front_pop_front_test(const int count) {
     linkedlist<int> linkedlist1;
     ASSERT_TRUE(linkedlist1.empty());
     ASSERT_EQ(linkedlist1.size(), 0);
@@ -40,7 +40,7 @@ inline void push_front_pop_front_test(const auto count) {
     ASSERT_ANY_THROW(linkedlist1.pop_front());
 }
 
-inline void push_back_pop_front_test(const auto count) {
+inline void push_back_pop_front_test(const int count) {
     linkedlist<int> linkedlist1;
     ASSERT_TRUE(linkedlist1.empty());
     ASSERT_EQ(linkedlist1.size(), 0);
@@ -58,7 +58,7 @@ inline void push_back_pop_front_test(const auto count) {
 }
 
 
-inline void push_front_pop_back_test(const auto count) {
+inline void push_front_pop_back_test(const int count) {
     linkedlist<int> linkedlist1;
     ASSERT_TRUE(linkedlist1.empty());
     ASSERT_EQ(linkedlist1.size(), 0);
