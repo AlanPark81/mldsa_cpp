@@ -28,6 +28,10 @@ public:
         return ret_val;
     }
 
+    int GetLevelDiff() const {
+        return (int)left_->get_level() - (int)right_->get_level();
+    }
+
     bool TakeMiddleNumber() {
         if( left_ == nullptr &&  right_ == nullptr ) {
             return false;

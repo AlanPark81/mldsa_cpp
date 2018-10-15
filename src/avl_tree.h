@@ -17,16 +17,37 @@ protected:
     void RotateRight() {
 
     }
+
+    void RotateRightAndLeft(){
+
+    }
+
+    void RotateLeftAndRight(){
+
+    }
 public:
     bool Balance() {
         if(root_ == nullptr) return false;
-        const size_t left_level=root_->left_->get_level();
-        const size_t right_level=root_->right_->get_level();
-        const int level_diff=(int)left_level - (int)right_level;
+        const int level_diff=root_->GetLevelDiff();
         if( level_diff < -1 ) {
-            RotateLeft();
+            if(root_->left_ == nullptr ) {
+                return false;
+            }
+
+            if(root_->left_->GetLevelDiff() > 0 ) {
+                RotateLeft();
+            } else {
+                RotateRightAndLeft();
+            }
         } else if( level_diff > 1){
-            RotateRight();
+            if(root_->right_ == nullptr ){
+                return false;
+            }
+            if(root_->right_->GetLevelDiff() < 0 ) {
+                RotateRight();
+            } else {
+                RotateLeftAndRight();
+            }
         } else {
             return false;
         }
