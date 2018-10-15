@@ -24,7 +24,7 @@ inline int ParentIndex(const int n) {
 template<class T, class Compare = std::less<>>
 class Heap {
 private:
-    std::vector<T> array;
+    std::vector<T> array_;
 protected:
     static void HeapifyForRoot(std::vector<T> &array, const size_t begin_index, const size_t end_index) {
         Compare compare;
@@ -57,28 +57,28 @@ public:
 
     static std::shared_ptr<Heap<T, Compare>> Heapify(const std::vector<T> &data_array) {
         auto heap1=std::make_shared<Heap<T, Compare>>();
-        heap1->array.insert(heap1->array.end(), data_array.begin(), data_array.end());
-        HeapifyArray(heap1->array);
+        heap1->array_.insert(heap1->array_.end(), data_array.begin(), data_array.end());
+        HeapifyArray(heap1->array_);
         return heap1;
     }
 
     static std::shared_ptr<Heap<T, Compare>> Merge(const Heap<T, Compare>& heap1, const Heap<T, Compare>& heap2){
         std::vector<T> array_all;
-        array_all.insert(array_all.end(), heap1.array.begin(), heap1.array.end());
-        array_all.insert(array_all.end(), heap2.array.begin(), heap2.array.end());
+        array_all.insert(array_all.end(), heap1.array_.begin(), heap1.array_.end());
+        array_all.insert(array_all.end(), heap2.array_.begin(), heap2.array_.end());
         return Heapify(array_all);
     }
     
     void Insert(const T &data) {
         Compare compare;
-        array.push_back(data);
-        auto current_index = array.size()-1;
+        array_.push_back(data);
+        auto current_index = array_.size()-1;
         if( current_index == 0 ) {
             return;
         }
         auto index = ParentIndex(current_index);
-        while( compare( array[current_index], array[index] ) ) {
-            std::swap(array[index], array[current_index]);
+        while( compare( array_[current_index], array_[index] ) ) {
+            std::swap(array_[index], array_[current_index]);
             current_index = index;
             if(current_index<=0) { break; }
             index = ParentIndex(current_index);
@@ -86,36 +86,36 @@ public:
     }
 
     size_t size() const {
-        return array.size();
+        return array_.size();
     }
 
     bool empty() const {
-        return array.empty();
+        return array_.empty();
     }
 
     T FindTop() const {
-        if( array.size() == 0 ) {
+        if( array_.size() == 0 ) {
             throw std::exception();
         }
-        return array[0];
+        return array_[0];
     }
 
     T ExtractTop() {
-        if( array.size() == 0 ) {
+        if( array_.size() == 0 ) {
             throw std::exception();
         }
 
-        auto ret_val=array[0];
+        auto ret_val=array_[0];
         DeleteTop();
         return ret_val;
     }
 
     void DeleteTop() {
-        if( array.size() == 0 ) {
+        if( array_.size() == 0 ) {
             throw std::exception();
         }
-        auto data=array[array.size()-1];
-        array.resize(array.size()-1);
+        auto data=array_[array_.size()-1];
+        array_.resize(array_.size()-1);
         if(!empty()) {
             Replace(data);
         }
@@ -123,11 +123,11 @@ public:
 
 
     void Replace(const T &data) {
-        if( array.size() == 0 ) {
+        if( array_.size() == 0 ) {
             throw std::exception();
         }
-        array[0]=data;
-        HeapifyForRoot(array, 0, array.size());
+        array_[0]=data;
+        HeapifyForRoot(array_, 0, array_.size());
     }
 
     static void HeapifyArray(std::vector<T> &array) {
