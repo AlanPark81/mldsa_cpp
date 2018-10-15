@@ -29,7 +29,7 @@ public:
     }
 
     int GetLevelDiff() const {
-        return (int)left_->GetLevel() - (int)right_->GetLevel();
+        return ( left_ != nullptr )?(int)left_->GetLevel() : 0 - ( right_ != nullptr )? (int)right_->GetLevel() : 0;
     }
 
     bool TakeMiddleNumber() {
