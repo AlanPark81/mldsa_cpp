@@ -20,6 +20,14 @@ public:
         return std::make_shared<BinaryTreeNode<T>>(data);
     }
 
+    size_t get_level() const {
+        size_t ret_val=0;
+        if(left_ != nullptr) ret_val+=left_->get_level();
+        if(right_ != nullptr) ret_val+=right_->get_level();
+        ret_val++;
+        return ret_val;
+    }
+
     bool TakeMiddleNumber() {
         if( left_ == nullptr &&  right_ == nullptr ) {
             return false;
