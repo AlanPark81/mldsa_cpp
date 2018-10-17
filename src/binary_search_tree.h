@@ -222,7 +222,9 @@ public:
 
     bool PoliteAccept(PoliteVisitor<T>& polite_visitor) const override {
         Queue<Node_> queue_nodes;
-        queue_nodes.Enqueue(root_);
+        if( root_ != nullptr ){
+            queue_nodes.Enqueue(root_);
+        }
         while(!queue_nodes.empty()) {
             Node_ curr_node=queue_nodes.Dequeue();
             if(!curr_node->PoliteAccept(polite_visitor)) return false;
