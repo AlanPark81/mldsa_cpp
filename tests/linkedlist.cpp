@@ -311,7 +311,7 @@ TEST(LinkedList, visitor_test ) {
     class AccumulateVisitor : public Visitor<int> {
         std::vector<int> array;
     public:
-        bool Visit(int& input) override {
+        bool PoliteVisit(const int& input) override {
             array.push_back(input);
             return true;
         }
@@ -338,13 +338,13 @@ TEST(LinkedList, visitor_test ) {
 
     LinkedList<int> linkedlist1;
     for(int i=0;i<10;i++) linkedlist1.PushBack(i);
-    linkedlist1.Accept(visitor1);
+    linkedlist1.PoliteAccept(visitor1);
     auto array=visitor1.GetArray();
     for(int i=0;i<10;i++) ASSERT_EQ(array[i],i);
     ASSERT_EQ(linkedlist1.size(), array.size());
     linkedlist1.Accept(visitor2);
     visitor1.Clear();
-    linkedlist1.Accept(visitor1);
+    linkedlist1.PoliteAccept(visitor1);
     array=visitor1.GetArray();
     for(int i=0;i<10;i++) ASSERT_EQ(array[i],i+1);
     ASSERT_EQ(linkedlist1.size(), array.size());

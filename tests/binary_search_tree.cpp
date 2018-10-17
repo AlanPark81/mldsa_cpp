@@ -166,7 +166,7 @@ TEST(BinarySearchTree, visitor_test ) {
     class AccumulateVisitor : public Visitor<int> {
         std::vector<int> array;
     public:
-        bool Visit(int& input) override {
+        bool PoliteVisit(const int& input) override {
             array.push_back(input);
             return true;
         }
@@ -182,6 +182,10 @@ TEST(BinarySearchTree, visitor_test ) {
 
     class AddOneVisitor : public Visitor<int> {
     public:
+        bool PoliteVisit(const int& data) override {
+            return false;
+        }
+
         bool Visit(int& input) override {
             input++;
             return true;

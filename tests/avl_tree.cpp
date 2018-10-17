@@ -162,7 +162,35 @@ TEST(AVLTree, insert_seven_times_and_delete) {
     ASSERT_FALSE(bst.Contains(0));
 }
 
-TEST(AVLTree, totally_unbalanced_input) {
+TEST(AVLTree, totally_unbalanced_input_left) {
+    AVLTree<int> bst1;
+    for(int i=7;i>=0;i--) bst1.Insert(i);
+    class AccumulateVisitor : public Visitor<int> {
+        std::vector<int> array;
+    public:
+        bool Visit(int& input) override {
+            array.push_back(input);
+            return true;
+        }
+
+        std::vector<int> GetArray() const {
+            return array;
+        }
+
+        void Clear() {
+            array.clear();
+        }
+    };
+    AccumulateVisitor visitor1;
+    bst1.Accept(visitor1);
+
+    int expected_seq[8] = {2,1,4,0,3,6,5,7};
+    for(auto i = 0; i < 8 ; i++){
+        ASSERT_EQ(visitor1.GetArray()[i], expected_seq[i]);
+    }
+}
+
+TEST(AVLTree, totally_unbalanced_input_right) {
     AVLTree<int> bst1;
     for(int i=0;i<8;i++) bst1.Insert(i);
     class AccumulateVisitor : public Visitor<int> {
@@ -183,10 +211,10 @@ TEST(AVLTree, totally_unbalanced_input) {
     };
     AccumulateVisitor visitor1;
     bst1.Accept(visitor1);
-    for(auto data : visitor1.GetArray()){
-        std::cout<<data<<"\t";
+    int expected_seq[8] = {5,3,6,1,4,7,0,2};
+    for(auto i = 0; i < 8 ; i++){
+        ASSERT_EQ(visitor1.GetArray()[i], expected_seq[i]);
     }
-    std::cout<<std::endl;
 }
 
 TEST(AVLTree, visitor_test ) {

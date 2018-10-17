@@ -26,6 +26,26 @@ protected:
         this->root_ = left_node;
     }
 
+    void RotateLeftAndLeft(){
+        if( this->root_->right_ != nullptr ){
+            AVLTree<T> tree;
+            tree.root_=this->root_->right_;
+            tree.RotateLeft();
+            this->root_->right_=tree.root_;
+        }
+        RotateLeft();
+    }
+
+    void RotateRightAndRight(){
+        if( this->root_->left_ != nullptr ){
+            AVLTree<T> tree;
+            tree.root_=this->root_->left_;
+            tree.RotateRight();
+            this->root_->left_=tree.root_;
+        }
+        RotateRight();
+    }
+
     void RotateRightAndLeft(){
         if( this->root_->right_ != nullptr ){
             AVLTree<T> tree;
@@ -51,14 +71,20 @@ public:
         const int level_diff=this->root_->GetLevelDiff();
         if( level_diff > 1 ) {
             const auto left_level_diff=this->root_->left_->GetLevelDiff();
-            if( left_level_diff > 0 ) {
+            if ( left_level_diff > 1 )
+            {
+                RotateRightAndRight();
+            } else if ( left_level_diff > 0 ) {
                 RotateRight();
             } else {
                 RotateLeftAndRight();
             }
         } else if( level_diff < -1){
             const auto right_level_diff=this->root_->right_->GetLevelDiff();
-            if( right_level_diff < 0 ) {
+            if ( right_level_diff < -1 )
+            {
+                RotateLeftAndLeft();
+            } else if( right_level_diff < 0 ) {
                 RotateLeft();
             } else {
                 RotateRightAndLeft();

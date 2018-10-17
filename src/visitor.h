@@ -4,16 +4,34 @@
 
 #ifndef MLDSA_CPP_VISITOR_H
 #define MLDSA_CPP_VISITOR_H
-
 template<class T>
-class Visitor {
+class PoliteVisitor {
 public:
-    virtual bool Visit(T &) = 0;
+    virtual bool PoliteVisit(const T &) = 0;
 };
 
 template<class T>
-class VisitorAcceptor {
+class Visitor : public PoliteVisitor<T> {
 public:
-    virtual bool Accept(Visitor<T> &) = 0 ;
+    virtual bool PoliteVisit(const T& data) {
+        return false;
+    }
+    virtual bool Visit(T & data) {
+        return this->PoliteVisit(data);
+    }
+};
+
+template <class T>
+class PoliteVisitorAcceptor {
+public:
+    virtual bool PoliteAccept(PoliteVisitor<T>&) const = 0;
+};
+
+template<class T>
+class VisitorAcceptor : public PoliteVisitorAcceptor<T> {
+public:
+    virtual bool Accept(Visitor<T> & visitor) {
+        return this->PoliteAccept((PoliteVisitor<T>&)visitor);
+    }
 };
 #endif //MLDSA_CPP_VISITOR_H

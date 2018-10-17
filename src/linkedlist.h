@@ -171,12 +171,22 @@ public:
         list_size++;
     }
 
-    bool Accept(Visitor<T>& visitor1) {
-        std::shared_ptr<ListNode<T>> ptr=this->head;
-        while( ptr != nullptr ){
-            if(!visitor1.Visit(ptr->data))
+    bool PoliteAccept(PoliteVisitor<T>& visitor1) const override {
+        std::shared_ptr<ListNode<T>> ptr = this->head;
+        while (ptr != nullptr) {
+            if (!visitor1.PoliteVisit(ptr->data))
                 return false;
-            ptr=ptr->next;
+            ptr = ptr->next;
+        }
+        return true;
+    }
+
+    bool Accept(Visitor<T>& visitor1) override {
+        std::shared_ptr<ListNode<T>> ptr = this->head;
+        while (ptr != nullptr) {
+            if (!visitor1.Visit(ptr->data))
+                return false;
+            ptr = ptr->next;
         }
         return true;
     }

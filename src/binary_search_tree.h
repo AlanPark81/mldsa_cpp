@@ -8,6 +8,7 @@
 #include <memory>
 #include "visitor.h"
 #include "queue.h"
+#include "set.h"
 #include<iostream>
 
 template<class T>
@@ -78,13 +79,17 @@ public:
         }
     }
 
-    bool Accept(Visitor<T>& visitor) {
+    bool Accept(Visitor<T>& visitor) override {
         return visitor.Visit(data_);
+    }
+
+    bool PoliteAccept(PoliteVisitor<T>& visitor) const override {
+        return visitor.PoliteVisit(data_);
     }
 };
 
 template<class T>
-class BinarySearchTree : public VisitorAcceptor<T> {
+class BinarySearchTree : public VisitorAcceptor<T>, public Set<T> {
 protected:
     typedef std::shared_ptr<BinaryTreeNode<T>> Node_;
     Node_ root_;
@@ -109,7 +114,11 @@ protected:
 public:
     BinarySearchTree() : root_(nullptr) {}
 
-    virtual void Insert(const T& data) {
+    bool empty() const {
+        return ( root_== nullptr );
+    }
+
+    void Insert(const T& data) override {
         if( root_ == nullptr ) {
             root_ = BinaryTreeNode<T>::Create(data);
             return;
@@ -194,12 +203,29 @@ public:
         return true;
     }
 
-    bool Accept(Visitor<T>& visitor) {
+    bool Accept(Visitor<T>& visitor) override {
         Queue<Node_> queue_nodes;
         queue_nodes.Enqueue(root_);
         while(!queue_nodes.empty()) {
             Node_ curr_node=queue_nodes.Dequeue();
             if(!curr_node->Accept(visitor)) return false;
+
+            if(curr_node->left_ != nullptr) {
+                queue_nodes.Enqueue(curr_node->left_);
+            }
+            if(curr_node->right_ != nullptr) {
+                queue_nodes.Enqueue(curr_node->right_);
+            }
+        }
+        return true;
+    }
+
+    bool PoliteAccept(PoliteVisitor<T>& polite_visitor) const override {
+        Queue<Node_> queue_nodes;
+        queue_nodes.Enqueue(root_);
+        while(!queue_nodes.empty()) {
+            Node_ curr_node=queue_nodes.Dequeue();
+            if(!curr_node->PoliteAccept(polite_visitor)) return false;
 
             if(curr_node->left_ != nullptr) {
                 queue_nodes.Enqueue(curr_node->left_);
@@ -228,6 +254,24 @@ public:
             }
         }
         return ret_val;
+    }
+
+    std::shared_ptr<std::vector<T>> GetAllElements() const {
+        class CollectVisitor : public Visitor<T> {
+        public:
+            std::shared_ptr<std::vector<T>> all_items;
+            CollectVisitor() {
+                all_items = std::make_shared<std::vector<T>>();
+            }
+
+            bool PoliteVisit(const int& data) override {
+                all_items->push_back(data);
+                return true;
+            }
+        };
+        CollectVisitor visitor;
+        this->PoliteAccept(visitor);
+        return visitor.all_items;
     }
 };
 
