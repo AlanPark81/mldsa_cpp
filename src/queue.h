@@ -12,7 +12,12 @@ template<class T>
 class Queue {
     LinkedList<T> m_list;
 public:
+    typedef std::shared_ptr<Queue> Queue_;
     Queue() = default;
+
+    static Queue_ Create() {
+        return std::make_shared<Queue<T>>();
+    }
 
     T Dequeue() {
         if(m_list.empty()) { throw std::exception(); }

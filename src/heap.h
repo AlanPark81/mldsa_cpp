@@ -53,16 +53,21 @@ protected:
         }
     }
 public:
+    typedef std::shared_ptr<Heap<T, Compare>> Heap_;
     Heap() = default;
 
-    static std::shared_ptr<Heap<T, Compare>> Heapify(const std::vector<T> &data_array) {
-        auto heap1=std::make_shared<Heap<T, Compare>>();
+    static Heap_ Create() {
+        return std::make_shared<Heap<T, Compare>>();
+    }
+
+    static Heap_ Heapify(const std::vector<T> &data_array) {
+        auto heap1=Heap<T, Compare>::Create();
         heap1->array_.insert(heap1->array_.end(), data_array.begin(), data_array.end());
         HeapifyArray(heap1->array_);
         return heap1;
     }
 
-    static std::shared_ptr<Heap<T, Compare>> Merge(const Heap<T, Compare>& heap1, const Heap<T, Compare>& heap2){
+    static Heap_ Merge(const Heap<T, Compare>& heap1, const Heap<T, Compare>& heap2){
         std::vector<T> array_all;
         array_all.insert(array_all.end(), heap1.array_.begin(), heap1.array_.end());
         array_all.insert(array_all.end(), heap2.array_.begin(), heap2.array_.end());

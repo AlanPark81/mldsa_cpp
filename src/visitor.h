@@ -16,6 +16,7 @@ public:
     virtual bool PoliteVisit(const T& data) {
         return false;
     }
+
     virtual bool Visit(T & data) {
         return this->PoliteVisit(data);
     }
