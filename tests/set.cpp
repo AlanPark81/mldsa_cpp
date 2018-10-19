@@ -108,10 +108,10 @@ TEST(Set, subset) {
     int a_elements[] = {1,2,3,4,5};
     auto set_a = Set<int>::CreateSetWith(a_elements, 5);
     auto subset = set_a->GetSubsetSatisfying([](const int& data) { return data%2==1; });
-    auto all_elements_in_a = subset->GetAllElements();
+    auto all_elements_in_a = set_a->GetAllElements();
     auto all_elements_in_subset = subset->GetAllElements();
     for( auto data : *all_elements_in_a ) {
-        if(data<5) {
+        if(data%2==1) {
             ASSERT_TRUE(subset->Contains(data));
         }
     }
