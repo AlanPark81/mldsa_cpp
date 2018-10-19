@@ -66,6 +66,14 @@ protected:
         RotateRight();
     }
 public:
+    typedef std::shared_ptr<AVLTree<T>> AVLTree_;
+
+    static AVLTree_ Create() {
+        return std::make_shared<AVLTree<T>>();
+    }
+
+    AVLTree() = default;
+
     bool Balance() {
         if(this->root_ == nullptr or ( this->root_->left_ == nullptr and this->root_->right_ == nullptr ) ) return false;
         const int level_diff=this->root_->GetLevelDiff();

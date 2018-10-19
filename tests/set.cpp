@@ -32,8 +32,8 @@ TEST(Set, avl_tree) {
 TEST(Set, Intersect) {
     int set_a_elements[] = {1,3,5};
     int set_b_elements[] = {3,5,7};
-    auto set_a = Set<int>::CreateWith(set_a_elements, 3 );
-    auto set_b = Set<int>::CreateWith(set_b_elements, 3 );
+    auto set_a = Set<int>::CreateSetWith(set_a_elements, 3);
+    auto set_b = Set<int>::CreateSetWith(set_b_elements, 3);
     auto intersect = Intersect(*set_a, *set_b);
     auto all_elements = intersect->GetAllElements();
     ASSERT_EQ(all_elements->size(), 2);
@@ -45,8 +45,8 @@ TEST(Set, Intersect) {
 TEST(Set, Union) {
     int a_elements[] = {1,3,5};
     int b_elements[] = {3,5,7};
-    auto set_a = Set<int>::CreateWith(a_elements, 3);
-    auto set_b = Set<int>::CreateWith(std::vector<int>(b_elements, b_elements+3));
+    auto set_a = Set<int>::CreateSetWith(a_elements, 3);
+    auto set_b = Set<int>::CreateSetWith(std::vector<int>(b_elements, b_elements + 3));
     auto union_set= Union(*set_a, *set_b);
     auto all_elements=union_set->GetAllElements();
     for( auto data : *all_elements ) {
@@ -67,8 +67,8 @@ TEST(Set, Union) {
 TEST(Set, Difference) {
     int a_elements[] = {1,3,5};
     int b_elements[] = {3,5,7};
-    auto set_a = Set<int>::CreateWith(std::vector<int>(a_elements, a_elements+3));
-    auto set_b = Set<int>::CreateWith(std::vector<int>(b_elements, b_elements+3));
+    auto set_a = Set<int>::CreateSetWith(std::vector<int>(a_elements, a_elements + 3));
+    auto set_b = Set<int>::CreateSetWith(std::vector<int>(b_elements, b_elements + 3));
     auto diff_set= Difference(*set_a, *set_b);
     auto all_elements=diff_set->GetAllElements();
     for( auto data : *all_elements ) {
@@ -94,11 +94,28 @@ TEST(Set, Distinct) {
     int a_elements[] = {1,3,5};
     int b_elements[] = {3,5,7};
     int c_elements[] = {7,9,11};
-    auto set_a = Set<int>::CreateWith(std::vector<int>(a_elements, a_elements+3));
-    auto set_b = Set<int>::CreateWith(std::vector<int>(b_elements, b_elements+3));
-    auto set_c = Set<int>::CreateWith(c_elements, 3);
+    auto set_a = Set<int>::CreateSetWith(std::vector<int>(a_elements, a_elements + 3));
+    auto set_b = Set<int>::CreateSetWith(std::vector<int>(b_elements, b_elements + 3));
+    auto set_c = Set<int>::CreateSetWith(c_elements, 3);
 
     ASSERT_FALSE(set_a->IsDistinctWith(*set_b));
     ASSERT_FALSE(set_b->IsDistinctWith(*set_c));
     ASSERT_TRUE(set_a->IsDistinctWith(*set_c));
+}
+
+
+TEST(Set, subset) {
+    int a_elements[] = {1,2,3,4,5};
+    auto set_a = Set<int>::CreateSetWith(a_elements, 5);
+    auto subset = set_a->GetSubsetSatisfying([](const int& data) { return data%2==1; });
+    auto all_elements_in_a = subset->GetAllElements();
+    auto all_elements_in_subset = subset->GetAllElements();
+    for( auto data : *all_elements_in_a ) {
+        if(data<5) {
+            ASSERT_TRUE(subset->Contains(data));
+        }
+    }
+    for( auto data : *all_elements_in_subset ) {
+        ASSERT_TRUE(set_a->Contains(data));
+    }
 }

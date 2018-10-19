@@ -7,28 +7,29 @@
 #include <vector>
 #include <memory>
 #include "visitor.h"
+#include <functional>
 
 template<class T>
 class AVLTree;
 
-template <class T, class Container = AVLTree<T> >
+template <class T >
 class Set : public PoliteVisitorAcceptor<T>{
 public:
     typedef std::shared_ptr<Set<T>> Set_;
-    static Set_ Create() {
-        return std::make_shared<Container>();
+    static Set_ CreateSet() {
+        return std::make_shared<AVLTree<T>>();
     }
 
-    static Set_ CreateWith(const std::vector<T>& elements) {
-        auto ret_val = std::make_shared<Container>();
+    static Set_ CreateSetWith(const std::vector<T> &elements) {
+        auto ret_val = std::make_shared<AVLTree<T>>();
         for( auto data : elements ) {
             ret_val->Insert(data);
         }
         return ret_val;
     }
 
-    static Set_ CreateWith(const T* elements, const int length) {
-        auto ret_val = std::make_shared<Container>();
+    static Set_ CreateSetWith(const T *elements, const int length) {
+        auto ret_val = std::make_shared<AVLTree<T>>();
         for( auto i = 0 ; i<length ; i++ ) {
             ret_val->Insert(elements[i]);
         }
@@ -47,7 +48,10 @@ public:
 
         return this->PoliteAccept(visitor);
     }
-
+    //typedef std::shared_ptr<Set<T>> Set_;
+    virtual Set_ GetSubsetSatisfying(const std::function<bool(const T&)>& condition_checker) const = 0;
+    //virtual Set_ GetSubsetSatisfying(const std::function<bool(T)> condition_checker) const = 0;
+    //virtual Set_ GetSubsetSatisfying(const std::function<bool(T)> condition_checker) const = 0;
     virtual bool empty() const = 0;
     virtual void Insert(const T&) = 0;
     virtual bool Contains(const T&) const = 0;
@@ -57,7 +61,7 @@ public:
 template<class T>
 std::shared_ptr<Set<T>> Intersect(const Set<T>& set_a, const Set<T>& set_b){
     const auto elements_in_a = set_a.GetAllElements();
-    auto set_to_return = Set<T>::Create();
+    auto set_to_return = Set<T>::CreateSet();
     for ( auto element : *elements_in_a ) {
         if(set_b.Contains(element)){
             set_to_return->Insert(element);
@@ -70,7 +74,7 @@ template<class T>
 std::shared_ptr<Set<T>> Union(const Set<T>& set_a, const Set<T>& set_b){
     const auto elements_in_a = set_a.GetAllElements();
     const auto elements_in_b = set_b.GetAllElements();
-    auto set_to_return = Set<T>::Create();
+    auto set_to_return = Set<T>::CreateSet();
     for ( auto element : *elements_in_a ) {
         set_to_return->Insert(element);
     }
@@ -87,7 +91,7 @@ std::shared_ptr<Set<T>> Union(const Set<T>& set_a, const Set<T>& set_b){
 template<class T>
 std::shared_ptr<Set<T>> Difference(const Set<T>& set_a, const Set<T>& set_b){
     const auto elements_in_a = set_a.GetAllElements();
-    auto set_to_return = Set<T>::Create();
+    auto set_to_return = Set<T>::CreateSet();
     for ( auto element : *elements_in_a ) {
         if(!set_b.Contains(element)){
             set_to_return->Insert(element);
