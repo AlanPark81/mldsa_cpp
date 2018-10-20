@@ -184,7 +184,7 @@ TEST(AVLTree, totally_unbalanced_input_left) {
     AccumulateVisitor visitor1;
     bst1.Accept(visitor1);
 
-    int expected_seq[8] = {2,1,4,0,3,6,5,7};
+    int expected_seq[8] = {4,2,6,1,3,5,7,0};
     for(auto i = 0; i < 8 ; i++){
         ASSERT_EQ(visitor1.GetArray()[i], expected_seq[i]);
     }
@@ -211,7 +211,7 @@ TEST(AVLTree, totally_unbalanced_input_right) {
     };
     AccumulateVisitor visitor1;
     bst1.Accept(visitor1);
-    int expected_seq[8] = {5,3,6,1,4,7,0,2};
+    int expected_seq[8] = {3, 1, 5, 0, 2, 4, 6, 7};
     for(auto i = 0; i < 8 ; i++){
         ASSERT_EQ(visitor1.GetArray()[i], expected_seq[i]);
     }

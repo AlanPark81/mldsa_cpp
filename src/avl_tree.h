@@ -13,59 +13,6 @@ template<class T>
 class AVLTree : public BinarySearchTree<T> {
 protected:
     typedef std::shared_ptr<BinaryTreeNode<T>> Node_;
-    void RotateLeft() {
-        Node_ right_node = this->root_->right_;
-        this->root_->right_ = right_node->left_;
-        right_node->left_ = this->root_;
-        this->root_ = right_node;
-    }
-
-    void RotateRight() {
-        Node_ left_node = this->root_->left_;
-        this->root_->left_ = left_node->right_;
-        left_node->right_ = this->root_;
-        this->root_ = left_node;
-    }
-
-    void RotateLeftAndLeft(){
-        if( this->root_->right_ != nullptr ){
-            AVLTree<T> tree;
-            tree.root_=this->root_->right_;
-            tree.RotateLeft();
-            this->root_->right_=tree.root_;
-        }
-        RotateLeft();
-    }
-
-    void RotateRightAndRight(){
-        if( this->root_->left_ != nullptr ){
-            AVLTree<T> tree;
-            tree.root_=this->root_->left_;
-            tree.RotateRight();
-            this->root_->left_=tree.root_;
-        }
-        RotateRight();
-    }
-
-    void RotateRightAndLeft(){
-        if( this->root_->right_ != nullptr ){
-            AVLTree<T> tree;
-            tree.root_=this->root_->right_;
-            tree.RotateRight();
-            this->root_->right_ = tree.root_;
-        }
-        RotateLeft();
-    }
-
-    void RotateLeftAndRight(){
-        if( this->root_->left_ != nullptr ){
-            AVLTree<T> tree;
-            tree.root_=this->root_->left_;
-            tree.RotateLeft();
-            this->root_->left_ = tree.root_;
-        }
-        RotateRight();
-    }
 public:
     typedef std::shared_ptr<AVLTree<T>> AVLTree_;
 
@@ -74,39 +21,101 @@ public:
     }
 
     AVLTree() = default;
+protected:
+    static bool InsertNode(Node_& node, const T& data) {
+        if( node == nullptr) {
+            throw std::exception();
+        }
+        if( data < node->data_ ) {
+            if(node->left_ == nullptr ){
+                node->left_ = BinaryTreeNode<T>::Create(data);
+            } else {
+                InsertNode( node->left_, data );
+            }
+        } else {
+            if(node->right_ == nullptr ){
+                node->right_ = BinaryTreeNode<T>::Create(data);
+            } else {
+                InsertNode( node->right_, data );
+            }
+        }
+        NodeBalance(node);
+    }
+    static void RotateLeft(Node_& node) {
+        Node_ right_node = node->right_;
+        node->right_ = right_node->left_;
+        right_node->left_ = node;
+        node = right_node;
+    }
 
-    bool Balance() {
-        if(this->root_ == nullptr or ( this->root_->left_ == nullptr and this->root_->right_ == nullptr ) ) return false;
-        const int level_diff=this->root_->GetLevelDiff();
+    static void RotateRight(Node_& node) {
+        Node_ left_node = node->left_;
+        node->left_ = left_node->right_;
+        left_node->right_ = node;
+        node = left_node;
+    }
+
+    static void RotateLeftAndLeft(Node_& node){
+        if( node->right_ != nullptr ){
+            RotateLeft(node->right_);
+        }
+        RotateLeft(node);
+    }
+
+    static void RotateRightAndRight(Node_& node){
+        if( node->left_ != nullptr ){
+            RotateRight(node->left_);
+        }
+        RotateRight(node);
+    }
+
+    static void RotateRightAndLeft(Node_& node){
+        if( node->right_ != nullptr ){
+            RotateRight(node->right_);
+        }
+        RotateLeft(node);
+    }
+
+    static void RotateLeftAndRight(Node_& node){
+        if( node->left_ != nullptr ){
+            RotateLeft(node->left_);
+        }
+        RotateRight(node);
+    }
+    static bool NodeBalance(Node_& node) {
+        if( node == nullptr or ( node->left_ == nullptr and node->right_ == nullptr ) ) return false;
+        const int level_diff=node->GetLevelDiff();
         if( level_diff > 1 ) {
-            const auto left_level_diff=this->root_->left_->GetLevelDiff();
+            const auto left_level_diff=node->left_->GetLevelDiff();
             if ( left_level_diff > 1 )
             {
-                RotateRightAndRight();
+                RotateRightAndRight(node);
             } else if ( left_level_diff > 0 ) {
-                RotateRight();
+                RotateRight(node);
             } else {
-                RotateLeftAndRight();
+                RotateLeftAndRight(node);
             }
         } else if( level_diff < -1){
-            const auto right_level_diff=this->root_->right_->GetLevelDiff();
-            if ( right_level_diff < -1 )
-            {
-                RotateLeftAndLeft();
+            const auto right_level_diff=node->right_->GetLevelDiff();
+            if ( right_level_diff < -1 ) {
+                RotateLeftAndLeft(node);
             } else if( right_level_diff < 0 ) {
-                RotateLeft();
+                RotateLeft(node);
             } else {
-                RotateRightAndLeft();
+                RotateRightAndLeft(node);
             }
         } else {
             return false;
         }
         return true;
     }
-
+public:
     void Insert(const T& data) override {
-        BinarySearchTree<T>::Insert(data);
-        Balance();
+        if( this->root_ == nullptr ) {
+            this->root_ = BinaryTreeNode<T>::Create(data);
+        } else {
+            InsertNode( this->root_, data);
+        }
     }
 
     bool Remove(const T& data) override {
@@ -127,9 +136,7 @@ public:
         }
         if( node_to_delete == nullptr ) {
             return false;
-        }
-
-        if ( parent == nullptr ) {
+        } else if ( node_to_delete == this->root_ ) {
             if( ! this->root_->TakeMiddleNumber() ) {
                 this->root_ = nullptr;
             }
@@ -169,14 +176,13 @@ public:
                     node_to_balance->right_=child;
                 }
             }
-            AVLTree<T> tree;
-            tree.root_ = node_to_balance;
-            tree.Balance();
-            child = tree.root_;
             if( node_to_balance == this->root_ ){
-                this->root_ = child;
+                NodeBalance(node_to_balance);
+                this->root_ = node_to_balance;
                 break;
             }
+            NodeBalance(node_to_balance);
+            child = node_to_balance;
         }
         return true;
     }
