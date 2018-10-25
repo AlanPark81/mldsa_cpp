@@ -14,9 +14,10 @@ using namespace std;
 template <class T, class C>
 class Trie {
     struct TrieNode {
+        bool end;
         typedef shared_ptr<TrieNode> Self_;
         std::map<C, Self_> children_;
-        TrieNode() = default;
+        TrieNode() : end(false) {}
 
         static Self_ Create() {
             return make_shared<TrieNode>();
@@ -41,6 +42,7 @@ public:
             node=node->children_[*iter];
             iter++;
         }
+        node->end = true;
     }
 
     bool Contains(const T& data) {
@@ -55,7 +57,7 @@ public:
             node = node->children_[*iter++];
         }
 
-        return iter == cend(data);
+        return iter == cend(data) and node->end;
     }
 };
 #endif //MLDSA_CPP_TRIE_H
