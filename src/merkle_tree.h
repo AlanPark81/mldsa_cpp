@@ -8,6 +8,7 @@
 #include <vector>
 #include <functional>
 #include <memory>
+#include <iostream>
 
 using namespace std;
 
@@ -54,12 +55,13 @@ public:
             }
             curr_level=next_level;
             tree_content_.insert(tree_content_.end(), next_level.cbegin(), next_level.cend());
+            next_level.clear();
         }
     }
 
     HashType GetRoot() const {
         if(tree_content_.empty()) throw exception();
-        return tree_content_[tree_content_.size()-1];
+        return tree_content_.back();
     }
 };
 
