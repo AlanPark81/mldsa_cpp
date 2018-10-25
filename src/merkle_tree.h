@@ -37,7 +37,8 @@ public:
 
     MerkleTree(const vector<HashType>&  initial_hashes
             , const HashForTwoType& hash_for_two)
-            : tree_content_(GetTreeLengthForInput(initial_hashes.size())), input_length(initial_hashes.size()), hash(hash_for_two) {
+            : input_length(initial_hashes.size()), hash(hash_for_two) {
+        tree_content_.reserve(GetTreeLengthForInput(initial_hashes.size()));
         tree_content_.insert(tree_content_.end(), initial_hashes.cbegin(), initial_hashes.cend());
         vector<HashType> curr_level(initial_hashes);
         vector<HashType> next_level;

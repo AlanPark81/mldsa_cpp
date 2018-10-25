@@ -33,6 +33,11 @@ Hash test_hash_5(const Hash& a, const Hash& b) {
     return hash1;
 }
 
+TEST(MerkleTree, no_value) {
+    auto tree=MerkleTree<Hash>::EmptyTree(test_hash_1);
+    ASSERT_ANY_THROW(tree->GetRoot());
+}
+
 TEST(MerkleTree, one_value) {
     Hash hash_a(32, 0x01);
     vector<Hash> hashes;
