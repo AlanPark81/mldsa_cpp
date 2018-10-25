@@ -13,10 +13,9 @@ using namespace std;
 
 template <class T, class C>
 class Trie {
-    template<class K>
     struct TrieNode {
-        typedef shared_ptr<TrieNode<K>> Self_;
-        std::map<K, Self_> children_;
+        typedef shared_ptr<TrieNode> Self_;
+        std::map<C, Self_> children_;
         TrieNode() = default;
 
         static Self_ Create() {
@@ -24,31 +23,23 @@ class Trie {
         }
     };
 
-    typedef shared_ptr<TrieNode<C>> NodePtr_;
+    typedef shared_ptr<TrieNode> NodePtr_;
     NodePtr_ root_;
 public:
     Trie() = default;
     void Insert(const T& data ){
         auto iter=data.cbegin();
         if( root_ == nullptr) {
-            root_= TrieNode<C>::Create();
-            auto node = root_;
-            while(iter != data.end()) {
-                auto child = TrieNode<C>::Create();
-                node->children_[*iter] = child;
-                node=node->children_[*iter];
-                iter++;
+            root_= TrieNode::Create();
+        }
+        auto node = root_;
+        while(iter != data.cend()) {
+            auto map_iter = node->children_.find(*iter);
+            if( map_iter == node->children_.end()){
+                node->children_[*iter]=TrieNode::Create();
             }
-        } else {
-            auto node = root_;
-            while(iter != data.cend()) {
-                auto map_iter = node->children_.find(*iter);
-                if( map_iter == node->children_.end()){
-                    node->children_[*iter]=TrieNode<C>::Create();
-                }
-                node=node->children_[*iter];
-                iter++;
-            }
+            node=node->children_[*iter];
+            iter++;
         }
     }
 
