@@ -48,10 +48,7 @@ public:
 
         return this->PoliteAccept(visitor);
     }
-    //typedef std::shared_ptr<Set<T>> Set_;
     virtual Set_ GetSubsetSatisfying(const std::function<bool(const T&)>& condition_checker) const = 0;
-    //virtual Set_ GetSubsetSatisfying(const std::function<bool(T)> condition_checker) const = 0;
-    //virtual Set_ GetSubsetSatisfying(const std::function<bool(T)> condition_checker) const = 0;
     virtual bool empty() const = 0;
     virtual void Insert(const T&) = 0;
     virtual bool Contains(const T&) const = 0;
