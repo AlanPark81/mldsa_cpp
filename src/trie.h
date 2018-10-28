@@ -15,12 +15,20 @@ template <class T, class C>
 class Trie {
     struct TrieNode {
         bool end_;
+        T key_;
         typedef shared_ptr<TrieNode> Self_;
         std::map<C, Self_> children_;
-        TrieNode() : end_(false) {}
 
-        static Self_ Create() {
+        TrieNode() : end_(false) {}
+        explicit TrieNode(const T& key) : end_(false), key_(key) {}
+
+
+        static Self_ CreateRoot() {
             return make_shared<TrieNode>();
+        }
+
+        static Self_ Create(const T& key) {
+            return make_shared<TrieNode>(key);
         }
     };
 
@@ -31,13 +39,13 @@ public:
     void Insert(const T& data ){
         auto iter=data.cbegin();
         if( root_ == nullptr) {
-            root_= TrieNode::Create();
+            root_= TrieNode::CreateRoot();
         }
         auto node = root_;
         while(iter != data.cend()) {
             auto map_iter = node->children_.find(*iter);
             if( map_iter == node->children_.end()){
-                node->children_[*iter]=TrieNode::Create();
+                node->children_[*iter]=TrieNode::Create(T(data.begin(), iter+1));
             }
             node=node->children_[*iter];
             iter++;
@@ -57,7 +65,7 @@ public:
             node = node->children_[*iter++];
         }
 
-        return iter == cend(data) and node->end_;
+        return iter == cend(data) and node->end_ and node->key_ == data;
     }
 };
 #endif //MLDSA_CPP_TRIE_H
