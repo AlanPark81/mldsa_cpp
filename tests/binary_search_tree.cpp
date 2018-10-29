@@ -208,3 +208,52 @@ TEST(BinarySearchTree, visitor_test ) {
     for(int i=0;i<10;i++) ASSERT_EQ(array[i],i+1);
     ASSERT_EQ(array.size(), bst1.size());
 }
+
+TEST(BinarySearchTree, inorder_preorder_postorder_visitor_test ) {
+    class AccumulateVisitor : public Visitor<int> {
+        std::vector<int> array;
+    public:
+        bool PoliteVisit(const int& input) override {
+            array.push_back(input);
+            return true;
+        }
+
+        std::vector<int> GetArray() const {
+            return array;
+        }
+
+        void Clear() {
+            array.clear();
+        }
+    };
+
+    class AddOneVisitor : public Visitor<int> {
+    public:
+        bool PoliteVisit(const int& data) override {
+            return false;
+        }
+
+        bool Visit(int& input) override {
+            input++;
+            return true;
+        }
+    };
+
+    AccumulateVisitor visitor1;
+
+    BinarySearchTree<int> bst1;
+    for(int i=0;i<10;i++) bst1.Insert(i);
+    bst1.InvitePreorder(visitor1);
+    auto array=visitor1.GetArray();
+    visitor1.Clear();
+    for(int i=0;i<10;i++) ASSERT_EQ(array[i],i);
+    bst1.InviteInorder(visitor1);
+    array=visitor1.GetArray();
+    visitor1.Clear();
+    for(int i=0;i<10;i++) ASSERT_EQ(array[i],i);
+    bst1.InvitePostorder(visitor1);
+    array=visitor1.GetArray();
+    visitor1.Clear();
+    for(int i=0;i<10;i++) ASSERT_EQ(array[i], 9-i);
+    ASSERT_EQ(array.size(), bst1.size());
+}

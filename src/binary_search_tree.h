@@ -87,6 +87,70 @@ public:
     bool PoliteAccept(PoliteVisitor<T>& visitor) const override {
         return visitor.PoliteVisit(data_);
     }
+
+    bool InvitePreorder(Visitor<T>& visitor) {
+        if(!visitor.Visit(data_))
+            return false;
+        auto result = (left_ != nullptr)? left_->InvitePreorder(visitor) : true;
+        if (!result)
+            return result;
+        result = (right_ != nullptr)? right_->InvitePreorder(visitor) : true;
+        if (!result)
+            return result;
+        return true;
+    }
+
+    bool InvitePreorder(PoliteVisitor<T>& visitor) const {
+        if(!visitor.Visit(data_))
+            return false;
+        auto result = (left_ != nullptr)? left_->InvitePreorder(visitor) : true;
+        if (!result)
+            return result;
+        result = (right_ != nullptr)? right_->InvitePreorder(visitor) : true;
+        if (!result)
+            return result;
+        return true;
+    }
+
+    bool InviteInorder(Visitor<T>& visitor) {
+        auto result = (left_ != nullptr)? left_->InviteInorder(visitor) : true;
+        if (!result)
+            return false;
+        if(!visitor.Visit(data_))
+            return false;
+        return (right_ != nullptr)? right_->InviteInorder(visitor) : true;
+    }
+
+    bool InviteInorder(PoliteVisitor<T>& visitor) const {
+        auto result = (left_ != nullptr)? left_->InviteInorder(visitor) : true;
+        if (!result)
+            return result;
+        if(!visitor.Visit(data_))
+            return false;
+        return (right_ != nullptr)? right_->InviteInorder(visitor) : true;
+    }
+
+    bool InvitePostorder(Visitor<T>& visitor) {
+        auto result = (left_ != nullptr)? left_->InvitePostorder(visitor) : true;
+        if (!result)
+            return false;
+        result = (right_ != nullptr)? right_->InvitePostorder(visitor) : true;
+        if (!result)
+            return false;
+        return visitor.Visit(data_);
+    }
+
+    bool InvitePostorder(PoliteVisitor<T>& visitor) const {
+        auto result = (left_ != nullptr)? left_->InvitePostorder(visitor) : true;
+        if (!result)
+            return result;
+        result = (right_ != nullptr)? right_->InvitePostorder(visitor) : true;
+        if (!result)
+            return result;
+        if(!visitor.Visit(data_))
+            return false;
+        return true;
+    }
 };
 
 template<class T>
@@ -303,6 +367,30 @@ public:
         CollectVisitor visitor;
         this->PoliteAccept(visitor);
         return visitor.all_items;
+    }
+
+    bool InvitePreorder(Visitor<T>& visitor) {
+        return root_->InvitePreorder(visitor);
+    }
+
+    bool InvitePreorder(PoliteVisitor<T>& visitor) {
+        return root_->InvitePreorder(visitor);
+    }
+
+    bool InviteInorder(Visitor<T>& visitor) {
+        return root_->InviteInorder(visitor);
+    }
+
+    bool InviteInorder(PoliteVisitor<T>& visitor) {
+        return root_->InviteInorder(visitor);
+    }
+
+    bool InvitePostorder(Visitor<T>& visitor) {
+        return root_->InvitePostorder(visitor);
+    }
+
+    bool InvitePostorder(PoliteVisitor<T>& visitor) {
+        return root_->InvitePostorder(visitor);
     }
 };
 

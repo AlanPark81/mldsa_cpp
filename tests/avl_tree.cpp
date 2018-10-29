@@ -263,3 +263,60 @@ TEST(AVLTree, visitor_test ) {
     ASSERT_EQ(*std::max_element(array.begin(), array.end()), 10);
     ASSERT_EQ(array.size(), bst1.size());
 }
+
+TEST(AVLTree, inorder_preorder_postorder_visitor_test ) {
+    class AccumulateVisitor : public Visitor<int> {
+        std::vector<int> array;
+    public:
+        bool PoliteVisit(const int &input) override {
+            array.push_back(input);
+            return true;
+        }
+
+        std::vector<int> GetArray() const {
+            return array;
+        }
+
+        void Clear() {
+            array.clear();
+        }
+    };
+
+    class AddOneVisitor : public Visitor<int> {
+    public:
+        bool PoliteVisit(const int &data) override {
+            return false;
+        }
+
+        bool Visit(int &input) override {
+            input++;
+            return true;
+        }
+    };
+
+    AccumulateVisitor visitor1;
+
+    AVLTree<int> bst1;
+    for (int i = 0; i < 10; i++) bst1.Insert(i);
+    bst1.InvitePreorder(visitor1);
+    auto array = visitor1.GetArray();
+    visitor1.Clear();
+    ASSERT_EQ(array.size(), 10);
+    int expected_seq[]={3,1,0,2,7,5,4,6,8,9};
+    for (int i = 0; i < 10; i++) {
+        ASSERT_EQ(array[i], expected_seq[i]);
+    }
+    bst1.InviteInorder(visitor1);
+    array = visitor1.GetArray();
+    visitor1.Clear();
+    for (int i = 0; i < 10; i++) ASSERT_EQ(array[i], i);
+    bst1.InvitePostorder(visitor1);
+    array = visitor1.GetArray();
+    visitor1.Clear();
+    ASSERT_EQ(array.size(), 10);
+    int expected_seq2[]={0,2,1,4,6,5,9,8,7,3};
+    for (int i = 0; i < 10; i++) {
+        ASSERT_EQ(array[i], expected_seq2[i]);
+    }
+    ASSERT_EQ(array.size(), bst1.size());
+}
