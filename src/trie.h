@@ -37,7 +37,12 @@ class Trie : public Set<T>{
     typedef shared_ptr<TrieNode> NodePtr_;
     NodePtr_ root_;
 public:
+    typedef shared_ptr<Trie<T, C>> Trie_;
     Trie() = default;
+
+    static Trie_ Create() {
+        return make_shared<Trie<T, C>>();
+    }
 
     bool empty() const override {
         return (root_ == nullptr or root_->children_.empty());

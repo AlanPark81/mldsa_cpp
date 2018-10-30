@@ -330,21 +330,9 @@ public:
     }
 
     std::shared_ptr<std::vector<T>> GetAllElements() const {
-        class CollectVisitor : public Visitor<T> {
-        public:
-            std::shared_ptr<std::vector<T>> all_items;
-            CollectVisitor() {
-                all_items = std::make_shared<std::vector<T>>();
-            }
-
-            bool PoliteVisit(const int& data) override {
-                all_items->push_back(data);
-                return true;
-            }
-        };
-        CollectVisitor visitor;
+        StoreVisitor<T> visitor;
         this->PoliteAccept(visitor);
-        return visitor.all_items;
+        return visitor.GetSeq();
     }
 
     bool InvitePreorder(Visitor<T>& visitor) {

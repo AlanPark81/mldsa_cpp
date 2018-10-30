@@ -50,6 +50,7 @@ struct StoreVisitor : PoliteVisitor<T> {
 
     bool PoliteVisit(const T& data) {
         array_->push_back(data);
+        return true;
     }
 
     shared_ptr<vector<T>> GetSeq() {
