@@ -4,13 +4,14 @@
 
 #ifndef MLDSA_CPP_HASH_TABLE_H
 #define MLDSA_CPP_HASH_TABLE_H
-
-#include<functional>
+#include <functional>
 #include <memory>
+#include "set.h"
+
 using namespace std;
 
 template<class T, const size_t Length=256>
-class HashTable {
+class HashTable : public Set<T> {
     typedef size_t HashTableIndex;
     typedef function<HashTableIndex(const T&)> HashFunc;
     shared_ptr<T> array[Length];
@@ -43,6 +44,48 @@ protected:
     }
 public:
     explicit HashTable(const HashFunc& fn ) : hash(fn) {}
+    typedef shared_ptr<HashTable<T>> HashTable_;
+    static HashTable_ Create(const HashFunc& fn = [](int a) { return a%256; } ) {
+        return make_shared<HashTable<T>>(fn);
+    }
+
+    bool empty() const {
+        for(int i=0;i<Length; i++) {
+            if(array[i]!=nullptr) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    size_t size() const {
+        size_t count=0;
+        for(int i=0;i<Length; i++) {
+            if(array[i]!=nullptr) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    bool Contains(const T& data) const override {
+        try {
+            auto index = FindDataIndex(data);
+            return (array[index]!=nullptr);
+        } catch( exception&){
+            return false;
+        }
+    }
+
+    std::shared_ptr<std::vector<T>> GetAllElements() const override {
+        auto to_return = make_shared<std::vector<T>>();
+        for(int i = 0;i < Length; i++) {
+            if( array[i] != nullptr ){
+                to_return->push_back(*array[i]);
+            }
+        }
+        return to_return;
+    }
 
     void Insert(const T &data) {
         auto index = FindEmptyIndex(data);
@@ -54,5 +97,24 @@ public:
         auto index = FindDataIndex(data);
         return *(array[index]);
     }
+
+    bool PoliteAccept(PoliteVisitor<T>& visitor) const override {
+        for(int i = 0;i < Length ; i++) {
+            if(array[i] != nullptr && !visitor.PoliteVisit(*array[i]))
+                return false;
+        }
+        return true;
+    }
+
+    shared_ptr<Set<T>> GetSubsetSatisfying(const std::function<bool(const T&)>& condition_checker) const override {
+        auto set = Create(this->hash);
+        for(int i = 0; i < Length; i++) {
+            if(array[i] != nullptr && condition_checker(*array[i])){
+                set->Insert(*array[i]);
+            }
+        }
+        return set;
+    };
+
 };
 #endif //MLDSA_CPP_HASH_TABLE_H
