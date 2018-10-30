@@ -310,28 +310,6 @@ public:
         return true;
     }
 
-    typedef std::shared_ptr<Set<T>> Set_;
-    Set_ GetSubsetSatisfying(const std::function<bool(const T&)>& condition_checker) const override{
-        class SubsetCreateVisitor : public PoliteVisitor<T> {
-        public:
-            Set_ subset;
-            const std::function<bool(const T&)>& condition_checker;
-            explicit SubsetCreateVisitor
-                    (const std::function<bool(const T&)>& condition_check) :
-                    condition_checker(condition_check)  { subset = std::make_shared<BinarySearchTree<T>>();}
-
-            bool PoliteVisit(const T& data) {
-                if(condition_checker(data)) {
-                    subset->Insert(data);
-                }
-                return true;
-            }
-        } visitor(condition_checker);
-
-        this->PoliteAccept(visitor);
-        return visitor.subset;
-    }
-
     size_t size() const {
         size_t ret_val=0;
         Queue<Node_> queue_nodes;

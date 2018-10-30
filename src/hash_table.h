@@ -105,16 +105,5 @@ public:
         }
         return true;
     }
-
-    shared_ptr<Set<T>> GetSubsetSatisfying(const std::function<bool(const T&)>& condition_checker) const override {
-        auto set = Create(this->hash);
-        for(int i = 0; i < Length; i++) {
-            if(array[i] != nullptr && condition_checker(*array[i])){
-                set->Insert(*array[i]);
-            }
-        }
-        return set;
-    };
-
 };
 #endif //MLDSA_CPP_HASH_TABLE_H

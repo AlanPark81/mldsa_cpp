@@ -4,6 +4,11 @@
 
 #ifndef MLDSA_CPP_VISITOR_H
 #define MLDSA_CPP_VISITOR_H
+#include <memory>
+#include <vector>
+
+using namespace std;
+
 template<class T>
 class PoliteVisitor {
 public:
@@ -35,4 +40,21 @@ public:
         return this->PoliteAccept((PoliteVisitor<T>&)visitor);
     }
 };
+
+template<class T>
+struct StoreVisitor : PoliteVisitor<T> {
+    shared_ptr<vector<T>> array_;
+    StoreVisitor() {
+        array_ = make_shared<vector<T>>();
+    }
+
+    bool PoliteVisit(const T& data) {
+        array_->push_back(data);
+    }
+
+    shared_ptr<vector<T>> GetSeq() {
+        return array_;
+    }
+};
+
 #endif //MLDSA_CPP_VISITOR_H

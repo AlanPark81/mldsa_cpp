@@ -8,11 +8,13 @@
 #include <vector>
 #include <memory>
 #include <map>
+#include "set.h"
+#include <queue>
 
 using namespace std;
 
 template <class T, class C>
-class Trie {
+class Trie : public Set<T>{
     struct TrieNode {
         bool end_;
         T key_;
@@ -36,6 +38,11 @@ class Trie {
     NodePtr_ root_;
 public:
     Trie() = default;
+
+    bool empty() const override {
+        return (root_ == nullptr or root_->children_.empty());
+    }
+
     void Insert(const T& data ){
         auto iter=data.cbegin();
         if( root_ == nullptr) {
@@ -53,7 +60,7 @@ public:
         node->end_ = true;
     }
 
-    bool Contains(const T& data) {
+    bool Contains(const T& data) const {
         if (root_ == nullptr) {
             return false;
         }
@@ -66,6 +73,34 @@ public:
         }
 
         return iter == cend(data) and node->end_ and node->key_ == data;
+    }
+
+    std::shared_ptr<std::vector<T>> GetAllElements() const override {
+        StoreVisitor<T> visitor;
+        PoliteAccept(visitor);
+        return visitor.GetSeq();
+    }
+
+    bool PoliteAccept(PoliteVisitor<T>& visitor) const override {
+        auto ret_val = make_shared<std::vector<T>>();
+        auto node = root_;
+        queue<decltype(root_)> queue1;
+        queue1.push(root_);
+
+        while(!queue1.empty()) {
+            auto got = queue1.front();
+            queue1.pop();
+            if( got->end_ ) {
+                if(!visitor.PoliteVisit(got->key_)){
+                    return false;
+                }
+            }
+            for(auto i=0 ; i< got->children_.size(); i++ ){
+                if(got->children_[i] != nullptr)
+                    queue1.push(got->children_[i]);
+            }
+        }
+        return true;
     }
 };
 #endif //MLDSA_CPP_TRIE_H

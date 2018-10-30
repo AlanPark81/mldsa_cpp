@@ -5,6 +5,7 @@
 #include "../src/set.h"
 #include "../src/avl_tree.h"
 #include "../src/hash_table.h"
+#include "../src/trie.h"
 #include <gtest/gtest.h>
 
 TEST(Set, avl_tree) {

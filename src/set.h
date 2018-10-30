@@ -48,7 +48,16 @@ public:
 
         return this->PoliteAccept(visitor);
     }
-    virtual Set_ GetSubsetSatisfying(const std::function<bool(const T&)>& condition_checker) const = 0;
+    Set_ GetSubsetSatisfying(const std::function<bool(const T&)>& condition_checker) const {
+        auto set = CreateSet();
+        auto elements = this->GetAllElements();
+        for(auto elem : *elements ) {
+            if(condition_checker(elem))
+                set->Insert(elem);
+        }
+        return set;
+    }
+
     virtual bool empty() const = 0;
     virtual void Insert(const T&) = 0;
     virtual bool Contains(const T&) const = 0;
