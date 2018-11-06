@@ -35,6 +35,6 @@ if (CMAKE_VERSION VERSION_LESS 2.8.11)
     include_directories("${gtest_SOURCE_DIR}/include")
 endif()
 
-add_executable(mldsa_cpp main.cpp tests/queue.cpp tests/stack.cpp src/stack.h src/linkedlist.h tests/linkedlist.cpp tests/heap.cpp src/heap.h src/visitor.h tests/binary_search_tree.cpp src/binary_search_tree.h src/avl_tree.h tests/avl_tree.cpp src/set.h tests/set.cpp src/trie.h tests/trie.cpp src/merkle_tree.h tests/merkle_tree.cpp src/hash_table.h tests/hash_table.cpp)
+add_executable(mldsa_cpp main.cpp tests/queue.cpp tests/stack.cpp src/stack.h src/linkedlist.h tests/linkedlist.cpp tests/heap.cpp src/heap.h src/visitor.h tests/binary_search_tree.cpp src/binary_search_tree.h src/avl_tree.h tests/avl_tree.cpp src/set.h tests/set.cpp src/trie.h tests/trie.cpp src/merkle_tree.h tests/merkle_tree.cpp src/hash_table.h tests/hash_table.cpp src/binary_search.h tests/binary_search.cpp)
 target_link_libraries(mldsa_cpp gtest_main)
 add_test(NAME mldsa_cpp_test COMMAND mldsa_cpp)
