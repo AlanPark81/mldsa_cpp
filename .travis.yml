@@ -62,6 +62,8 @@ script:
     ############################################################################
      - mkdir -p build
      - cmake ${CMAKE_OPTIONS} -DCMAKE_CXX_FLAGS=${CXX_FLAGS} -DCMAKE_BUILD_TYPE=Coverage -DBUILD_TESTS=ON . 
+     - cd ${TRAVIS_BUILD_DIR}
+     - echo ${TRAVIS_BUILD_DIR}
      - ./mldsa_cpp
 
 
