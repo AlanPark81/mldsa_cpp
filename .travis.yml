@@ -61,9 +61,9 @@ script:
     # Build main and tests
     ############################################################################
      - mkdir -p build
-     - cd ${TRAVIS_BUILD_DIR}
+     - cd /home/travis/build/AlanPark81/mldsa_cpp
      - mkdir cmake-build-debug
-     - cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" . --build cmake-build-debug
+     - cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/travis/build/AlanPark81/mldsa_cpp --build cmake-build-debug
      - cd cmake-build-debug
      - make
      - ./mldsa_cpp
