@@ -61,6 +61,7 @@ script:
     # Build main and tests
     ############################################################################
      - mkdir -p build
+     - cd ${TRAVIS_BUILD_DIR}
      - cmake --build .
      - ./mldsa_cpp
 
