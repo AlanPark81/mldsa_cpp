@@ -61,9 +61,8 @@ script:
     # Build main and tests
     ############################################################################
      - mkdir -p build
-     - cmake ${CMAKE_OPTIONS} -DCMAKE_CXX_FLAGS=${CXX_FLAGS} ${TRAVIS_BUILD_DIR}
-     - ls ${TRAVIS_BUILD_DIR}/*
-     - ${TRAVIS_BUILD_DIR}/bin/mldsa_cpp
+     - cmake --build .
+     - ./mldsa_cpp
 
 
 after_success:
