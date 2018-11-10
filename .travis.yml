@@ -62,6 +62,7 @@ script:
     ############################################################################
      - mkdir -p build
      - cd ${TRAVIS_BUILD_DIR}
+     - mkdir cmake-build-debug
      - cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" . --build cmake-build-debug
      - cd cmake-build-debug
      - make
