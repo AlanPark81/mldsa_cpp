@@ -5,7 +5,7 @@
 #ifndef MLDSA_CPP_LINKEDLIST_H
 #define MLDSA_CPP_LINKEDLIST_H
 
-#include <bits/exception.h>
+#include <exception>
 #include <memory>
 #include "visitor.h"
 
