@@ -23,9 +23,6 @@ public:
     AVLTree() = default;
 protected:
     static bool InsertNode(Node_& node, const T& data) {
-        if( node == nullptr) {
-            throw std::exception();
-        }
         if( data < node->data_ ) {
             if(node->left_ == nullptr ){
                 node->left_ = BinaryTreeNode<T>::Create(data);
@@ -39,8 +36,9 @@ protected:
                 InsertNode( node->right_, data );
             }
         }
-        NodeBalance(node);
+        return NodeBalance(node);
     }
+
     static void RotateLeft(Node_& node) {
         Node_ right_node = node->right_;
         node->right_ = right_node->left_;

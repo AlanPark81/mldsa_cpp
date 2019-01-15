@@ -75,6 +75,12 @@ inline void PushFront_popBack_test(const int count) {
     ASSERT_ANY_THROW(linkedlist1.PopFront());
 }
 
+TEST(LinkedList, empty_front_back_test) {
+    LinkedList<int> linked_list;
+    ASSERT_ANY_THROW(linked_list.Front());
+    ASSERT_ANY_THROW(linked_list.Back());
+}
+
 TEST(LinkedList, zero_item_PushBack) {
     PushBack_popBack_test(0);
 }
@@ -307,6 +313,32 @@ TEST(LinkedList, end_iterator_insertBefore_one_item) {
     ASSERT_ANY_THROW(iter.Next());
 }
 
+TEST(LinkedList, false_polite_visitor_test) {
+    class AccumulateVisitor : public Visitor<int> {
+    public:
+        bool PoliteVisit(const int& input) override {
+            return false;
+        }
+    };
+    LinkedList<int> a;
+    a.PushBack(1);
+    AccumulateVisitor visitor1;
+    a.PoliteAccept(visitor1);
+}
+
+TEST(LinkedList, false_visitor_test) {
+    class AccumulateVisitor : public Visitor<int> {
+    public:
+        bool PoliteVisit(const int& input) override {
+            return false;
+        }
+    };
+    LinkedList<int> a;
+    a.PushBack(1);
+    AccumulateVisitor visitor1;
+    a.Accept(visitor1);
+}
+
 TEST(LinkedList, visitor_test ) {
     class AccumulateVisitor : public Visitor<int> {
         std::vector<int> array;
@@ -327,6 +359,10 @@ TEST(LinkedList, visitor_test ) {
 
     class AddOneVisitor : public Visitor<int> {
     public:
+        bool PoliteVisit(const int& input) override {
+            return false;
+        }
+
         bool Visit(int& input) override {
             input++;
             return true;

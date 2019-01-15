@@ -6,6 +6,7 @@
 
 TEST(Trie, insert_and_contains) {
     Trie<string, char> trie;
+    ASSERT_FALSE(trie.Contains("Hello"));
     trie.Insert("Hello");
     trie.Insert("Halo");
     trie.Insert("Apple");

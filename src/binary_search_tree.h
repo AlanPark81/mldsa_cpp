@@ -185,7 +185,7 @@ public:
 
     BinarySearchTree() : root_(nullptr) {}
 
-    bool empty() const {
+    bool empty() const override {
         return ( root_== nullptr );
     }
 
@@ -217,7 +217,7 @@ public:
         }
     }
 
-    bool Contains(const T& data) const {
+    bool Contains(const T& data) const override {
         if( root_ == nullptr ) {
             return false;
         }
@@ -241,9 +241,7 @@ public:
                 }
             }
         }
-        if( curr_node == nullptr ) {
-            throw std::exception();
-        }
+        return false;
     }
 
     virtual bool Remove(const T &data) {
@@ -329,7 +327,7 @@ public:
         return ret_val;
     }
 
-    std::shared_ptr<std::vector<T>> GetAllElements() const {
+    std::shared_ptr<std::vector<T>> GetAllElements() const override {
         StoreVisitor<T> visitor;
         this->PoliteAccept(visitor);
         return visitor.GetSeq();

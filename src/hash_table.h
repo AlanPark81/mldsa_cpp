@@ -49,7 +49,7 @@ public:
         return make_shared<HashTable<T>>(fn);
     }
 
-    bool empty() const {
+    bool empty() const override {
         for(int i=0;i<Length; i++) {
             if(array[i]!=nullptr) {
                 return false;
@@ -87,7 +87,7 @@ public:
         return to_return;
     }
 
-    void Insert(const T &data) {
+    void Insert(const T &data) override {
         auto index = FindEmptyIndex(data);
         array[index] = make_shared<T>();
         *(array[index]) = data;

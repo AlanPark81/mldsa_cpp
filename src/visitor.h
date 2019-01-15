@@ -18,10 +18,6 @@ public:
 template<class T>
 class Visitor : public PoliteVisitor<T> {
 public:
-    virtual bool PoliteVisit(const T& data) {
-        return false;
-    }
-
     virtual bool Visit(T & data) {
         return this->PoliteVisit(data);
     }
@@ -36,9 +32,7 @@ public:
 template<class T>
 class VisitorAcceptor : public PoliteVisitorAcceptor<T> {
 public:
-    virtual bool Accept(Visitor<T> & visitor) {
-        return this->PoliteAccept((PoliteVisitor<T>&)visitor);
-    }
+    virtual bool Accept(Visitor<T> & visitor) = 0;
 };
 
 template<class T>

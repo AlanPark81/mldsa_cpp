@@ -17,6 +17,14 @@ TEST(Heap, max_heap_insert_once) {
     ASSERT_EQ(heapTest.FindTop(), 3);
 }
 
+
+TEST(Heap, heap_insert_lots) {
+    Heap<int> heapTest;
+    for(int i = 0; i < 100; i++) heapTest.Insert(i);
+    heapTest.Insert(5);
+    ASSERT_EQ(heapTest.FindTop(), 0);
+}
+
 TEST(Heap, heap_insert_replace_once) {
     Heap<int> heapTest;
     heapTest.Insert(3);
@@ -31,6 +39,17 @@ TEST(Heap, max_heap_insert_replace_once) {
     ASSERT_EQ(heapTest.size(), 1);
     heapTest.Replace(5);
     ASSERT_EQ(heapTest.FindTop(), 5);
+}
+
+TEST(Heap, heap_delete_from_empty) {
+    Heap<int> heapTest;
+    ASSERT_EQ(heapTest.size(), 0);
+    ASSERT_ANY_THROW(heapTest.DeleteTop());
+    ASSERT_EQ(heapTest.size(), 0);
+    ASSERT_TRUE(heapTest.empty());
+    ASSERT_ANY_THROW(heapTest.ExtractTop());
+    ASSERT_TRUE(heapTest.empty());
+    ASSERT_ANY_THROW(heapTest.Replace(3));
 }
 
 TEST(Heap, heap_insert_delete_once) {

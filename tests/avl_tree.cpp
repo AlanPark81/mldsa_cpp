@@ -80,10 +80,12 @@ TEST(AVLTree, insert_three_times_and_delete) {
 
 TEST(AVLTree, insert_four_times_and_delete) {
     AVLTree<int> bst;
+    ASSERT_FALSE(bst.Remove(0));
     ASSERT_NO_THROW(bst.Insert(0));
     ASSERT_NO_THROW(bst.Insert(1));
     ASSERT_NO_THROW(bst.Insert(-1));
     ASSERT_NO_THROW(bst.Insert(-2));
+    ASSERT_FALSE(bst.Remove(-3));
     ASSERT_TRUE(bst.Contains(0));
     ASSERT_TRUE(bst.Contains(1));
     ASSERT_TRUE(bst.Contains(-1));
@@ -97,6 +99,47 @@ TEST(AVLTree, insert_four_times_and_delete) {
     ASSERT_FALSE(bst.Contains(-1));
     ASSERT_TRUE(bst.Remove(-2));
     ASSERT_FALSE(bst.Contains(-2));
+}
+
+TEST(AVLTree, right_only_left) {
+    AVLTree<int> bst;
+    ASSERT_NO_THROW(bst.Insert(0));
+    ASSERT_NO_THROW(bst.Insert(1));
+    ASSERT_NO_THROW(bst.Insert(2));
+    ASSERT_NO_THROW(bst.Insert(3));
+    ASSERT_TRUE(bst.Remove(2));
+}
+
+TEST(AVLTree, left_only_left) {
+    AVLTree<int> bst;
+    ASSERT_NO_THROW(bst.Insert(0));
+    ASSERT_NO_THROW(bst.Insert(2));
+    ASSERT_NO_THROW(bst.Insert(4));
+    ASSERT_NO_THROW(bst.Insert(3));
+    ASSERT_TRUE(bst.Remove(4));
+}
+
+TEST(AVLTree, left_only_left_left) {
+    AVLTree<int> bst;
+    ASSERT_NO_THROW(bst.Insert(0));
+    ASSERT_NO_THROW(bst.Insert(3));
+    ASSERT_NO_THROW(bst.Insert(1));
+    ASSERT_NO_THROW(bst.Insert(2));
+    ASSERT_TRUE(bst.Remove(3));
+}
+
+TEST(AVLTree, middle_number) {
+    AVLTree<int> bst;
+    ASSERT_NO_THROW(bst.Insert(0));
+    ASSERT_NO_THROW(bst.Insert(-8));
+    ASSERT_NO_THROW(bst.Insert(8));
+    ASSERT_NO_THROW(bst.Insert(-4));
+    ASSERT_NO_THROW(bst.Insert(4));
+    ASSERT_NO_THROW(bst.Insert(-12));
+    ASSERT_NO_THROW(bst.Insert(12));
+    ASSERT_NO_THROW(bst.Insert(-11));
+    ASSERT_NO_THROW(bst.Insert(11));
+    ASSERT_TRUE(bst.Remove(0));
 }
 
 TEST(AVLTree, insert_seven_times_and_delete) {
@@ -168,6 +211,12 @@ TEST(AVLTree, totally_unbalanced_input_left) {
     class AccumulateVisitor : public Visitor<int> {
         std::vector<int> array;
     public:
+        bool PoliteVisit(const int& input) override {
+            if (input < 0) return false;
+            array.push_back(input);
+            return true;
+        }
+
         bool Visit(int& input) override {
             array.push_back(input);
             return true;
@@ -181,6 +230,7 @@ TEST(AVLTree, totally_unbalanced_input_left) {
             array.clear();
         }
     };
+
     AccumulateVisitor visitor1;
     bst1.Accept(visitor1);
 
@@ -196,6 +246,12 @@ TEST(AVLTree, totally_unbalanced_input_right) {
     class AccumulateVisitor : public Visitor<int> {
         std::vector<int> array;
     public:
+        bool PoliteVisit(const int& input) override {
+            if (input < 0) return false;
+            array.push_back(input);
+            return true;
+        }
+
         bool Visit(int& input) override {
             array.push_back(input);
             return true;
@@ -217,10 +273,28 @@ TEST(AVLTree, totally_unbalanced_input_right) {
     }
 }
 
+TEST(AVLTree, left_right) {
+    AVLTree<int> bst;
+    ASSERT_NO_THROW(bst.Insert(0));
+    ASSERT_NO_THROW(bst.Insert(-2));
+    ASSERT_NO_THROW(bst.Insert(2));
+    ASSERT_NO_THROW(bst.Insert(-4));
+    ASSERT_NO_THROW(bst.Insert(4));
+    ASSERT_NO_THROW(bst.Insert(-8));
+    ASSERT_NO_THROW(bst.Insert(8));
+    ASSERT_NO_THROW(bst.Insert(-5));
+    ASSERT_NO_THROW(bst.Insert(5));
+    ASSERT_TRUE(bst.Remove(0));
+}
+
 TEST(AVLTree, visitor_test ) {
     class AccumulateVisitor : public Visitor<int> {
         std::vector<int> array;
     public:
+        bool PoliteVisit(const int& input) override {
+            return false;
+        }
+
         bool Visit(int& input) override {
             array.push_back(input);
             return true;
@@ -237,6 +311,10 @@ TEST(AVLTree, visitor_test ) {
 
     class AddOneVisitor : public Visitor<int> {
     public:
+        bool PoliteVisit(const int& input) override {
+            return false;
+        }
+
         bool Visit(int& input) override {
             input++;
             return true;

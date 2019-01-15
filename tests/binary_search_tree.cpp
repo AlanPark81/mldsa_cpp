@@ -5,6 +5,17 @@
 #include "../src/binary_search_tree.h"
 #include "gtest/gtest.h"
 
+TEST(BinarySearchTree, remove_from_empty) {
+    BinarySearchTree<int> bst;
+    ASSERT_FALSE(bst.Remove(0));
+}
+
+TEST(BinarySearchTree, remove_not_found) {
+    BinarySearchTree<int> bst;
+    bst.Insert(1);
+    ASSERT_FALSE(bst.Remove(0));
+}
+
 TEST(BinarySearchTree, insert_once) {
     BinarySearchTree<int> bst;
     ASSERT_NO_THROW(bst.Insert(0));
@@ -162,11 +173,12 @@ TEST(BinarySearchTree, insert_seven_times_and_delete) {
     ASSERT_FALSE(bst.Contains(0));
 }
 
-TEST(BinarySearchTree, visitor_test ) {
+TEST(BinarySearchTree, visitor_test) {
     class AccumulateVisitor : public Visitor<int> {
         std::vector<int> array;
     public:
         bool PoliteVisit(const int& input) override {
+            if (input < 0) return false;
             array.push_back(input);
             return true;
         }
@@ -182,7 +194,7 @@ TEST(BinarySearchTree, visitor_test ) {
 
     class AddOneVisitor : public Visitor<int> {
     public:
-        bool PoliteVisit(const int& data) override {
+        bool PoliteVisit(const int& input) override {
             return false;
         }
 
@@ -207,6 +219,12 @@ TEST(BinarySearchTree, visitor_test ) {
     array=visitor1.GetArray();
     for(int i=0;i<10;i++) ASSERT_EQ(array[i],i+1);
     ASSERT_EQ(array.size(), bst1.size());
+    BinarySearchTree<int> bst2;
+    bst2.Insert(-1);
+    visitor1.Clear();
+    bst2.Accept(visitor1);
+    auto empty_array = visitor1.GetArray();
+    ASSERT_TRUE(empty_array.empty());
 }
 
 TEST(BinarySearchTree, inorder_preorder_postorder_visitor_test ) {
@@ -227,18 +245,6 @@ TEST(BinarySearchTree, inorder_preorder_postorder_visitor_test ) {
         }
     };
 
-    class AddOneVisitor : public Visitor<int> {
-    public:
-        bool PoliteVisit(const int& data) override {
-            return false;
-        }
-
-        bool Visit(int& input) override {
-            input++;
-            return true;
-        }
-    };
-
     AccumulateVisitor visitor1;
 
     BinarySearchTree<int> bst1;
@@ -256,4 +262,31 @@ TEST(BinarySearchTree, inorder_preorder_postorder_visitor_test ) {
     visitor1.Clear();
     for(int i=0;i<10;i++) ASSERT_EQ(array[i], 9-i);
     ASSERT_EQ(array.size(), bst1.size());
+}
+
+TEST(BinarySearchTree, inorder_preorder_postorder_visitor_test2) {
+    class AccumulateVisitor : public Visitor<int> {
+        std::vector<int> array;
+    public:
+        bool PoliteVisit(const int& input) override {
+            return false;
+        }
+
+        std::vector<int> GetArray() const {
+            return array;
+        }
+
+        void Clear() {
+            array.clear();
+        }
+    };
+
+    AccumulateVisitor visitor1;
+
+    BinarySearchTree<int> bst1;
+    for(int i=0;i<10;i++) bst1.Insert(i);
+    for(int i=1;i<10;i++) bst1.Insert(-i);
+    ASSERT_FALSE(bst1.InvitePreorder(visitor1));
+    ASSERT_FALSE(bst1.InviteInorder(visitor1));
+    ASSERT_FALSE(bst1.InvitePostorder(visitor1));
 }

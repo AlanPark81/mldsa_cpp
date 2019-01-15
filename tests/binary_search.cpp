@@ -20,6 +20,7 @@ TEST(BinarySearch, binary_search_test_one) {
         ASSERT_EQ(index, i);
         ASSERT_EQ(array[index], i);
     }
+    ASSERT_ANY_THROW(binary_search<size_t>(array, 100));
 }
 
 TEST(BinarySearch, binary_search_test_two) {

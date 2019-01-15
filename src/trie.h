@@ -48,7 +48,7 @@ public:
         return (root_ == nullptr or root_->children_.empty());
     }
 
-    void Insert(const T& data ){
+    void Insert(const T& data) override{
         auto iter=data.cbegin();
         if( root_ == nullptr) {
             root_= TrieNode::CreateRoot();
@@ -65,7 +65,7 @@ public:
         node->end_ = true;
     }
 
-    bool Contains(const T& data) const {
+    bool Contains(const T& data) const override {
         if (root_ == nullptr) {
             return false;
         }
