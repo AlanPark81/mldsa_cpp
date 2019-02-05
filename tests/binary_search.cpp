@@ -16,11 +16,11 @@ TEST(BinarySearch, binary_search_test_one) {
     }
 
     for(size_t i=0; i < 100; i++) {
-        const auto index = binary_search<size_t>(array, i);
+        const auto index = binary_search(array, i);
         ASSERT_EQ(index, i);
         ASSERT_EQ(array[index], i);
     }
-    ASSERT_ANY_THROW(binary_search<size_t>(array, 100));
+    ASSERT_ANY_THROW(binary_search(array, 100UL));
 }
 
 TEST(BinarySearch, binary_search_test_two) {
@@ -31,7 +31,7 @@ TEST(BinarySearch, binary_search_test_two) {
     }
 
     for(size_t i=0; i < 100; i++) {
-        const auto index = binary_search<string>(array, string(i, 'a'));
+        const auto index = binary_search(array, string(i, 'a'));
         ASSERT_EQ(array[index], string(i, 'a'));
     }
 }
