@@ -9,23 +9,6 @@
 #include <string>
 
 using namespace std;
-//
-//template<class T>
-//size_t binary_search_index( const vector<T>& array, const T& key, const size_t begin , const size_t fin ) {
-//    const auto mid = begin+(fin - begin)/2;
-//    if(array[mid] == key) {
-//        return mid;
-//    } else {
-//        if( begin == fin ) {
-//            throw exception();
-//        }
-//        if(array[mid] > key) {
-//            return binary_search_index(array, key, begin, mid);
-//        } else {
-//            return binary_search_index(array, key, mid+1, fin);
-//        }
-//    }
-//}
 
 template<class T>
 size_t binary_search( const vector<T>& array, const T& key) {
@@ -42,4 +25,36 @@ size_t binary_search( const vector<T>& array, const T& key) {
         }
     }
     throw exception();
+}
+
+template<class InputIterator, class T>
+InputIterator UpperBound(InputIterator begin, InputIterator end, T target) {
+    int count = end - begin;
+    while (count > 0) {
+        const int step = count / 2;
+        auto it = begin + step;
+        if (*it <= target) {
+            begin = it + 1;
+            count -= step + 1;
+        } else {
+            count = step;
+        }
+    }
+    return begin;
+}
+
+template<class Iterator, class T>
+Iterator LowerBound(Iterator begin, Iterator end, T target) {
+    int count = end - begin;
+    while(count > 0){
+        const int step = count / 2;
+        auto it = begin + step;
+        if (*it < target) {
+            begin = it + 1;
+            count -= step + 1;
+        } else {
+            count = step;
+        }
+    }
+    return begin;
 }

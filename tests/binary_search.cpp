@@ -35,3 +35,77 @@ TEST(BinarySearch, binary_search_test_two) {
         ASSERT_EQ(array[index], string(i, 'a'));
     }
 }
+
+TEST(UpperBound, zero_element) {
+    vector<size_t> array;
+
+    ASSERT_TRUE(UpperBound(array.begin(), array.end(), 2) == array.end());
+    ASSERT_TRUE(UpperBound(array.begin(), array.end(), 1) == array.end());
+    ASSERT_TRUE(UpperBound(array.begin(), array.end(), 0) == array.end());
+}
+
+TEST(UpperBound, one_element) {
+    vector<size_t> array{1};
+
+    ASSERT_TRUE(UpperBound(array.begin(), array.end(), 2) == array.end());
+    ASSERT_TRUE(UpperBound(array.begin(), array.end(), 1) == array.end());
+    ASSERT_TRUE(*UpperBound(array.begin(), array.end(), 0) == 1);
+}
+
+TEST(UpperBound, two_elements) {
+    vector<size_t> array{1, 3};
+
+    ASSERT_TRUE(UpperBound(array.begin(), array.end(), 3) == array.end());
+    ASSERT_TRUE(*UpperBound(array.begin(), array.end(), 2) == 3);
+    ASSERT_TRUE(*UpperBound(array.begin(), array.end(), 1) == 3);
+    ASSERT_TRUE(*UpperBound(array.begin(), array.end(), 0) == 1);
+}
+
+TEST(UpperBound, three_elements) {
+    vector<size_t> array{1, 3, 5};
+
+    ASSERT_TRUE(UpperBound(array.begin(), array.end(), 5) == array.end());
+    ASSERT_TRUE(*UpperBound(array.begin(), array.end(), 4) == 5);
+    ASSERT_TRUE(*UpperBound(array.begin(), array.end(), 3) == 5);
+    ASSERT_TRUE(*UpperBound(array.begin(), array.end(), 2) == 3);
+    ASSERT_TRUE(*UpperBound(array.begin(), array.end(), 1) == 3);
+    ASSERT_TRUE(*UpperBound(array.begin(), array.end(), 0) == 1);
+}
+
+TEST(LowerBound, zero_element) {
+    vector<size_t> array;
+
+    ASSERT_TRUE(LowerBound(array.begin(), array.end(), 2) == array.end());
+    ASSERT_TRUE(LowerBound(array.begin(), array.end(), 1) == array.end());
+    ASSERT_TRUE(LowerBound(array.begin(), array.end(), 0) == array.end());
+}
+
+TEST(LowerBound, one_element) {
+    vector<size_t> array{1};
+
+    ASSERT_TRUE(LowerBound(array.begin(), array.end(), 2) == array.end());
+    ASSERT_TRUE(*LowerBound(array.begin(), array.end(), 1) == 1);
+    ASSERT_TRUE(*LowerBound(array.begin(), array.end(), 0) == 1);
+}
+
+TEST(LowerBound, two_elements) {
+    vector<size_t> array{1, 3};
+
+    ASSERT_TRUE(LowerBound(array.begin(), array.end(), 4) == array.end());
+    ASSERT_TRUE(*LowerBound(array.begin(), array.end(), 3) == 3);
+    ASSERT_TRUE(*LowerBound(array.begin(), array.end(), 2) == 3);
+    ASSERT_TRUE(*LowerBound(array.begin(), array.end(), 1) == 1);
+    ASSERT_TRUE(*LowerBound(array.begin(), array.end(), 0) == 1);
+}
+
+TEST(LowerBound, three_elements) {
+    vector<size_t> array{1, 3, 5};
+
+    ASSERT_TRUE(LowerBound(array.begin(), array.end(), 6) == array.end());
+    ASSERT_TRUE(*LowerBound(array.begin(), array.end(), 5) == 5);
+    ASSERT_TRUE(*LowerBound(array.begin(), array.end(), 4) == 5);
+    ASSERT_TRUE(*LowerBound(array.begin(), array.end(), 3) == 3);
+    ASSERT_TRUE(*LowerBound(array.begin(), array.end(), 2) == 3);
+    ASSERT_TRUE(*LowerBound(array.begin(), array.end(), 1) == 1);
+    ASSERT_TRUE(*LowerBound(array.begin(), array.end(), 0) == 1);
+}
