@@ -8,10 +8,8 @@
 #include <vector>
 #include <string>
 
-using namespace std;
-
 template<class T>
-size_t binary_search( const vector<T>& array, const T& key) {
+size_t binary_search( const std::vector<T>& array, const T& key) {
     auto begin = array.begin();
     auto end = array.end();
     while(end > begin) {
@@ -24,7 +22,7 @@ size_t binary_search( const vector<T>& array, const T& key) {
             begin = mid + 1;
         }
     }
-    throw exception();
+    throw std::exception();
 }
 
 template<class InputIterator, class T>

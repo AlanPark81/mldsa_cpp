@@ -6,11 +6,8 @@
 
 #include <vector>
 
-using namespace std;
-
-
 TEST(BinarySearch, binary_search_test_one) {
-    vector<size_t> array;
+    std::vector<size_t> array;
     for(size_t i=0; i < 100; i++) {
         array.push_back(i);
     }
@@ -24,20 +21,20 @@ TEST(BinarySearch, binary_search_test_one) {
 }
 
 TEST(BinarySearch, binary_search_test_two) {
-    vector<string> array;
+    std::vector<std::string> array;
     for(size_t i=0; i < 100; i++) {
-        string to_push(i, 'a');
+        std::string to_push(i, 'a');
         array.push_back(to_push);
     }
 
     for(size_t i=0; i < 100; i++) {
-        const auto index = binary_search(array, string(i, 'a'));
-        ASSERT_EQ(array[index], string(i, 'a'));
+        const auto index = binary_search(array, std::string(i, 'a'));
+        ASSERT_EQ(array[index], std::string(i, 'a'));
     }
 }
 
 TEST(UpperBound, zero_element) {
-    vector<size_t> array;
+    std::vector<size_t> array;
 
     ASSERT_TRUE(UpperBound(array.begin(), array.end(), 2) == array.end());
     ASSERT_TRUE(UpperBound(array.begin(), array.end(), 1) == array.end());
@@ -45,7 +42,7 @@ TEST(UpperBound, zero_element) {
 }
 
 TEST(UpperBound, one_element) {
-    vector<size_t> array{1};
+    std::vector<size_t> array{1};
 
     ASSERT_TRUE(UpperBound(array.begin(), array.end(), 2) == array.end());
     ASSERT_TRUE(UpperBound(array.begin(), array.end(), 1) == array.end());
@@ -53,7 +50,7 @@ TEST(UpperBound, one_element) {
 }
 
 TEST(UpperBound, two_elements) {
-    vector<size_t> array{1, 3};
+    std::vector<size_t> array{1, 3};
 
     ASSERT_TRUE(UpperBound(array.begin(), array.end(), 3) == array.end());
     ASSERT_TRUE(*UpperBound(array.begin(), array.end(), 2) == 3);
@@ -62,7 +59,7 @@ TEST(UpperBound, two_elements) {
 }
 
 TEST(UpperBound, three_elements) {
-    vector<size_t> array{1, 3, 5};
+    std::vector<size_t> array{1, 3, 5};
 
     ASSERT_TRUE(UpperBound(array.begin(), array.end(), 5) == array.end());
     ASSERT_TRUE(*UpperBound(array.begin(), array.end(), 4) == 5);
@@ -73,7 +70,7 @@ TEST(UpperBound, three_elements) {
 }
 
 TEST(LowerBound, zero_element) {
-    vector<size_t> array;
+    std::vector<size_t> array;
 
     ASSERT_TRUE(LowerBound(array.begin(), array.end(), 2) == array.end());
     ASSERT_TRUE(LowerBound(array.begin(), array.end(), 1) == array.end());
@@ -81,7 +78,7 @@ TEST(LowerBound, zero_element) {
 }
 
 TEST(LowerBound, one_element) {
-    vector<size_t> array{1};
+    std::vector<size_t> array{1};
 
     ASSERT_TRUE(LowerBound(array.begin(), array.end(), 2) == array.end());
     ASSERT_TRUE(*LowerBound(array.begin(), array.end(), 1) == 1);
@@ -89,7 +86,7 @@ TEST(LowerBound, one_element) {
 }
 
 TEST(LowerBound, two_elements) {
-    vector<size_t> array{1, 3};
+    std::vector<size_t> array{1, 3};
 
     ASSERT_TRUE(LowerBound(array.begin(), array.end(), 4) == array.end());
     ASSERT_TRUE(*LowerBound(array.begin(), array.end(), 3) == 3);
@@ -99,7 +96,7 @@ TEST(LowerBound, two_elements) {
 }
 
 TEST(LowerBound, three_elements) {
-    vector<size_t> array{1, 3, 5};
+    std::vector<size_t> array{1, 3, 5};
 
     ASSERT_TRUE(LowerBound(array.begin(), array.end(), 6) == array.end());
     ASSERT_TRUE(*LowerBound(array.begin(), array.end(), 5) == 5);
