@@ -9,8 +9,8 @@ env:
     - CXX_FLAGS="-std=c++11 -Wall -pedantic -Werror -Wno-variadic-macros -Wno-long-long -Wno-shadow"
     # Misc
     - RUN_TESTS=true
-    - COVERAGE=false
-
+    - COVERAGE=true
+    - CODECOV_TOKEN="3b14566d-38f6-4936-ab16-f469ff1b4c14"
 matrix:
   include:
     - os: linux
