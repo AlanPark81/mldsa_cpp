@@ -94,10 +94,7 @@ public:
         auto result = (left_ != nullptr)? left_->InvitePreorder(visitor) : true;
         if (!result)
             return result;
-        result = (right_ != nullptr)? right_->InvitePreorder(visitor) : true;
-        if (!result)
-            return result;
-        return true;
+        return (right_ != nullptr)? right_->InvitePreorder(visitor) : true;
     }
 
     bool InvitePreorder(PoliteVisitor<T>& visitor) const {
@@ -106,10 +103,7 @@ public:
         auto result = (left_ != nullptr)? left_->InvitePreorder(visitor) : true;
         if (!result)
             return result;
-        result = (right_ != nullptr)? right_->InvitePreorder(visitor) : true;
-        if (!result)
-            return result;
-        return true;
+        return (right_ != nullptr)? right_->InvitePreorder(visitor) : true;
     }
 
     bool InviteInorder(Visitor<T>& visitor) {
@@ -124,7 +118,7 @@ public:
     bool InviteInorder(PoliteVisitor<T>& visitor) const {
         auto result = (left_ != nullptr)? left_->InviteInorder(visitor) : true;
         if (!result)
-            return result;
+            return false;
         if(!visitor.Visit(data_))
             return false;
         return (right_ != nullptr)? right_->InviteInorder(visitor) : true;
@@ -147,9 +141,7 @@ public:
         result = (right_ != nullptr)? right_->InvitePostorder(visitor) : true;
         if (!result)
             return result;
-        if(!visitor.Visit(data_))
-            return false;
-        return true;
+        return visitor.Visit(data_);
     }
 };
 
