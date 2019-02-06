@@ -52,7 +52,7 @@ protected:
         left_node->right_ = node;
         node = left_node;
     }
-
+#if 0
     static void RotateLeftAndLeft(Node_& node){
         if( node->right_ != nullptr ){
             RotateLeft(node->right_);
@@ -66,7 +66,7 @@ protected:
         }
         RotateRight(node);
     }
-
+#endif
     static void RotateRightAndLeft(Node_& node){
         if( node->right_ != nullptr ){
             RotateRight(node->right_);
@@ -85,19 +85,25 @@ protected:
         const int level_diff=node->GetLevelDiff();
         if( level_diff > 1 ) {
             const auto left_level_diff=node->left_->GetLevelDiff();
+            #if 0
             if ( left_level_diff > 1 )
             {
                 RotateRightAndRight(node);
-            } else if ( left_level_diff > 0 ) {
+            } else
+            #endif
+            if ( left_level_diff > 0 ) {
                 RotateRight(node);
             } else {
                 RotateLeftAndRight(node);
             }
         } else if( level_diff < -1){
             const auto right_level_diff=node->right_->GetLevelDiff();
+            #if 0
             if ( right_level_diff < -1 ) {
                 RotateLeftAndLeft(node);
-            } else if( right_level_diff < 0 ) {
+            } else
+            #endif
+            if( right_level_diff < 0 ) {
                 RotateLeft(node);
             } else {
                 RotateRightAndLeft(node);
