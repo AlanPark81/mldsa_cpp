@@ -214,15 +214,16 @@ TEST(BinarySearchTree, visitor_test) {
     };
 
     class AddOneVisitor : public Visitor<int> {
-    public:
-        bool PoliteVisit(const int& input) override {
-            return false;
-        }
+            public:
+            bool PoliteVisit(const int& input) override {
+                return input < INT32_MAX;
+            }
 
-        bool Visit(int& input) override {
-            input++;
-            return true;
-        }
+            bool Visit(int& input) override {
+                if (!PoliteVisit(input)) return false;
+                input++;
+                return true;
+            }
     };
 
     AccumulateVisitor visitor1;
