@@ -234,22 +234,12 @@ TEST(AVLTree, totally_unbalanced_input_left) {
         std::vector<int> array;
     public:
         bool PoliteVisit(const int& input) override {
-            if (input < 0) return false;
-            array.push_back(input);
-            return true;
-        }
-
-        bool Visit(int& input) override {
             array.push_back(input);
             return true;
         }
 
         std::vector<int> GetArray() const {
             return array;
-        }
-
-        void Clear() {
-            array.clear();
         }
     };
 
