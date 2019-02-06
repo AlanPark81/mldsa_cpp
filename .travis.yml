@@ -23,7 +23,7 @@ matrix:
            - g++
            - gcc-multilib
            - g++-multilib
-           - gcov
+           # - gcov
            - clang-3.7
            - valgrind
            # Misc
