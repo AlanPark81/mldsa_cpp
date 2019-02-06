@@ -101,6 +101,28 @@ TEST(AVLTree, insert_four_times_and_delete) {
     ASSERT_FALSE(bst.Contains(-2));
 }
 
+TEST(AVLTree, insert_17_times_and_delete) {
+    AVLTree<int> bst;
+    ASSERT_NO_THROW(bst.Insert(0));
+    ASSERT_NO_THROW(bst.Insert(-8));
+    ASSERT_NO_THROW(bst.Insert(-7));
+    ASSERT_NO_THROW(bst.Insert(-6));
+    ASSERT_NO_THROW(bst.Insert(-5));
+    ASSERT_NO_THROW(bst.Insert(-4));
+    ASSERT_NO_THROW(bst.Insert(-3));
+    ASSERT_NO_THROW(bst.Insert(-2));
+    ASSERT_NO_THROW(bst.Insert(-1));
+    ASSERT_NO_THROW(bst.Insert(8));
+    ASSERT_NO_THROW(bst.Insert(7));
+    ASSERT_NO_THROW(bst.Insert(6));
+    ASSERT_NO_THROW(bst.Insert(5));
+    ASSERT_NO_THROW(bst.Insert(4));
+    ASSERT_NO_THROW(bst.Insert(3));
+    ASSERT_NO_THROW(bst.Insert(2));
+    ASSERT_NO_THROW(bst.Insert(1));
+    ASSERT_NO_THROW(bst.Remove(0));
+}
+
 TEST(AVLTree, right_only_left) {
     AVLTree<int> bst;
     ASSERT_NO_THROW(bst.Insert(0));
