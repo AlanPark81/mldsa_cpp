@@ -55,7 +55,9 @@ TEST(AVLTree, delete_middle_number_test) {
     ASSERT_NO_THROW(bst.Insert(-2));
     ASSERT_NO_THROW(bst.Insert(2));
     ASSERT_NO_THROW(bst.Insert(-1));
+    ASSERT_NO_THROW(bst.Insert(-3));
     ASSERT_NO_THROW(bst.Insert(1));
+    ASSERT_NO_THROW(bst.Insert(3));
     ASSERT_TRUE(bst.Contains(0));
     ASSERT_TRUE(bst.Remove(0));
     ASSERT_FALSE(bst.Contains(0));
