@@ -360,10 +360,11 @@ TEST(LinkedList, visitor_test ) {
     class AddOneVisitor : public Visitor<int> {
     public:
         bool PoliteVisit(const int& input) override {
-            return false;
+            return input < INT32_MAX;
         }
 
         bool Visit(int& input) override {
+            if (!PoliteVisit(input)) return false;
             input++;
             return true;
         }
