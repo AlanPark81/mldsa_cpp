@@ -229,13 +229,13 @@ public:
             }
             if(data < curr_node->data_) {
                 if(curr_node->left_ == nullptr){
-                    return false;
+                    break;
                 } else {
                     curr_node = curr_node->left_;
                 }
             } else {
                 if(curr_node->right_ == nullptr){
-                    return false;
+                    break;
                 } else {
                     curr_node = curr_node->right_;
                 }

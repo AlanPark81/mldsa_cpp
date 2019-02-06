@@ -10,6 +10,12 @@ TEST(BinarySearchTree, contain_from_empty) {
     ASSERT_FALSE(bst.Contains(0));
 }
 
+TEST(BinarySearchTree, contain_another_from_one_element) {
+    BinarySearchTree<int> bst;
+    ASSERT_NO_THROW(bst.Insert(1));
+    ASSERT_FALSE(bst.Contains(0));
+}
+
 TEST(BinarySearchTree, remove_from_empty) {
     BinarySearchTree<int> bst;
     ASSERT_FALSE(bst.Remove(0));
@@ -313,6 +319,65 @@ TEST(BinarySearchTree, inorder_preorder_postorder_visitor_test2) {
     BinarySearchTree<int> bst1;
     for(int i=0;i<10;i++) bst1.Insert(i);
     for(int i=1;i<10;i++) bst1.Insert(-i);
+    ASSERT_FALSE(bst1.InvitePreorder(visitor1));
+    ASSERT_FALSE(bst1.InviteInorder(visitor1));
+    ASSERT_FALSE(bst1.InvitePostorder(visitor1));
+    ASSERT_FALSE(bst1.InvitePreorder(visitor2));
+    ASSERT_FALSE(bst1.InviteInorder(visitor2));
+    ASSERT_FALSE(bst1.InvitePostorder(visitor2));
+}
+
+TEST(BinarySearchTree, inorder_preorder_postorder_visitor_test3) {
+    class PositiveChecker : public Visitor<int> {
+        std::vector<int> array;
+    public:
+        bool PoliteVisit(const int& input) override {
+            return input > 0;
+        }
+    };
+    class NegativeChecker : public Visitor<int> {
+        std::vector<int> array;
+    public:
+        bool PoliteVisit(const int& input) override {
+            return input < 0;
+        }
+    };
+
+    PositiveChecker visitor1;
+    NegativeChecker visitor2;
+
+    BinarySearchTree<int> bst1;
+    bst1.Insert(0);
+    ASSERT_FALSE(bst1.InvitePreorder(visitor1));
+    ASSERT_FALSE(bst1.InviteInorder(visitor1));
+    ASSERT_FALSE(bst1.InvitePostorder(visitor1));
+    ASSERT_FALSE(bst1.InvitePreorder(visitor2));
+    ASSERT_FALSE(bst1.InviteInorder(visitor2));
+    ASSERT_FALSE(bst1.InvitePostorder(visitor2));
+}
+
+TEST(BinarySearchTree, inorder_preorder_postorder_visitor_test4) {
+    class PositiveChecker : public Visitor<int> {
+        std::vector<int> array;
+    public:
+        bool PoliteVisit(const int& input) override {
+            return input > 0;
+        }
+    };
+    class NegativeChecker : public Visitor<int> {
+        std::vector<int> array;
+    public:
+        bool PoliteVisit(const int& input) override {
+            return input < 0;
+        }
+    };
+
+    PositiveChecker visitor1;
+    NegativeChecker visitor2;
+
+    BinarySearchTree<int> bst1;
+    bst1.Insert(0);
+    bst1.Insert(-1);
     ASSERT_FALSE(bst1.InvitePreorder(visitor1));
     ASSERT_FALSE(bst1.InviteInorder(visitor1));
     ASSERT_FALSE(bst1.InvitePostorder(visitor1));
