@@ -18,6 +18,10 @@ public:
 template<class T>
 class Visitor : public PoliteVisitor<T> {
 public:
+    virtual bool PoliteVisit(const T &) override {
+        return false;
+    }
+    
     virtual bool Visit(T & data) {
         return this->PoliteVisit(data);
     }

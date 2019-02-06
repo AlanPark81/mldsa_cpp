@@ -269,12 +269,6 @@ TEST(AVLTree, totally_unbalanced_input_right) {
         std::vector<int> array;
     public:
         bool PoliteVisit(const int& input) override {
-            if (input < 0) return false;
-            array.push_back(input);
-            return true;
-        }
-
-        bool Visit(int& input) override {
             array.push_back(input);
             return true;
         }
@@ -288,7 +282,7 @@ TEST(AVLTree, totally_unbalanced_input_right) {
         }
     };
     AccumulateVisitor visitor1;
-    bst1.Accept(visitor1);
+    bst1.PoliteAccept(visitor1);
     int expected_seq[8] = {3, 1, 5, 0, 2, 4, 6, 7};
     for(auto i = 0; i < 8 ; i++){
         ASSERT_EQ(visitor1.GetArray()[i], expected_seq[i]);
@@ -314,10 +308,6 @@ TEST(AVLTree, visitor_test ) {
         std::vector<int> array;
     public:
         bool PoliteVisit(const int& input) override {
-            return false;
-        }
-
-        bool Visit(int& input) override {
             array.push_back(input);
             return true;
         }
@@ -333,10 +323,6 @@ TEST(AVLTree, visitor_test ) {
 
     class AddOneVisitor : public Visitor<int> {
     public:
-        bool PoliteVisit(const int& input) override {
-            return false;
-        }
-
         bool Visit(int& input) override {
             input++;
             return true;
@@ -348,7 +334,7 @@ TEST(AVLTree, visitor_test ) {
 
     AVLTree<int> bst1;
     for(int i=0;i<10;i++) bst1.Insert(i);
-    bst1.Accept(visitor1);
+    bst1.PoliteAccept(visitor1);
     auto array=visitor1.GetArray();
     for(auto data : array ) ASSERT_TRUE(bst1.Contains(data));
     ASSERT_EQ(*std::min_element(array.begin(), array.end()), 0);
@@ -356,7 +342,7 @@ TEST(AVLTree, visitor_test ) {
     ASSERT_EQ(array.size(), bst1.size());
     bst1.Accept(visitor2);
     visitor1.Clear();
-    bst1.Accept(visitor1);
+    bst1.PoliteAccept(visitor1);
     array=visitor1.GetArray();
     for(auto data : array ) ASSERT_TRUE(bst1.Contains(data));
     ASSERT_EQ(*std::min_element(array.begin(), array.end()), 1);
@@ -379,18 +365,6 @@ TEST(AVLTree, inorder_preorder_postorder_visitor_test ) {
 
         void Clear() {
             array.clear();
-        }
-    };
-
-    class AddOneVisitor : public Visitor<int> {
-    public:
-        bool PoliteVisit(const int &data) override {
-            return false;
-        }
-
-        bool Visit(int &input) override {
-            input++;
-            return true;
         }
     };
 
