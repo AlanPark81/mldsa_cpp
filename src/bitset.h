@@ -12,7 +12,7 @@ typedef unsigned char byte;
 
 class Bitset {
     std::vector<bool> bits_;
-    static constexpr byte u8_to_and_[8]  = {
+    const byte u8_to_and_[8]  = {
         0x01,
         0x02,
         0x04,
