@@ -6,30 +6,7 @@
 #define MLDSA_CPP_ARRAY_H
 
 #include <cstddef>
-
-typedef enum {
-    FAIL,
-    SUCCESS
-} Result;
-
-typedef enum {
-    None,
-    Some
-} Exist;
-
-template <class T>
-struct Option {
-    Exist option_;
-    T val_;
-public:
-    Option() : option_(None) {}
-    Option(const T& data) : option_(Some), val_(data) {}
-    const Option& operator= (const T& data) {
-        option_ = Some;
-        val_ = data;
-        return *this;
-    }
-};
+#include "common.h"
 
 template<class T, size_t size>
 class Array {
