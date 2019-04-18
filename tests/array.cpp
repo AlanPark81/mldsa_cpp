@@ -28,6 +28,7 @@ TEST(Array, CreateAndSetAndGet) {
     ASSERT_EQ(array_test.get(1).option_, None);
     ASSERT_EQ(array_test.set(1, 1), SUCCESS);
     ASSERT_EQ(array_test.get(1).option_, Some);
+    ASSERT_EQ(array_test.get(1).val_, 1);
 }
 
 TEST(Array, CreateAndSetAndGetOutOfBound) {
