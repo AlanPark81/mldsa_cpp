@@ -36,8 +36,8 @@ public:
         return exist_ == Some && val_ == data;
     }
 
-    bool operator== (const Exist& option) const {
-        return option == None && exist_ == None;
+    bool operator== (const Exist& input) const {
+        return input == None && exist_ == None;
     }
 };
 
