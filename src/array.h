@@ -8,19 +8,25 @@
 #include <cstddef>
 #include "common.h"
 
-template<class T, size_t size>
+template<class T>
 class Array {
-    Option<T> inner_array_[size];
+    const size_t size_;
+    Option<T>* inner_array_;
 public:
-    Array() = default;
+    explicit Array(const size_t size) : size_(size) {
+        inner_array_ = new Option<T>[size_];
+    }
 
-    Option<T> get(const int index) const {
-        if (index >= size || index < 0) return Option<T>();
+    virtual ~Array() {
+        delete inner_array_;
+    }
+    Option<T> get(const size_t index) const {
+        if (index >= size_ || index < 0) return Option<T>();
         return inner_array_[index];
     }
 
-    Result set(const int index, const T& data) {
-        if (index >= size || index < 0) return FAIL;
+    Result set(const size_t index, const T& data) {
+        if (index >= size_ || index < 0) return FAIL;
         inner_array_[index] = data;
         return SUCCESS;
     }
