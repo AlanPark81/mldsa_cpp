@@ -25,3 +25,17 @@ static void BM_LinkedList_Search(benchmark::State& state) {
 }
 
 BENCHMARK(BM_LinkedList_Search) -> RangeMultiplier(2) -> Range(1<<10, 1<<18) -> Complexity();
+
+static void BM_LinkedList_PushBack(benchmark::State& state) {
+    LinkedList<int> linkedList;// = ConstructLinkedList(state.range(0));
+    const int N = state.range(0);
+    for(auto i = 0; i < N; i++) {
+        linkedList.PushBack(i);
+    }
+    for(auto _ : state) {
+        linkedList.PushBack(1);
+    }
+    state.SetComplexityN(state.range(0));
+}
+
+BENCHMARK(BM_LinkedList_PushBack) -> RangeMultiplier(2) -> Range(1<<10, 1<<18) -> Complexity();
